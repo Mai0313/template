@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4  # if you are running at a old version of action, you need to use v2
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
 
       - name: Run pre-commits
-        uses: pre-commit/action@v2.0.3
+        uses: pre-commit/action@v3.0.0
