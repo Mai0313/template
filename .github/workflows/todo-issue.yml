@@ -1,0 +1,20 @@
+name: Todo to Issue
+
+on:
+  push:
+    branches:
+      - master  # 或你用于開發的其他分支
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Todo to Issue
+        uses: alstr/todo-to-issue-action@v4
+        with:
+          REPO: ${{ github.repository }}
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LABEL: "automated issue"

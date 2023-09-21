@@ -1,12 +1,23 @@
 default_language_version:
   python: python3
 
-exclude: poetry.lock|ramer_douglas_peucker_algo.so|clientside.json
-
 repos:
+  # Should be enabled either yapf or black once this branch is merged
+  # - repo: https://github.com/google/yapf.git
+  #   rev: v0.40.1
+  #   hooks:
+  #     - id: yapf
+
+  - repo: https://github.com/psf/black.git
+    rev: 23.9.1
+    hooks:
+      - id: black
+        args:
+          - --config=pyproject.toml
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.0.287
+    rev: v0.0.290
     hooks:
       - id: ruff
         args:
@@ -20,85 +31,18 @@ repos:
       - id: end-of-file-fixer
       - id: check-docstring-first
       - id: check-yaml
-        args:
-          - --allow-multiple-documents
+        args: [--allow-multiple-documents]
       - id: debug-statements
       - id: detect-private-key
       - id: check-executables-have-shebangs
       - id: check-toml
       - id: check-case-conflict
       - id: check-added-large-files
-        args:
-          - --maxkb=80  # Do not allow over 80kb files.
-          - --enforce-all
-      - id: pretty-format-json
-        args:
-          - --autofix
-          - --indent=4
 
-  # - repo: https://github.com/google/yapf.git
-  #   rev: v0.40.1
+  # - repo: https://github.com/google/pytype
+  #   # Ruff version.
+  #   rev: 2023.09.11
   #   hooks:
-  #     - id: yapf
-
-  # md formatting
-  - repo: https://github.com/executablebooks/mdformat.git
-    rev: 0.7.14
-    hooks:
-      - id: mdformat
-        args:
-          - --number
-        additional_dependencies:
-          - mdformat-gfm
-          - mdformat-tables
-          - mdformat_frontmatter
-
-  # word spelling linter
-  - repo: https://github.com/codespell-project/codespell.git
-    rev: v2.2.5
-    hooks:
-      - id: codespell
-        args:
-          - --skip=logs/**,data/**
-          - --ignore-words-list=PTD, ptd, FO, fo
-          - --exclude-file=requirements.txt
-
-  # jupyter notebook cell output clearing
-  - repo: https://github.com/kynan/nbstripout
-    rev: 0.6.1
-    hooks:
-      - id: nbstripout
-
-  # jupyter notebook linting
-  - repo: https://github.com/nbQA-dev/nbQA.git
-    rev: 1.7.0
-    hooks:
-      - id: nbqa-ruff
-        args:
-          - --config=pyproject.toml
-          - --fix
-
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v2.3.0
-    hooks:
-      - id: conventional-pre-commit
-        stages:
-          - commit-msg
-        args: [feat, docs, fix, style, refactor, pref, ci, build, test]
-        # Ref: https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines
-
-  # python docstring coverage checking
-  - repo: https://github.com/econchick/interrogate
-    rev: 1.5.0 # or master if you're bold
-    hooks:
-      - id: interrogate
-        args:
-          - --config=pyproject.toml
-        exclude: pages|src/graph_functions/graph_c6_v2.py
-
-  # - repo: https://github.com/pycqa/pylint
-  #   rev: v2.17.5
-  #   hooks:
-  #     - id: pylint
-  #       args:
-  #         - --rcfile=.pylintrc
+  #     - id: pytype
+  #       # args:
+  #       #   - --config=pyproject.toml

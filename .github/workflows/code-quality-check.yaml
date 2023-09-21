@@ -4,9 +4,13 @@
 # Inspired by the sktime library:
 # https://github.com/alan-turing-institute/sktime/blob/main/.github/workflows/test.yml
 
-name: Code Quality PR
+name: Code Quality Check
 
 on:
+  push:
+    branches:
+      - master
+
   pull_request:
     branches:
       - master
@@ -18,21 +22,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
 
-      - name: Find modified files
-        id: file_changes
-        uses: trilom/file-changes-action@v1.2.4
+      - name: Cache pre-commit dependencies
+        uses: actions/cache@v2
         with:
-          output: " "
-
-      - name: List modified files
-        run: echo '${{ steps.file_changes.outputs.files}}'
+          path: ~/.cache/pre-commit
+          key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: ${{ runner.os }}-pre-commit
 
       - name: Run pre-commits
-        uses: pre-commit/action@v3.0.0
-        with:
-          extra_args: --files ${{ steps.file_changes.outputs.files}}
+        uses: pre-commit/action@v2.0.3
