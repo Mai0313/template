@@ -1,0 +1,36 @@
+name: Update for Gitea
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  update-container:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update container in workflow files
+        run: |
+          shopt -s globstar nullglob
+          for file in .github/workflows/*.y*ml; do
+            awk '/runs-on: ubuntu-latest/ { print; print "    container: catthehacker/ubuntu:act-latest"; next }1' "$file" > tmpfile && mv tmpfile "$file"
+          done
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          if git diff --exit-code --quiet HEAD; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update container in workflow files"
+            git push
+          fi
