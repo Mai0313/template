@@ -7,9 +7,18 @@ on:
   # manually trigger a workflow_dispatch event
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   auto-update:
     runs-on: ubuntu-latest
+    permissions:
+      # write permission is required to create a github release
+      contents: write
+      # write permission is required for autolabeler
+      # otherwise, read permission is required at least
+      pull-requests: write
 
     steps:
       - name: Disable SSL Verify
@@ -27,7 +36,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.WORKFLOW_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: update/pre-commit-hooks
           title: Update pre-commit hooks
           commit-message: "chore: update pre-commit hooks"
