@@ -10,7 +10,8 @@ on:
       - master
 
 permissions:
-  contents: read-all|write-all
+  contents: write
+  pull-requests: write
 
 jobs:
   update-container:
