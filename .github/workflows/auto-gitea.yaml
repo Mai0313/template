@@ -1,12 +1,9 @@
-name: Update for Gitea
+name: Update Workflow Container and Create PR
 
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches:
-      - master
+      - gitea
 
 jobs:
   update-container:
@@ -15,6 +12,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Create new branch
+        run: git checkout -b update-container-$(date +%Y%m%d%H%M%S)
 
       - name: Update container in workflow files
         run: |
@@ -28,9 +28,15 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
-          if git diff --exit-code --quiet HEAD; then
-            echo "No changes to commit"
-          else
-            git commit -m "Update container in workflow files"
-            git push
-          fi
+          git commit -m "Update container in workflow files"
+
+      - name: Push changes
+        run: git push origin HEAD
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: "Update container in workflow files"
+          body: "This PR updates the container in all workflow files."
+          branch: "update-container-$(date +%Y%m%d%H%M%S)"
+          base: "gitea"
