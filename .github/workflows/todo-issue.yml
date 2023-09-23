@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # container: catthehacker/ubuntu:act-latest  # Uncomment it if you use it on Gitea
 
     steps:
       - name: Disable SSL Verify
