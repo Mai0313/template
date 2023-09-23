@@ -9,6 +9,9 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read-all|write-all
+
 jobs:
   update-container:
     runs-on: ubuntu-latest
