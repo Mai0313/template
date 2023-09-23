@@ -3,7 +3,11 @@ name: Update Workflow Container and Create PR
 on:
   push:
     branches:
-      - gitea
+      - master
+
+  pull_request:
+    branches:
+      - master
 
 jobs:
   update-container:
