@@ -39,6 +39,39 @@ repos:
       - id: check-case-conflict
       - id: check-added-large-files
 
+  # md formatting
+  - repo: https://github.com/executablebooks/mdformat.git
+    rev: 0.7.16
+    hooks:
+      - id: mdformat
+        args: ["--number"]
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-tables
+          - mdformat_frontmatter
+
+  # jupyter notebook cell output clearing
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+      - id: nbstripout
+
+  # jupyter notebook linting
+  - repo: https://github.com/nbQA-dev/nbQA.git
+    rev: 1.7.0
+    hooks:
+      - id: nbqa-ruff
+        args: ["--config=.ruff.toml"]
+
+  # # add pytest
+  # - repo: local
+  #   hooks:
+  #   - id: run_pytest
+  #     language: script
+  #     name: Run tests
+  #     entry: ./run_test.bat
+  #     stages: [commit]
+  
   # - repo: https://github.com/google/pytype
   #   # Ruff version.
   #   rev: 2023.09.11
