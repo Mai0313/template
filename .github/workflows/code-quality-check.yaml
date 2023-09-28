@@ -43,4 +43,5 @@ jobs:
           restore-keys: ${{ runner.os }}-pre-commit
 
       - name: Run pre-commits
+        id: code-quality-check
         uses: pre-commit/action@v2.0.3
