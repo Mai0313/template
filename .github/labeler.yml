@@ -1,74 +1,16 @@
-"Documentation":
+"Feature: New File":
+- 'src/**/*'
+- 'tests/**/*'
+
+"Bugfix: Source Code":
+- 'src/**/*.py'
+
+"Chore: Tests":
+- 'tests/**/*.py'
+
+"Chore: Documentation":
 - '**/*.md'
-
-"Module: Callbacks":
-- src/callbacks/**
-
-"Module: Data":
-- src/data/**
-
-"Module: Models":
-- src/models/**
-
-"Module: Utils":
-- src/utils/**
-
-"Demo/Test/Example: Notebook":
-- notebooks/**
-
-"Script: CLI":
-- src/configs/**
-
-"Main: Train":
-- src/train.py
-
-"Main: Evaluate":
-- src/eval.py
-
-"Chore: tests":
-- tests/**
-
-"Config: Callbacks":
-- configs/callbacks/**
-
-"Config: Data":
-- configs/data/**
-
-"Config: Debug":
-- configs/debug/**
-
-"Config: Experiment":
-- configs/experiment/**
-
-"Config: Extra":
-- configs/extra/**
-
-"Config: hparams_search":
-- configs/hparams_search/**
-
-"Config: hydra":
-- configs/hydra/**
-
-"Config: Local":
-- configs/local/**
-
-"Config: Logger":
-- configs/logger/**
-
-"Config: Model":
-- configs/model/**
-
-"Config: Paths":
-- configs/paths/**
-
-"Config: Trainer":
-- configs/trainer/**
-
-"Config: Main Train":
-- configs/train.yaml
-
-"Config: Main Evaluate":
-- configs/eval.yaml
+- 'docs/**/*'
 
 "Chore: CI/CD Workflow":
 - .github/workflows/**
@@ -82,6 +24,3 @@
 
 "Chore: Requirements":
 - requirements.txt
-
-"Data: Update Dataset":
-- data.dvc
