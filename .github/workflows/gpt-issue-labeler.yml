@@ -4,9 +4,14 @@ on:
     types: [opened, edited]
 
 jobs:
-  openai-labeler:
+  triage:
     runs-on: ubuntu-latest
+    # container: catthehacker/ubuntu:act-latest  # Uncomment it if you use it on Gitea
+
     steps:
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
+
       - uses: austenstone/openai-issue-labeler@v2
         with:
           openai-api-key: "${{ secrets.OPENAI_API_KEY }}"
