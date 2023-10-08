@@ -4,7 +4,6 @@ addopts = [
   "--durations=0",
   "--strict-markers",
   "--doctest-modules",
-  "--ignore=tests/test_datamodule.py"
 ]
 filterwarnings = [
   "ignore::DeprecationWarning",
@@ -31,7 +30,7 @@ exclude_lines = [
 
 [tool.yapf]
 based_on_style = "google"
-column_limit = 99
+column_limit = 120
 spaces_before_comment = 2
 split_before_logical_operator = true
 ALLOW_MULTILINE_DICTIONARY_KEYS = true
@@ -54,7 +53,7 @@ ignore_patterns = ["*.sql", "data/*", "logs/*", "docs/*", "build/*", "dist/*", "
 #       Black        #
 # ================== #
 [tool.black]
-line-length = 99
+line-length = 120
 target-version = ["py38"]
 
 # ================== #
@@ -85,10 +84,10 @@ cache-dir = "~/.cache/ruff"  # default: ".ruff_cache", now it is not allowed to 
 # Group violations by containing file.
 # This is output message format; nothing about coding
 # Options: ["text" | "json" | "junit" | "github" | "gitlab" | "pylint" | "azure"]
-format = "pylint"
+output-format = "pylint"
 
 # Same as Google Python Style Guide.
-line-length = 99
+line-length = 120
 
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
@@ -123,7 +122,7 @@ select = [
 
 ignore = [
     # Additional ignore
-    "E203" ,"F401" ,"E402" ,"E501" ,"F841",
+    "F401" ,"E402" ,"E501" ,"F841",
     # Missing Docs in functions
     "D100", "D101", "D102", "D103", "D107", "D205", "D415",
     # Doc line too long
@@ -137,7 +136,7 @@ ignore-init-module-imports = true
 [tool.ruff.pycodestyle]
 # Ignore long comments for TODO, FIXME, XXX
 ignore-overlong-task-comments = true
-max-doc-length = 99
+max-doc-length = 120
 
 [tool.ruff.pydocstyle]
 # Use Google-style docstrings.
