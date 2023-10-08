@@ -45,7 +45,6 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
           pip install sh
-          git clone https://gitea.mediatek.inc/AITH/ai-thermal-simulator-pl-dataset.git
 
       - name: List dependencies
         run: |
