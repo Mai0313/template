@@ -19,8 +19,12 @@ jobs:
       pull-requests: write
 
     runs-on: ubuntu-latest
+    # container: catthehacker/ubuntu:act-latest  # Uncomment it if you use it on Gitea
 
     steps:
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
+
       # Drafts your next Release notes as Pull Requests are merged into "master"
       - name: Draft Release
         uses: release-drafter/release-drafter@v5.24.0
