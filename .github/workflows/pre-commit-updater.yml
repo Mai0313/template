@@ -7,9 +7,6 @@ on:
   # manually trigger a workflow_dispatch event
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   auto-update:
     runs-on: ubuntu-latest
