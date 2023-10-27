@@ -155,6 +155,7 @@ keep-runtime-typing = true
 [tool.ruff.isort]
 combine-as-imports = true
 order-by-type = true
+split-on-trailing-comma=false
 
 [tool.ruff.format]
 # The file you may want to ignore
