@@ -19,6 +19,7 @@ aim
 pre-commit
 dvc
 dvc[s3]
+dvc_gdrive
 rich
 hydra-core
 hydra-colorlog
