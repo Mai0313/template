@@ -1,1 +1,43 @@
+--index-url https://pypi.org/simple
+--extra-index-url https://download.pytorch.org/whl/cu118
+torch==2.1.0+cu118
+torchvision==0.16.0+cu118
+torchaudio==2.1.0+cu118
+torchtext
+
+# --index-url https://pypi.org/simple
+# --extra-index-url https://download.pytorch.org/whl/cu116
+# torch==1.12.1+cu116
+# torchvision==0.13.1+cu116
+# torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
+
+lightning>=2.0.8
+mlflow
+pydantic<2.0,>=1.7.4
+SQLAlchemy
+aim
 pre-commit
+dvc
+dvc[s3]
+rich
+hydra-core
+hydra-colorlog
+hydra-optuna-sweeper
+opencv-contrib-python
+matplotlib
+rasterio
+Pillow
+pyrootutils
+shapely
+rootutils
+tensorboard
+tensorboardX
+wandb
+fire
+pytest
+autorootcwd
+sh
+ipykernel
+ipywidgets
+pandas
+pyarrow
