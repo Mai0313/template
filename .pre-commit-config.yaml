@@ -55,3 +55,12 @@ repos:
         args:
           - --config=pyproject.toml
           - --ignore=F811,F821,D417
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: Run pytest
+        entry: pytest -vv
+        language: system
+        types: [python]
+        # pass_filenames: false
