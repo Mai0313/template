@@ -60,7 +60,9 @@ repos:
     hooks:
       - id: pytest
         name: Run pytest
-        entry: pytest -vv
+        # entry: pytest -vv
+        entry: bash -c 'if [[ -z "${GITHUB_ACTIONS}" ]]; then pytest -vv; fi'
         language: system
         types: [python]
-        # pass_filenames: false
+        pass_filenames: false
+        always_run: true
