@@ -1,3 +1,5 @@
+"""This file is an example of how you can pre-define some variables to be used in your tests."""
+
 import pytest
 
 
