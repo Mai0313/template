@@ -56,12 +56,12 @@ repos:
           - --config=pyproject.toml
           - --ignore=F811,F821,D417
 
+  # Pytest
   - repo: local
     hooks:
       - id: pytest
         name: Run pytest
-        # entry: pytest -vv
-        entry: bash -c 'if [[ -z "${GITHUB_ACTIONS}" ]]; then pytest -vv; fi'
+        entry: bash -c 'if command -v pytest >/dev/null 2>&1; then pytest -vv; else echo "pytest not installed, skipping tests"; fi'
         language: system
         types: [python]
         pass_filenames: false
