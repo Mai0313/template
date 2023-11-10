@@ -13,19 +13,36 @@ repos:
         args:
           - --config=pyproject.toml
 
-  - repo: https://github.com/pre-commit/pre-commit-hooks.git
+  - repo: https://gitea.mediatek.inc/Linter/pre-commit-hooks
     rev: v4.5.0
     hooks:
       # list of supported hooks: https://pre-commit.com/hooks.html
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-docstring-first
+      - id: check-added-large-files
+      - id: check-ast
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
       - id: check-yaml
         args:
           - --allow-multiple-documents
-      - id: debug-statements
+      - id: destroyed-symlinks
       - id: detect-private-key
-      - id: check-executables-have-shebangs
+      - id: end-of-file-fixer
+      - id: no-commit-to-branch
+      - id: requirements-txt-fixer
+      - id: trailing-whitespace
+      - id: fix-byte-order-marker
+        exclude: docs/CNAME
+      - id: fix-encoding-pragma
+        args:
+          - --remove
+      - id: mixed-line-ending
+        args:
+          - --fix=lf
+      - id: check-docstring-first
+      - id: debug-statements
       - id: check-toml
       - id: check-case-conflict
       - id: check-added-large-files
