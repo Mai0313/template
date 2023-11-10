@@ -52,7 +52,8 @@ repos:
     rev: 0.7.17
     hooks:
       - id: mdformat
-        args: ["--number"]
+        args:
+          - --number
         additional_dependencies:
           - mdformat-gfm
           - mdformat-tables
@@ -80,6 +81,7 @@ repos:
         name: Run pytest
         entry: bash -c 'if command -v pytest >/dev/null 2>&1; then pytest -vv; else echo "pytest not installed, skipping tests"; fi'
         language: system
-        types: [python]
+        types:
+          - python
         pass_filenames: false
         always_run: true

@@ -1,9 +1,16 @@
---index-url https://pypi.org/simple
 --extra-index-url https://download.pytorch.org/whl/cu118
-torch==2.1.0+cu118
-torchvision==0.16.0+cu118
-torchaudio==2.1.0+cu118
-torchtext
+--index-url https://pypi.org/simple
+aim
+autorootcwd
+dvc
+dvc[s3]
+dvc_gdrive
+fire
+hydra-colorlog
+hydra-core
+hydra-optuna-sweeper
+ipykernel
+ipywidgets
 
 # --index-url https://pypi.org/simple
 # --extra-index-url https://download.pytorch.org/whl/cu116
@@ -12,33 +19,26 @@ torchtext
 # torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
 
 lightning>=2.0.8
-mlflow
-pydantic<2.0,>=1.7.4
-SQLAlchemy
-aim
-pre-commit
-dvc
-dvc[s3]
-dvc_gdrive
-rich
-hydra-core
-hydra-colorlog
-hydra-optuna-sweeper
-opencv-contrib-python
 matplotlib
-rasterio
+mlflow
+opencv-contrib-python
+pandas
 Pillow
+pre-commit
+pyarrow
+pydantic<2.0,>=1.7.4
 pyrootutils
-shapely
+pytest
+rasterio
+rich
 rootutils
+sh
+shapely
+SQLAlchemy
 tensorboard
 tensorboardX
+torch==2.1.0+cu118
+torchaudio==2.1.0+cu118
+torchtext
+torchvision==0.16.0+cu118
 wandb
-fire
-pytest
-autorootcwd
-sh
-ipykernel
-ipywidgets
-pandas
-pyarrow
