@@ -13,7 +13,7 @@ repos:
         args:
           - --config=pyproject.toml
 
-  - repo: https://gitea.mediatek.inc/Linter/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
       # list of supported hooks: https://pre-commit.com/hooks.html
