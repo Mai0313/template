@@ -1,25 +1,25 @@
 name: build
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
 # on:
 #   push:
-#     # branches to consider in the event; optional, defaults to all
 #     branches:
 #       - master
-#   # # pull_request event is required only for autolabeler
-#   # pull_request:
-#   #   # Only following types are handled by the action, but one can default to all as well
-#   #   types: [opened, reopened, synchronize]
-#   # pull_request_target event is required for autolabeler to support PRs from forks
-#   # pull_request_target:
-#   #   types: [opened, reopened, synchronize]
+#   pull_request:
+#     branches:
+#       - master
+
+on:
+  push:
+    # branches to consider in the event; optional, defaults to all
+    branches:
+      - master
+  # # pull_request event is required only for autolabeler
+  # pull_request:
+  #   # Only following types are handled by the action, but one can default to all as well
+  #   types: [opened, reopened, synchronize]
+  # pull_request_target event is required for autolabeler to support PRs from forks
+  # pull_request_target:
+  #   types: [opened, reopened, synchronize]
 
 env:
   REQUIREMENTS_FILE: requirements_build.txt
@@ -55,7 +55,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.9
-          # Enable these three lines if you run on act
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check if ${{ env.REQUIREMENTS_FILE }} exists
