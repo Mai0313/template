@@ -61,6 +61,8 @@ jobs:
         run: |
           pip install -r requirements_build.txt
           pyinstaller --onefile main.py
+        if: steps.checkfile_linux.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
+
       # Optionally verify that it works (provided that it does not need user interaction)
       - uses: actions/upload-artifact@v3
         with:
