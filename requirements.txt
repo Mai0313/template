@@ -37,7 +37,6 @@ sh
 # tensorboard
 # tensorboardX
 # wandb
-# fire
 # autoroot
 # autorootcwd
 # ipykernel
