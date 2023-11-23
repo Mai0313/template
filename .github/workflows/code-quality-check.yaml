@@ -48,7 +48,8 @@ jobs:
 
   run_tests:
     runs-on: ${{ matrix.os }}
-    needs: [code-quality-check]
+    needs:
+      - code-quality-check
     # container: catthehacker/ubuntu:act-latest  # Uncomment it if you use it on Gitea
 
     strategy:
