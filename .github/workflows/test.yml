@@ -59,15 +59,17 @@ jobs:
         run: |
           python -m pip list
 
+      # echo "::set-output name=has_tests::true"
+      # echo "::set-output name=has_tests::false"
       - name: Check for tests
         id: check_tests
         run: |
           if [ -f tests/test_*.py ] || [ -d tests ]; then
               echo "Tests exist, proceeding to run them."
-              echo "::set-output name=has_tests::true"
+              echo "has_tests=true" >> $GITHUB_OUTPUT
           else
               echo "No tests to run."
-              echo "::set-output name=has_tests::false"
+              echo "has_tests=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Run pytest
