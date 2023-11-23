@@ -2,16 +2,24 @@ name: build
 
 on:
   push:
-    # branches to consider in the event; optional, defaults to all
     branches:
       - master
-  # # pull_request event is required only for autolabeler
-  # pull_request:
-  #   # Only following types are handled by the action, but one can default to all as well
-  #   types: [opened, reopened, synchronize]
-  # pull_request_target event is required for autolabeler to support PRs from forks
-  # pull_request_target:
-  #   types: [opened, reopened, synchronize]
+  pull_request:
+    branches:
+      - master
+
+# on:
+#   push:
+#     # branches to consider in the event; optional, defaults to all
+#     branches:
+#       - master
+#   # # pull_request event is required only for autolabeler
+#   # pull_request:
+#   #   # Only following types are handled by the action, but one can default to all as well
+#   #   types: [opened, reopened, synchronize]
+#   # pull_request_target event is required for autolabeler to support PRs from forks
+#   # pull_request_target:
+#   #   types: [opened, reopened, synchronize]
 
 env:
   REQUIREMENTS_FILE: requirements_build.txt
@@ -51,40 +59,33 @@ jobs:
           # token: ${{ secrets.GITHUB_TOKEN }}
           # cache: 'pip'
 
-      - name: Check ${{ env.REQUIREMENTS_FILE }} exists (Linux)
-        id: checkfile_linux
-        if: runner.os == 'Linux'
+      - name: Check if ${{ env.REQUIREMENTS_FILE }} exists
+        id: checkfile
         run: |
-          if [ -f ${{ env.REQUIREMENTS_FILE }} ]; then
+          file_exists=false
+          if [ "${{ runner.os }}" == "Linux" ] && [ -f ${{ env.REQUIREMENTS_FILE }} ]; then
+            file_exists=true
+          elif [ "${{ runner.os }}" == "Windows" ] && (Test-Path "${{ env.REQUIREMENTS_FILE }}"); then
+            file_exists=true
+          fi
+          if [ $file_exists == true ]; then
             echo "${{ env.REQUIREMENTS_FILE }} exists, proceeding to build."
-            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "::set-output name=exists::true"
           else
             echo "No ${{ env.REQUIREMENTS_FILE }} to build."
-            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "::set-output name=exists::false"
           fi
-
-      - name: Check ${{ env.REQUIREMENTS_FILE }} exists (Windows)
-        id: checkfile_windows
-        if: runner.os == 'Windows'
-        run: |
-          if (Test-Path "${{ env.REQUIREMENTS_FILE }}") {
-            Write-Output "${{ env.REQUIREMENTS_FILE }} exists, proceeding to build."
-            Add-Content -Path $env:GITHUB_OUTPUT -Value "exists=true"
-          } else {
-            Write-Output "No ${{ env.REQUIREMENTS_FILE }} to build."
-            Add-Content -Path $env:GITHUB_OUTPUT -Value "exists=false"
-          }
-        shell: pwsh
+        shell: bash
 
       - name: build exe
-        if: steps.checkfile_linux.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
+        if: steps.checkfile.outputs.exists == 'true'
         run: |
           pip install -r ${{ env.REQUIREMENTS_FILE }}
           pyinstaller --onefile ${{ env.PYINSTALLER_FILE }} -n ${{ env.ARTIFACT_NAME }}_${{ runner.os }}
 
       # Optionally verify that it works (provided that it does not need user interaction)
       - uses: actions/upload-artifact@v3
-        if: steps.checkfile_linux.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
+        if: steps.checkfile.outputs.exists == 'true'
         with:
           name: ${{ env.ARTIFACT_NAME }}_${{ runner.os }}
           path: dist/*
@@ -130,5 +131,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          publish: true
+          publish: false
           commitish: ${{ github.sha }}
