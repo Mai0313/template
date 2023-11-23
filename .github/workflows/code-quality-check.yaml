@@ -33,7 +33,6 @@ jobs:
         with:
           python-version: '3.9'
           token: ${{ secrets.GITHUB_TOKEN }}
-          cache: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Cache pre-commit dependencies
         uses: actions/cache@v3
@@ -73,7 +72,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          cache: ${{ runner.os }}-python${{ matrix.python-version }}-pip-${{ hashFiles('**/requirements.txt') }}
 
       # Disable cache since Github action cache storge is too small for Pytorch.
       - name: Cache pip
