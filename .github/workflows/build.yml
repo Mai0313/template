@@ -49,7 +49,7 @@ jobs:
           AUTO_P: true
           AUTO_ASSIGN: true
           ISSUE_TEMPLATE: "This is my issue title: **{{ title }}**\n\nThis is my issue body: **{{ body }}**\n\nThis is my code URL: **{{ url }}**\n\nThis is my snippet:\n\n{{ snippet }}"
-  
+
   build:
     permissions:
       # write permission is required to create a github release
