@@ -1,0 +1,52 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - release/*
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['windows-latest']
+
+    steps:
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+          # # Enable these three lines if you run on act
+          # token: ${{ secrets.GITHUB_TOKEN }}
+          # cache: 'pip'
+
+      - name: Check requirements_build.txt exists
+        id: checkfile
+        run: |
+          if [ -f requirements_build.txt ]; then
+            echo "::set-output name=exists::true"
+          else
+            echo "::set-output name=exists::false"
+          fi
+
+      - name: build exe
+        run: |
+          pip install -r requirements_build.txt
+          pyinstaller --onefile main.py
+      # Optionally verify that it works (provided that it does not need user interaction)
+      - uses: actions/upload-artifact@v3
+        with:
+          name: main
+          path: dist/*
