@@ -1,0 +1,71 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - release/*
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['windows-latest']
+
+    steps:
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+          # # Enable these three lines if you run on act
+          # token: ${{ secrets.GITHUB_TOKEN }}
+          # cache: 'pip'
+
+      - name: Check requirements_build.txt exists (Linux)
+        id: checkfile_linux
+        run: |
+          if [ -f requirements_build.txt ]; then
+            echo "requirements_build.txt exists, proceeding to build."
+            echo "::set-output name=exists::true"
+          else
+            echo "No requirements_build.txt to build."
+            echo "::set-output name=exists::false"
+          fi
+        if: runner.os == 'Linux'
+
+      - name: Check requirements_build.txt exists (Windows)
+        id: checkfile_windows
+        run: |
+          if (Test-Path requirements_build.txt) {
+            Write-Output "requirements_build.txt exists, proceeding to build."
+            echo "::set-output name=exists::true"
+          } else {
+            Write-Output "No requirements_build.txt to build."
+            echo "::set-output name=exists::false"
+          }
+        shell: pwsh
+        if: runner.os == 'Windows'
+
+      - name: build exe
+        if: steps.checkfile_linux.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
+        run: |
+          pip install -r requirements_build.txt
+          pyinstaller --onefile main.py
+
+      # Optionally verify that it works (provided that it does not need user interaction)
+      - uses: actions/upload-artifact@v3
+        if: steps.checkfile_linux.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
+        with:
+          name: main
+          path: dist/*
