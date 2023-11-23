@@ -9,6 +9,11 @@ on:
       - master
       - release/*
 
+env:
+  REQUIREMENTS_FILE: requirements_build.txt
+  PYINSTALLER_FILE: main.py
+  ARTIFACT_NAME: main
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -32,26 +37,26 @@ jobs:
           # token: ${{ secrets.GITHUB_TOKEN }}
           # cache: 'pip'
 
-      - name: Check requirements_build.txt exists (Linux)
+      - name: Check ${{ env.REQUIREMENTS_FILE }} exists (Linux)
         id: checkfile_linux
         run: |
-          if [ -f requirements_build.txt ]; then
-            echo "requirements_build.txt exists, proceeding to build."
+          if [ -f ${{ env.REQUIREMENTS_FILE }} ]; then
+            echo "${{ env.REQUIREMENTS_FILE }} exists, proceeding to build."
             echo "::set-output name=exists::true"
           else
-            echo "No requirements_build.txt to build."
+            echo "No ${{ env.REQUIREMENTS_FILE }} to build."
             echo "::set-output name=exists::false"
           fi
         if: runner.os == 'Linux'
 
-      - name: Check requirements_build.txt exists (Windows)
+      - name: Check ${{ env.REQUIREMENTS_FILE }} exists (Windows)
         id: checkfile_windows
         run: |
-          if (Test-Path requirements_build.txt) {
-            Write-Output "requirements_build.txt exists, proceeding to build."
+          if (Test-Path "${{ env.REQUIREMENTS_FILE }}") {
+            Write-Output "${{ env.REQUIREMENTS_FILE }} exists, proceeding to build."
             echo "::set-output name=exists::true"
           } else {
-            Write-Output "No requirements_build.txt to build."
+            Write-Output "No ${{ env.REQUIREMENTS_FILE }} to build."
             echo "::set-output name=exists::false"
           }
         shell: pwsh
@@ -60,12 +65,12 @@ jobs:
       - name: build exe
         if: steps.checkfile_linux.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
         run: |
-          pip install -r requirements_build.txt
-          pyinstaller --onefile main.py
+          pip install -r ${{ env.REQUIREMENTS_FILE }}
+          pyinstaller --onefile ${{ env.PYINSTALLER_FILE }}
 
       # Optionally verify that it works (provided that it does not need user interaction)
       - uses: actions/upload-artifact@v3
         if: steps.checkfile_linux.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
         with:
-          name: main
+          name: ${{ env.ARTIFACT_NAME }}
           path: dist/*
