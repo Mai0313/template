@@ -1,7 +1,11 @@
 name: pull-request-pipeline
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
 
 jobs:
   auto-labeler:
