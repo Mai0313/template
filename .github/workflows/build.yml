@@ -55,9 +55,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.9
-          # # Enable these three lines if you run on act
-          # token: ${{ secrets.GITHUB_TOKEN }}
-          # cache: 'pip'
+          # Enable these three lines if you run on act
+          token: ${{ secrets.GITHUB_TOKEN }}
+          cache: 'pip'
 
       - name: Check if ${{ env.REQUIREMENTS_FILE }} exists
         id: checkfile
@@ -84,7 +84,8 @@ jobs:
           pyinstaller --onefile ${{ env.PYINSTALLER_FILE }} -n ${{ env.ARTIFACT_NAME }}_${{ runner.os }}
 
       # Optionally verify that it works (provided that it does not need user interaction)
-      - uses: actions/upload-artifact@v3
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
         if: steps.checkfile.outputs.exists == 'true'
         with:
           name: ${{ env.ARTIFACT_NAME }}_${{ runner.os }}
@@ -102,27 +103,15 @@ jobs:
           prerelease: false
 
       - name: Upload Release Asset
-        id: upload-release-asset-windows
-        if: runner.os == 'Windows'
+        id: upload-release-asset
+        if: steps.checkfile.outputs.exists == 'true'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ env.ARTIFACT_NAME }}_${{ runner.os }}.exe
-          asset_name: ${{ env.ARTIFACT_NAME }}_${{ runner.os }}.exe
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset
-        id: upload-release-asset-linux
-        if: runner.os == 'Linux'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ env.ARTIFACT_NAME }}_${{ runner.os }}
-          asset_name: ${{ env.ARTIFACT_NAME }}_${{ runner.os }}
+          asset_path: ./dist/${{ env.ARTIFACT_NAME }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
+          asset_name: ${{ env.ARTIFACT_NAME }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
           asset_content_type: application/octet-stream
 
       - name: Draft Release
