@@ -28,10 +28,9 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v4
-        # with:  # Enable those three lines if runing on act.
-        #   python-version: '3.9'
-        #   token: ${{ secrets.GITHUB_TOKEN }}
-        #   cache: 'pip'
+        with:
+          python-version: '3.9'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Pre-Commit
         uses: browniebroke/pre-commit-autoupdate-action@main
