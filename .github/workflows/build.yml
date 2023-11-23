@@ -48,7 +48,7 @@ jobs:
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
         if: runner.os == 'Linux'
-        
+
       - name: Check ${{ env.REQUIREMENTS_FILE }} exists (Windows)
         id: checkfile_windows
         run: |
