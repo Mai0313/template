@@ -1,9 +1,13 @@
-"""Before checking this file, please check `conftest.py` first.
+# --------------------------------------------------------
+# Repo Template
+# Copyright (c) 2023 Mediatek.inc
+# Licensed under The MIT License [see LICENSE for details]
+# Written by Wei (mtk30765)
+# --------------------------------------------------------
 
-The variables in `conftest.py` are available in this file or all test_* files.
-"""
+from typing import Any
 
 
-def test_example(get_variables):
+def test_example(get_nums: int) -> None:
     """This will get variables from another pytest, `conftest.py`."""
-    assert isinstance(get_variables, int)
+    assert isinstance(get_nums, int)

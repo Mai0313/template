@@ -65,6 +65,9 @@ target-version = ["py39"]
 # Enable Auto Fixing.
 fix = true
 
+# Enable Preview
+preview = true
+
 # Enumerate all fixed violations.
 show-fixes = true
 
@@ -72,7 +75,7 @@ show-fixes = true
 show-source = true
 
 # Allow imports relative to the "src" and "test" directories.
-src = ["."]
+src = ["*"]
 
 task-tags = ["TODO", "FIXME", "BUG", "XXX", "REFACT", "NOTE", "MARK", "HACK"]
 
@@ -102,7 +105,7 @@ unfixable = []
 extend-exclude = ["logs", "data", "*.sql", "__init__.py", "*.svg"]
 
 # In addition to the standard set of inclusions, include `.pyw` files.
-extend-include = ["*.ipynb", "*.sh"]
+extend-include = ["**/*.ipynb", "*.sh"]
 
 select = [
     # pyflakes
@@ -111,17 +114,71 @@ select = [
     "E", "W",
     # isort
     "I",
+    # pep8-naming
+    "N",
     # pydocstyle
     "D",
     # pyupgrade
     "UP",
-    # # bugbear Should be enabled once this branch are merged
-    # "B",
+    # bugbear Should be enabled once this branch are merged
+    "B",
     # Ruff Specific Rules
     "RUF",
     # Remove Print Out
     "T",
-    ]
+
+    # Additional rules
+    "C90",  # mccabe
+    "YTT",  # flake8-2020
+    "ANN",  # flake8-annotations
+    "ASYNC",  # flake8-async
+    "TRIO",  # flake8-trio
+    "S",  # flake8-bandit
+    "BLE",  # flake8-blind-except
+    "FBT",  # flake8-boolean-trap
+    "A",  # flake8-builtins
+    "COM",  # flake8-commas
+    "CPY",  # flake8-copyright
+    "C4",  # flake8-comprehensions
+    "DTZ",  # flake8-datetimez
+    "T10",  # flake8-debugger
+    "DJ",  # flake8-django
+    "EM",  # flake8-errmsg
+    "EXE",  # flake8-executable
+    "FA",  # flake8-future-annotations
+    "ISC",  # flake8-implicit-str-concat
+    "ICN",  # flake8-import-conventions
+    "G",  # flake8-logging-format
+    "INP",  # flake8-no-pep420
+    "PIE",  # flake8-pie
+    "T20",  # flake8-print
+    "PYI",  # flake8-pyi
+    "PT",  # flake8-pytest-style
+    "Q",  # flake8-quotes
+    "RSE",  # flake8-raise
+    "RET",  # flake8-return
+    "SLF",  # flake8-self
+    "SLOT",  # flake8-slots
+    "SIM",  # flake8-simplify
+    "TID",  # flake8-tidy-imports
+    "TCH",  # flake8-type-checking
+    "INT",  # flake8-gettext
+    "ARG",  # flake8-unused-arguments
+    "PTH",  # flake8-use-pathlib
+    "TD",  # flake8-todos
+    "FIX",  # flake8-fixme
+    "ERA",  # eradicate
+    "PD",  # pandas-vet
+    "PGH",  # pygrep-hooks
+    "PL",  # Pylint
+    "TRY",  # tryceratops
+    "FLY",  # flynt
+    "NPY",  # NumPy-specific rules
+    "AIR",  # Airflow
+    "PERF",  # Perflint
+    "FURB",  # refurb
+    "LOG",  # flake8-logging
+]
 
 ignore = [
     # Additional ignore
@@ -144,7 +201,7 @@ extend-generics = ["pyrootutils", "autorootcwd", "autoroot"]
 ignore-overlong-task-comments = true
 max-doc-length = 99
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 # Use Google-style docstrings.
 # Accepts: "google", "numpy", or "pep257".
 convention = "google"
@@ -157,6 +214,7 @@ keep-runtime-typing = true
 # Ignore `E402` (import violations) in all `__init__.py` files, and in `path/to/file.py`.
 "__init__.py" = ["E402"]
 "*.ipynb" = ["T201", "F401", "F811"]
+"tests/*" = ["S101"]
 
 [tool.ruff.isort]
 combine-as-imports = true
