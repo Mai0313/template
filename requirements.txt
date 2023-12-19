@@ -10,19 +10,16 @@
 # torch==1.12.1+cu116
 # torchvision==0.13.1+cu116
 # torchaudio==0.12.1
+# # If you are running on torch1.12, you need to install Pillow==9.5.0
+# Pillow==9.5.0
 # torchtext
 
-pre-commit
-pytest
-sh
-
-# lightning==2.1.2
+# #### Machine Learning Related ####
+# lightning
 # mlflow
 # pydantic
 # SQLAlchemy
 # aim<4.0.0
-# dvc
-# dvc[s3]
 # rich
 # hydra-core
 # hydra-colorlog
@@ -39,11 +36,25 @@ sh
 # wandb
 # autoroot
 # autorootcwd
-# ipykernel
-# ipywidgets
 # orjsonl
 # pandas
 # pyarrow
 # fastparquet
 # sentencepiece
 # transformers
+
+# #### Data Storage Related ####
+# dvc
+# dvc[s3]
+# dvc_gdrive
+
+# #### Development Related ####
+# ipykernel
+# ipywidgets
+pre-commit
+pytest
+sh
+
+# #### Machine Learning UI Related ####
+# gradio
+# fastapi
