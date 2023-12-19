@@ -235,3 +235,7 @@ line-ending = "auto"
 quote-style = "double"
 
 skip-magic-trailing-comma = true
+
+docstring-code-format = true
+
+docstring-code-line-length = 20
