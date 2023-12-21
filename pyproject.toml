@@ -217,23 +217,109 @@ keep-runtime-typing = true
 "*.ipynb" = ["T201", "F401", "F811"]
 "tests/*" = ["S101"]
 
-[tool.ruff.isort]
-combine-as-imports = true
+[tool.ruff.lint.isort]
+# Ref: https://docs.astral.sh/ruff/settings/#isort-case-sensitive
+case-sensitive = true
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-classes
+classes = []
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-combine-as-imports
+combine-as-imports = false
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-constants
+constants = []
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-detect-same-package
+detect-same-package = false
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-extra-standard-library
+extra-standard-library = []
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-force-single-line
+force-single-line = false
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-force-sort-within-sections
+force-sort-within-sections = true
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-force-to-top
+force-to-top = []
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-force-wrap-aliases
+force-wrap-aliases = false
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-forced-separate
+forced-separate = []
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-from-first
+from-first = false
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-known-first-party
+known-first-party = []
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-known-local-folder
+known-local-folder = []
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-known-third-party
+known-third-party = []
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-length-sort
+length-sort = true
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-length-sort-straight
+length-sort-straight = true
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-lines-after-imports
+lines-after-imports = -1
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-lines-between-types
+lines-between-types = 0
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-no-lines-before
+no-lines-before = ["future", "standard-library"]
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-no-sections
+no-sections = false
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-order-by-type
 order-by-type = true
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-relative-imports-order
+relative-imports-order = "furthest-to-closest"
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-required-imports
+required-imports = ["from __future__ import annotations"]
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-section-order
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-single-line-exclusions
+single-line-exclusions = []
+
+# Ref: https://docs.astral.sh/ruff/settings/#isort-split-on-trailing-comma
 split-on-trailing-comma=false
 
+# Ref: https://docs.astral.sh/ruff/settings/#isort-variables
+variables = []
+
 [tool.ruff.format]
+# Enable reformatting of code snippets in docstrings.
+docstring-code-format = true
+
+# Format all docstring code snippets with a line length of 99.
+docstring-code-line-length = 99
+
 # The file you may want to ignore
 exclude = ["generated"]
-
-# Preview Version
-preview = true
 
 # Use tabs instead of 4 space indentation.
 indent-style = "space"
 
 # Automatically detect the line ending on a file per file basis.
 line-ending = "auto"
+
+# Preview Version
+preview = true
 
 # Prefer single quotes over double quotes
 quote-style = "double"
