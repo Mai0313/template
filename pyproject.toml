@@ -55,12 +55,14 @@ ignore_patterns = ["*.sql", "data/*", "logs/*", "docs/*", "build/*", "dist/*", "
 # ================== #
 [tool.black]
 line-length = 99
-target-version = ["py39"]
+target-version = [">=py39"]
 
 # ================== #
 #        RUFF        #
 # ================== #
 [tool.ruff]
+
+required-version = "0.1.8"
 
 # Enable Auto Fixing.
 fix = true
@@ -197,17 +199,23 @@ ignore-init-module-imports = true
 [tool.ruff.pyflakes]
 extend-generics = ["pyrootutils", "autorootcwd", "autoroot"]
 
-[tool.ruff.pycodestyle]
+[tool.ruff.lint.pycodestyle]
 # Ignore long comments for TODO, FIXME, XXX
 ignore-overlong-task-comments = true
 max-doc-length = 99
+max-line-length = 99
 
 [tool.ruff.lint.pydocstyle]
 # Use Google-style docstrings.
 # Accepts: "google", "numpy", or "pep257".
 convention = "google"
+ignore-decorators = []
+property-decorators = []
 
-[tool.ruff.pyupgrade]
+[tool.ruff.lint.pyflakes]
+extend-generics = []
+
+[tool.ruff.lint.pyupgrade]
 # Preserve types, even if a file imports `from __future__ import annotations`.
 keep-runtime-typing = true
 
@@ -218,110 +226,51 @@ keep-runtime-typing = true
 "tests/*" = ["S101"]
 
 [tool.ruff.lint.isort]
-# Ref: https://docs.astral.sh/ruff/settings/#isort-case-sensitive
 case-sensitive = true
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-classes
 classes = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-combine-as-imports
 combine-as-imports = false
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-constants
 constants = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-detect-same-package
 detect-same-package = false
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-extra-standard-library
 extra-standard-library = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-force-single-line
 force-single-line = false
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-force-sort-within-sections
 force-sort-within-sections = true
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-force-to-top
 force-to-top = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-force-wrap-aliases
 force-wrap-aliases = false
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-forced-separate
 forced-separate = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-from-first
 from-first = false
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-known-first-party
 known-first-party = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-known-local-folder
 known-local-folder = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-known-third-party
 known-third-party = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-length-sort
 length-sort = true
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-length-sort-straight
 length-sort-straight = true
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-lines-after-imports
 lines-after-imports = -1
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-lines-between-types
 lines-between-types = 0
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-no-lines-before
 no-lines-before = ["future", "standard-library"]
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-no-sections
 no-sections = false
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-order-by-type
 order-by-type = true
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-relative-imports-order
 relative-imports-order = "furthest-to-closest"
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-required-imports
 required-imports = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-section-order
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-single-line-exclusions
 single-line-exclusions = []
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-split-on-trailing-comma
 split-on-trailing-comma=false
-
-# Ref: https://docs.astral.sh/ruff/settings/#isort-variables
 variables = []
 
+[tool.ruff.lint.pylint]
+allow-dunder-method-names = ["__tablename__", "__table_args__"]
+allow-magic-value-types = ["int"]
+max-args = 5
+max-bool-expr = 5
+max-branches = 12
+max-public-methods = 20
+max-returns = 6
+max-statements = 50
+
 [tool.ruff.format]
-# Enable reformatting of code snippets in docstrings.
 docstring-code-format = true
-
-# Format all docstring code snippets with a line length of 99.
 docstring-code-line-length = 99
-
-# The file you may want to ignore
 exclude = ["generated"]
-
-# Use tabs instead of 4 space indentation.
 indent-style = "space"
-
-# Automatically detect the line ending on a file per file basis.
 line-ending = "auto"
-
-# Preview Version
 preview = true
-
-# Prefer single quotes over double quotes
 quote-style = "double"
-
 skip-magic-trailing-comma = true
