@@ -288,7 +288,7 @@ order-by-type = true
 relative-imports-order = "furthest-to-closest"
 
 # Ref: https://docs.astral.sh/ruff/settings/#isort-required-imports
-required-imports = ["from __future__ import annotations"]
+required-imports = []
 
 # Ref: https://docs.astral.sh/ruff/settings/#isort-section-order
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
