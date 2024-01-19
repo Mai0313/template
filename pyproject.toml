@@ -116,21 +116,19 @@ select = [
     "E", "W",
     # isort
     "I",
-    # pep8-naming
-    "N",
     # pydocstyle
     "D",
     # pyupgrade
     "UP",
-    # bugbear Should be enabled once this branch are merged
-    "B",
     # Ruff Specific Rules
     "RUF",
     # Remove Print Out
     "T",
 
     # # Additional rules
+    # "B",  # bugbear Should be enabled once this branch are merged
     # "C90",  # mccabe
+    # "N", # pep8-naming
     # "YTT",  # flake8-2020
     # "ANN",  # flake8-annotations
     # "ASYNC",  # flake8-async
@@ -184,7 +182,7 @@ select = [
 
 ignore = [
     # Additional ignore
-    "F401", "E402", "E501", "F841",
+    "E402", "E501", "F841",
     # Missing Docs in functions
     "D100", "D101", "D102", "D103", "D107", "D205", "D415",
     # Doc line too long
@@ -192,6 +190,9 @@ ignore = [
     # print found
     # "T201",
     "N804",
+    "E266",
+    # Unused imports
+    "F401",
     ]
 
 ignore-init-module-imports = true
