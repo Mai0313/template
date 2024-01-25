@@ -191,8 +191,10 @@ ignore = [
     # "T201",
     "N804",
     "E266",
-    # Unused imports
-    "F401",
+    # # Unused imports
+    # "F401",
+    # Print found
+    "T201",
     ]
 
 ignore-init-module-imports = true
