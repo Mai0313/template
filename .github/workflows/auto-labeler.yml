@@ -19,8 +19,9 @@ jobs:
         id: labeler
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          sync-labels: ''
           configuration-path: .github/labeler.yml
+          sync-labels: false
+          dot: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}-${{ github.event_name == 'workflow_dispatch' }}
