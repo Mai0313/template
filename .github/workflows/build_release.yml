@@ -124,7 +124,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || secrets.GT_TOKEN }}
         with:
           tag_name: ${{ github.run_id }}
           release_name: Release ${{ github.run_id }}
@@ -136,7 +136,7 @@ jobs:
         if: steps.checkfile_unix.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || secrets.GT_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist/${{ env.ARTIFACT_NAME }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
@@ -169,6 +169,6 @@ jobs:
         uses: release-drafter/release-drafter@v5.25.0
         id: draft
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || secrets.GT_TOKEN }}
         with:
           publish: true
