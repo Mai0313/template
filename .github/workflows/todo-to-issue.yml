@@ -37,9 +37,10 @@ jobs:
 
     - name: Todo to Issue
       id: todo-to-issue
-      uses: alstr/todo-to-issue-action@v4
+      uses: alstr/todo-to-issue-action@v4.12.1
       with:
         CLOSE_ISSUES: true
         AUTO_P: true
         AUTO_ASSIGN: true
+        PROJECTS_SECRET: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
         ISSUE_TEMPLATE: "This is my issue title: **{{ title }}**\n\nThis is my issue body: **{{ body }}**\n\nThis is my code URL: **{{ url }}**\n\nThis is my snippet:\n\n{{ snippet }}"

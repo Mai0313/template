@@ -5,21 +5,21 @@ source-code:
 
 unit-test:
   - changed-files:
-    - any-glob-to-any-file: 
+    - any-glob-to-any-file:
       - "**/test_*.py"
       - "tests/*"
       - "tests/**/*"
 
 ci:
   - changed-files:
-    - any-glob-to-any-file: 
+    - any-glob-to-any-file:
       - ".github/**"
       - ".pre-commit-config.yaml"
       - "pyproject.toml"
 
 notebooks:
   - changed-files:
-    - any-glob-to-any-file: 
+    - any-glob-to-any-file:
       - "**/*.ipynb"
       - "notebooks/*"
       - "notebook/*"
@@ -30,7 +30,7 @@ dependencies:
 
 documentation:
   - changed-files:
-    - any-glob-to-any-file: 
+    - any-glob-to-any-file:
       - "**/*.md"
       - "docs/*"
 
@@ -44,7 +44,7 @@ enhancement:
     - "perf/*"
 
 bug:
-  - head-branch: 
+  - head-branch:
     - "^bug"
     - "bug"
     - "fix/*"
