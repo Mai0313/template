@@ -13,34 +13,27 @@ on:
     # branches to consider in the event; optional, defaults to all
     branches:
       - master
-  # pull_request event is required only for autolabeler
-  pull_request:
-    # Only following types are handled by the action, but one can default to all as well
-    types: [opened, reopened, synchronize]
-  # pull_request_target event is required for autolabeler to support PRs from forks
-  pull_request_target:
-    types: [opened, reopened, synchronize]
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 jobs:
   todo-to-issue:
     runs-on: ubuntu-latest
     # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
     steps:
-    - name: Disable SSL Verify
-      run: git config --global http.sslVerify false
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Todo to Issue
-      id: todo-to-issue
-      uses: alstr/todo-to-issue-action@v4.12.1
-      with:
-        CLOSE_ISSUES: true
-        AUTO_P: true
-        AUTO_ASSIGN: true
-        PROJECTS_SECRET: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
-        ISSUE_TEMPLATE: "This is my issue title: **{{ title }}**\n\nThis is my issue body: **{{ body }}**\n\nThis is my code URL: **{{ url }}**\n\nThis is my snippet:\n\n{{ snippet }}"
+      - name: Todo to Issue
+        id: todo-to-issue
+        uses: alstr/todo-to-issue-action@v4.12.1
+        with:
+          CLOSE_ISSUES: true
+          AUTO_P: true
+          AUTO_ASSIGN: true
+          ISSUE_TEMPLATE: "This is my issue title: **{{ title }}**\n\nThis is my issue body: **{{ body }}**\n\nThis is my code URL: **{{ url }}**\n\nThis is my snippet:\n\n{{ snippet }}"
