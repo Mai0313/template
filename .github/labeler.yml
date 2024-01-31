@@ -1,26 +1,35 @@
-"Feature: New File":
-- 'src/**/*'
-- 'tests/**/*'
+Source:
+- changed-files:
+  - any-glob-to-any-file: 'src/**/*'
+  - all-globs-to-all-files: '!src/docs/*'
 
-"Bugfix: Source Code":
-- 'src/**/*.py'
+Pytest:
+- changed-files:
+  - any-glob-to-any-file: "**/test_*.py"
+  - any-glob-to-any-file: "tests/*"
+  - any-glob-to-any-file: "tests/**/*"
 
-"Chore: Tests":
-- 'tests/**/*.py'
+CICD:
+- changed-files:
+  - any-glob-to-any-file: ".github/**"
+  - any-glob-to-any-file: ".github/workflows/**"
 
-"Chore: Documentation":
-- '**/*.md'
-- 'docs/**/*'
+Code Style:
+- changed-files:
+  - any-glob-to-any-file: ".pre-commit-config.yaml"
+  - any-glob-to-any-file: "pyproject.toml"
 
-"Chore: CI/CD Workflow":
-- .github/workflows/**
+Dependencies:
+- changed-files:
+  - any-glob-to-any-file: "requirements.txt"
 
-"Chore: CI/CD Config":
-- .github/**
+Documentation:
+- changed-files:
+  - any-glob-to-any-file: "**/*.md"
+  - any-glob-to-any-file: "docs/*"
 
-"Chore: Code Style":
-- .pre-commit-config.yaml
-- pyproject.toml
+feature:
+ - head-branch: ["^feature", "feature", "feat/*"]
 
-"Chore: Requirements":
-- requirements.txt
+release:
+ - base-branch: "master"
