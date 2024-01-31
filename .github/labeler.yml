@@ -1,35 +1,47 @@
-Source:
+source-code:
 - changed-files:
   - any-glob-to-any-file: 'src/**/*'
   - all-globs-to-all-files: '!src/docs/*'
 
-Pytest:
+unit-test:
 - changed-files:
   - any-glob-to-any-file: "**/test_*.py"
   - any-glob-to-any-file: "tests/*"
   - any-glob-to-any-file: "tests/**/*"
 
-CICD:
+cicd:
 - changed-files:
   - any-glob-to-any-file: ".github/**"
   - any-glob-to-any-file: ".github/workflows/**"
-
-Code Style:
-- changed-files:
   - any-glob-to-any-file: ".pre-commit-config.yaml"
   - any-glob-to-any-file: "pyproject.toml"
 
-Dependencies:
+notebooks:
+- changed-files:
+  - any-glob-to-any-file: "**/*.ipynb"
+  - any-glob-to-any-file: "notebooks/*"
+  - any-glob-to-any-file: "notebook/*"
+
+dependencies:
 - changed-files:
   - any-glob-to-any-file: "requirements.txt"
 
-Documentation:
+documentation:
 - changed-files:
   - any-glob-to-any-file: "**/*.md"
   - any-glob-to-any-file: "docs/*"
 
 feature:
- - head-branch: ["^feature", "feature", "feat/*"]
+  - head-branch: ["feat/*"]
+
+enhancement:
+  - head-branch: ["enhance/*", "perf/*"]
+
+bug:
+  - head-branch: ["^bug", "bug", "fix/*", "bugfix/*"]
+
+hotfix:
+  - head-branch: ["hotfix/*"]
 
 release:
- - base-branch: "master"
+  - base-branch: "master"
