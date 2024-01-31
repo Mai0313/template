@@ -1,26 +1,58 @@
-"Feature: New File":
-- 'src/**/*'
-- 'tests/**/*'
+source-code:
+  - changed-files:
+    - any-glob-to-any-file: 'src/**/*'
+    - all-globs-to-all-files: '!src/docs/*'
 
-"Bugfix: Source Code":
-- 'src/**/*.py'
+unit-test:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/test_*.py"
+      - "tests/*"
+      - "tests/**/*"
 
-"Chore: Tests":
-- 'tests/**/*.py'
+ci:
+  - changed-files:
+    - any-glob-to-any-file:
+      - ".github/**"
+      - ".pre-commit-config.yaml"
+      - "pyproject.toml"
 
-"Chore: Documentation":
-- '**/*.md'
-- 'docs/**/*'
+notebooks:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*.ipynb"
+      - "notebooks/*"
+      - "notebook/*"
 
-"Chore: CI/CD Workflow":
-- .github/workflows/**
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file: "requirements.txt"
 
-"Chore: CI/CD Config":
-- .github/**
+documentation:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*.md"
+      - "docs/*"
 
-"Chore: Code Style":
-- .pre-commit-config.yaml
-- pyproject.toml
+feature:
+  - head-branch:
+    - "feat/*"
 
-"Chore: Requirements":
-- requirements.txt
+enhancement:
+  - head-branch:
+    - "enhance/*"
+    - "perf/*"
+
+bug:
+  - head-branch:
+    - "^bug"
+    - "bug"
+    - "fix/*"
+    - "bugfix/*"
+
+hotfix:
+  - head-branch:
+    - "hotfix/*"
+
+release:
+  - base-branch: "master"

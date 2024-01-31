@@ -12,7 +12,7 @@ on:
 jobs:
   run_tests:
     runs-on: ${{ matrix.os }}
-    # container: catthehacker/ubuntu:act-latest  # Uncomment it if you use it on Gitea
+    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
     strategy:
       fail-fast: false
@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           token: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
