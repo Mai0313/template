@@ -1,6 +1,6 @@
-# #### Development Related ####
-# ipykernel
-# ipywidgets
+#### Development Related ####
+ipykernel
+ipywidgets
 pre-commit
 pytest
 sh
