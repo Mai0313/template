@@ -1,14 +1,17 @@
-FROM ubuntu:latest
+FROM python:3.9.15-slim
 
-RUN apt update
-RUN apt install git wget curl -y
+LABEL maintainer="Wei Lee <mai@mai0313.com>" \
+    org.label-schema.name="app" \
+    org.label-schema.vendor="Wei Lee" \
+    org.label-schema.schema-version="1.0" \
+    com.centurylinklabs.watchtower.stop-signal="SIGINT"
 
-# create user
-RUN useradd -ms /bin/bash user
-USER user
-WORKDIR /home/user
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-RUN bash Miniconda3-latest-Linux-x86_64.sh -b
-RUN rm Miniconda3-latest-Linux-x86_64.sh
-RUN echo "export PATH=/home/user/miniconda3/bin:$PATH" >> ~/.bashrc
-RUN /home/user/miniconda3/bin/conda init
+RUN apt-get -y update
+RUN apt-get -y install ffmpeg libsm6 libxext6 libgl1 git
+
+RUN python -m pip install --upgrade pip
+
+WORKDIR /app
+COPY . /app
+EXPOSE 8080
+RUN pip install -r requirements.txt --no-cache-dir

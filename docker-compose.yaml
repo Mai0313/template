@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - .:/app
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "8080:8080"
+
+  # example:
+  #   image: justarchi/archisteamfarm
+  #   container_name: asf
+  #   volumes:
+  #     - /home/wei/asf/config:/app/config
+  #   ports:
+  #     - "1242:1242"
+  #   restart: always

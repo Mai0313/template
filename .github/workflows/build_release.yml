@@ -58,40 +58,16 @@ jobs:
           python-version: '3.9'
           token: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
 
-      # For Linux/MacOS
-      - name: Check if ${{ env.REQUIREMENTS_FILE }} exists (Unix)
-        id: checkfile_unix
-        run: |
-          if [ -f "${{ env.REQUIREMENTS_FILE }}" ]; then
-            echo "::set-output name=exists::true"
-          else
-            echo "::set-output name=exists::false"
-          fi
-        if: runner.os != 'Windows'
-        shell: bash
-
-      # For Windows
-      - name: Check if ${{ env.REQUIREMENTS_FILE }} exists (Windows)
-        id: checkfile_windows
-        run: |
-          if (Test-Path "${{ env.REQUIREMENTS_FILE }}") {
-            echo "::set-output name=exists::true"
-          } else {
-            echo "::set-output name=exists::false"
-          }
-        if: runner.os == 'Windows'
-        shell: pwsh  # PowerShell
-
-      - name: build exe
-        if: steps.checkfile_unix.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
+      - name: build executable for ${{ runner.os }}
+        continue-on-error: true
         run: |
           pip install -r ${{ env.REQUIREMENTS_FILE }}
-          pyinstaller --onefile ${{ env.PYINSTALLER_FILE }} -n ${{ env.ARTIFACT_NAME }}_${{ runner.os }}
+          pyinstaller --onefile ${{ env.PYINSTALLER_FILE }} -n ${{ env.ARTIFACT_NAME }}
 
       # Optionally verify that it works (provided that it does not need user interaction)
       - name: Upload Artifact
+        continue-on-error: true
         uses: actions/upload-artifact@v4
-        if: steps.checkfile_unix.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
         with:
           name: ${{ env.ARTIFACT_NAME }}_${{ runner.os }}
           path: dist/*
@@ -104,7 +80,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || secrets.GT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.run_id }}
           release_name: Release ${{ github.run_id }}
@@ -116,7 +92,7 @@ jobs:
         if: steps.checkfile_unix.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || secrets.GT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist/${{ env.ARTIFACT_NAME }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
@@ -131,6 +107,8 @@ jobs:
       # otherwise, read permission is required at least
       pull-requests: write
     runs-on: ubuntu-latest
+    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
+
     needs:
       - build
     # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
@@ -149,6 +127,6 @@ jobs:
         uses: release-drafter/release-drafter@v5.25.0
         id: draft
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || secrets.GT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           publish: true
