@@ -7,30 +7,29 @@ on:
   # manually trigger a workflow_dispatch event
   workflow_dispatch:
 
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
 jobs:
   auto-update:
     runs-on: ubuntu-latest
     # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
-
-    permissions:
-      # write permission is required to create a github release
-      contents: write
-      # write permission is required for autolabeler
-      # otherwise, read permission is required at least
-      pull-requests: write
 
     steps:
       - name: Disable SSL Verify
         run: git config --global http.sslVerify false
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.2
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: '3.9'
-          token: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Pre-Commit
         uses: browniebroke/pre-commit-autoupdate-action@main

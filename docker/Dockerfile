@@ -14,4 +14,4 @@ RUN python -m pip install --upgrade pip
 WORKDIR /app
 COPY . /app
 EXPOSE 8080
-RUN pip install -r requirements.txt --no-cache-dir
+RUN pip install -r requirements.txt

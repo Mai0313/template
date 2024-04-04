@@ -1,76 +1,57 @@
-name: build-pipeline
-
-# on:
-#   push:
-#     branches:
-#       - master
-#   pull_request:
-#     branches:
-#       - master
+name: build-release
 
 on:
   push:
-    # branches to consider in the event; optional, defaults to all
     branches:
       - master
-  # # pull_request event is required only for autolabeler
-  # pull_request:
-  #   # Only following types are handled by the action, but one can default to all as well
-  #   types: [opened, reopened, synchronize]
-  # pull_request_target event is required for autolabeler to support PRs from forks
-  # pull_request_target:
-  #   types: [opened, reopened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
 
 env:
   REQUIREMENTS_FILE: requirements_build.txt
   PYINSTALLER_FILE: main.py
-  ARTIFACT_NAME: main
-
-permissions:
-  contents: read
 
 jobs:
   build:
-    permissions:
-      # write permission is required to create a github release
-      contents: write
-      # write permission is required for autolabeler
-      # otherwise, read permission is required at least
-      pull-requests: write
-
-    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os:
           - windows-latest
 
+    runs-on: ${{ matrix.os }}
+
     steps:
       - name: Disable SSL Verify
         run: git config --global http.sslVerify false
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.2
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: '3.9'
-          token: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build executable for ${{ runner.os }}
         continue-on-error: true
         run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
           pip install -r ${{ env.REQUIREMENTS_FILE }}
-          pyinstaller --onefile ${{ env.PYINSTALLER_FILE }} -n ${{ env.ARTIFACT_NAME }}
+          pyinstaller --onefile ${{ env.PYINSTALLER_FILE }} -n ${{ github.event.repository.name }}
 
       # Optionally verify that it works (provided that it does not need user interaction)
       - name: Upload Artifact
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.3.1
         with:
-          name: ${{ env.ARTIFACT_NAME }}_${{ runner.os }}
-          path: dist/*
+          name: ${{ github.event.repository.name }}_${{ runner.os }}
+          path: ./*
           if-no-files-found: warn
           retention-days: 1
           compression-level: 6
@@ -87,38 +68,31 @@ jobs:
           draft: true
           prerelease: false
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        if: steps.checkfile_unix.outputs.exists == 'true' || steps.checkfile_windows.outputs.exists == 'true'
+      - name: Upload Release Assets
+        continue-on-error: true
+        id: upload-release-assets
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ env.ARTIFACT_NAME }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
-          asset_name: ${{ env.ARTIFACT_NAME }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
+          asset_path: ./dist/${{ github.event.repository.name }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
+          asset_name: ${{ github.event.repository.name }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
           asset_content_type: application/octet-stream
 
-  update-release-draft:
-    permissions:
-      # write permission is required to create a github release
-      contents: write
-      # write permission is required for autolabeler
-      # otherwise, read permission is required at least
-      pull-requests: write
+  release:
     runs-on: ubuntu-latest
     # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
     needs:
       - build
-    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
     steps:
       - name: Disable SSL Verify
         run: git config --global http.sslVerify false
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.2
         with:
           fetch-depth: 0
 

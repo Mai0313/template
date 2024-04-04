@@ -1,13 +1,24 @@
-name: Labeler
+name: Auto-Labeler
+
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}-${{ github.event_name == 'workflow_dispatch' }}
+  cancel-in-progress: true
 
 jobs:
-  auto_labeler:
-    permissions:
-      contents: read
-      pull-requests: write
+  code-review:
     runs-on: ubuntu-latest
     # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
@@ -15,14 +26,14 @@ jobs:
       - name: Disable SSL Verify
         run: git config --global http.sslVerify false
 
-      - uses: actions/labeler@v5
+      - name: Checkout
+        uses: actions/checkout@v4.1.2
+
+      - name: Auto Labeler
+        uses: actions/labeler@v5
         id: labeler
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/labeler.yml
           sync-labels: false
           dot: true
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}-${{ github.event_name == 'workflow_dispatch' }}
-  cancel-in-progress: true
