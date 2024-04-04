@@ -40,6 +40,39 @@ jobs:
           MODEL: gpt-3.5-turbo-16k # https://platform.openai.com/docs/models
           PROMPT: # example: Please check if there are any confusions or irregularities in the following code diff:
           top_p: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-top_p
-          temperature: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature
+          temperature: 0.1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature
           max_tokens: 10000
           MAX_PATCH_LENGTH: 10000 # if the patch/diff length is large than MAX_PATCH_LENGTH, will be ignored and won't review. By default, with no MAX_PATCH_LENGTH set, there is also no limit for the patch/diff length.
+
+      - name: Get diff of the pull request
+        id: get_diff
+        shell: bash
+        env:
+          PULL_REQUEST_HEAD_REF: "${{ github.event.pull_request.head.ref }}"
+        run: |-
+          git fetch origin "${{ env.PULL_REQUEST_HEAD_REF }}:${{ env.PULL_REQUEST_HEAD_REF }}"
+          git checkout "${{ env.PULL_REQUEST_HEAD_REF }}"
+          git diff "origin/${{ env.PULL_REQUEST_HEAD_REF }}" > "diff.txt"
+          # shellcheck disable=SC2086
+          echo "diff=$(cat "diff.txt")" >> $GITHUB_ENV
+
+      - name: Code Review by GPT
+        uses: yu-iskw/gpt-code-review-action@v0.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          github_repository: ${{ github.repository }}
+          github_pull_request_number: ${{ github.event.pull_request.number }}
+          git_commit_hash: ${{ github.event.pull_request.head.sha }}
+          model: gpt-3.5-turbo-16k
+          temperature: 0.1
+          max_tokens: 10000
+          top_p: 1
+          frequency_penalty: 0.0
+          presence_penalty: 0.0
+          pull_request_diff: |-
+            ${{ steps.get_diff.outputs.pull_request_diff }}
+          pull_request_chunk_size: 3500
+          extra_prompt: |-
+            You are very familiar with python too.
+          log_level: "DEBUG"
