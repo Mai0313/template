@@ -29,17 +29,17 @@ jobs:
         run: git config --global http.sslVerify false
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.2
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: ${{ matrix.python-version }}
-          token: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Disable cache since Github action cache storge is too small for Pytorch.
       - name: Cache pip
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-python${{ matrix.python-version }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -51,7 +51,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
-          pip install sh
 
       - name: List dependencies
         run: |
