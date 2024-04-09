@@ -26,38 +26,6 @@ exclude_lines = [
 ]
 
 # ================== #
-#        Yapf        #
-# ================== #
-
-[tool.yapf]
-based_on_style = "google"
-column_limit = 99
-spaces_before_comment = 2
-split_before_logical_operator = true
-ALLOW_MULTILINE_DICTIONARY_KEYS = true
-ALLOW_SPLIT_BEFORE_DEFAULT_OR_NAMED_ASSIGNS = false
-ALLOW_SPLIT_BEFORE_DICT_VALUE = false
-ARITHMETIC_PRECEDENCE_INDICATION = false
-BLANK_LINE_BEFORE_NESTED_CLASS_OR_DEF = true
-BLANK_LINE_BEFORE_MODULE_DOCSTRING = true
-COALESCE_BRACKETS = true
-DEDENT_CLOSING_BRACKETS = true
-DISABLE_ENDING_COMMA_HEURISTIC = false
-EACH_DICT_ENTRY_ON_SEPARATE_LINE = true
-JOIN_MULTIPLE_LINES = true
-NO_SPACES_AROUND_SELECTED_BINARY_OPERATORS = true
-
-[tool.yapfignore]
-ignore_patterns = ["*.sql", "data/*", "logs/*", "docs/*", "build/*", "dist/*", "assets/*", "tests/*", "test/*", "test_dat"]
-
-# ================== #
-#       Black        #
-# ================== #
-[tool.black]
-line-length = 99
-target-version = ["py39"]
-
-# ================== #
 #        RUFF        #
 # ================== #
 [tool.ruff]
@@ -95,6 +63,8 @@ line-length = 99
 
 
 [tool.ruff.lint]
+
+preview=true
 
 task-tags = ["TODO", "FIXME", "BUG", "XXX", "REFACT", "NOTE", "MARK", "HACK"]
 
@@ -222,6 +192,9 @@ keep-runtime-typing = true
 "*.ipynb" = ["T201", "F401", "F811"]
 "tests/*" = ["S101"]
 
+[tool.ruff.lint.flake8-type-checking]
+strict = true
+
 [tool.ruff.lint.isort]
 case-sensitive = true
 classes = []
@@ -258,16 +231,19 @@ allow-magic-value-types = ["int"]
 max-args = 5
 max-bool-expr = 5
 max-branches = 12
+max-locals = 15
+max-nested-blocks = 5
+max-positional-args = 3
 max-public-methods = 20
 max-returns = 6
 max-statements = 50
 
 [tool.ruff.format]
+preview = true
 docstring-code-format = true
 docstring-code-line-length = 99
 exclude = ["generated"]
 indent-style = "space"
 line-ending = "auto"
-preview = true
 quote-style = "double"
-skip-magic-trailing-comma = true
+skip-magic-trailing-comma = false
