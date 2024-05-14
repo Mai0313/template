@@ -40,7 +40,6 @@ jobs:
         with:
           config-name: release-drafter.yml
           publish: false
-          prerelease: true
           disable-autolabeler: true
 
       - name: Upload Artifact
