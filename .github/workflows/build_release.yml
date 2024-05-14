@@ -39,7 +39,7 @@ jobs:
       #     draft: true
       #     prerelease: false
 
-      - uses: release-drafter/release-drafter@v6
+      - uses: release-drafter/release-drafter@v5
         id: drafter
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -69,12 +69,10 @@ jobs:
         run: ls -a -l
 
       - name: Upload Release Assets
-        if: steps.drafter.outputs.upload_url
-        uses: actions/upload-release-asset@v1
+        continue-on-error: true
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.drafter.outputs.upload_url }}
-          asset_path: ${{ github.event.repository.name }}.zip
-          asset_name: ${{ github.event.repository.name }}.zip
-          asset_content_type: application/zip
+          files: ./${{ github.event.repository.name }}.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
