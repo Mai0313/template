@@ -59,12 +59,17 @@ jobs:
           compression-level: 6
           overwrite: true
 
+      - name: Download Artifact
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ github.event.repository.name }}.zip
+
       - name: Check Folder
         run: ls -a -l
 
       - name: Upload Release Assets
-        continue-on-error: true
-        id: upload-release-assets
+        if: steps.drafter.outputs.upload_url
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
