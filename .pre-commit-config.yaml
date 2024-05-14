@@ -1,8 +1,17 @@
 default_language_version:
   python: python3
 
+default_install_hook_types:
+  - pre-commit
+  - pre-push
+
+default_stages:
+  - pre-commit
+  - pre-push
+
+
 repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit.git
+  - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
     rev: v0.4.4
     hooks:
@@ -16,21 +25,21 @@ repos:
     hooks:
       # list of supported hooks: https://pre-commit.com/hooks.html
       - id: check-added-large-files
+        exclude: poetry.lock
       - id: check-ast
-      - id: check-byte-order-marker
-      - id: check-case-conflict
-      - id: check-json
-        exclude: .devcontainer
-      - id: check-merge-conflict
-      - id: check-symlinks
       - id: check-yaml
         args:
           - --allow-multiple-documents
+      - id: check-toml
+      - id: check-json
+      - id: check-byte-order-marker
+        exclude: ignore
+      - id: check-merge-conflict
+      - id: check-case-conflict
       - id: destroyed-symlinks
       - id: detect-private-key
       - id: end-of-file-fixer
       # - id: no-commit-to-branch
-      # - id: requirements-txt-fixer
       - id: trailing-whitespace
       - id: fix-byte-order-marker
         exclude: docs/CNAME
@@ -42,12 +51,10 @@ repos:
           - --fix=lf
       - id: check-docstring-first
       - id: debug-statements
-      - id: check-toml
-      - id: check-case-conflict
-      - id: check-added-large-files
+      - id: check-symlinks
 
   # md formatting
-  - repo: https://github.com/executablebooks/mdformat.git
+  - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.17
     hooks:
       - id: mdformat
@@ -59,19 +66,22 @@ repos:
           - mdformat_frontmatter
 
   # jupyter notebook cell output clearing
-  - repo: https://github.com/kynan/nbstripout.git
+  - repo: https://github.com/kynan/nbstripout
     rev: 0.7.1
     hooks:
       - id: nbstripout
 
-  # jupyter notebook linting
-  - repo: https://github.com/nbQA-dev/nbQA.git
-    rev: 1.8.5
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.6
     hooks:
-      - id: nbqa-ruff
-        args:
-          - --config=pyproject.toml
-          - --ignore=T201,F821
+      - id: codespell
+        additional_dependencies:
+          - tomli
+
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: v1.10.0
+  #   hooks:
+  #     - id: mypy
 
   # # Pytest
   # - repo: local

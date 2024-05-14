@@ -13,6 +13,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - v*
 
 permissions:
   actions: write
@@ -54,10 +56,23 @@ jobs:
             ghcr.io/${{ github.repository }}
 
       - name: Build and push Docker images
+        if: github.ref == 'refs/heads/refactor/master'
         uses: docker/build-push-action@v5.1.0
         with:
           context: .
-          file: docker/Dockerfile
           push: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./docker/Dockerfile
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push Docker images
+        if: github.ref == 'refs/tags/v*'
+        uses: docker/build-push-action@v5.1.0
+        with:
+          context: .
+          push: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./docker/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

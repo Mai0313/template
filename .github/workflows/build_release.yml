@@ -1,9 +1,12 @@
+# This action has been disabled since it is not frequently used.
+# Just leave it for the sake of the example.
+
 name: build-release
 
 on:
   push:
     branches:
-      - master
+      - main
 
 permissions:
   contents: write
@@ -34,7 +37,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5.1.0
         with:
-          python-version: '3.9'
+          python-version: '3.10'
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build executable for ${{ runner.os }}
