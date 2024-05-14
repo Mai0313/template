@@ -18,7 +18,7 @@ permissions:
   issues: write
 
 jobs:
-  update_release_draft:
+  build_and_release:
     runs-on: ubuntu-latest
     # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
