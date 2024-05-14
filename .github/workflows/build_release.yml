@@ -39,7 +39,7 @@ jobs:
       #     draft: true
       #     prerelease: false
 
-      - uses: release-drafter/release-drafter@v6
+      - uses: release-drafter/release-drafter@v5
         id: drafter
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -69,7 +69,7 @@ jobs:
         run: ls -a -l
 
       - name: Upload Release Assets
-        if: steps.drafter.outputs.upload_url
+        continue-on-error: true
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
