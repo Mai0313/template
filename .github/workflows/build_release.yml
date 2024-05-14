@@ -39,7 +39,7 @@ jobs:
       #     draft: true
       #     prerelease: false
 
-      - uses: release-drafter/release-drafter@v5
+      - uses: release-drafter/release-drafter@v6
         id: drafter
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,11 +68,11 @@ jobs:
       - name: Check Folder
         run: ls -a -l
 
-      - name: Upload Release Assets
-        continue-on-error: true
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: ./${{ github.event.repository.name }}.zip
-          token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Upload Release Assets
+      #   continue-on-error: true
+      #   uses: softprops/action-gh-release@v2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     files: ./${{ github.event.repository.name }}.zip
+      #     token: ${{ secrets.GITHUB_TOKEN }}
