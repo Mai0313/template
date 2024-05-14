@@ -27,8 +27,8 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: Disable SSL Verify
-        run: git config --global http.sslVerify false
+      # - name: Disable SSL Verify
+      #   run: git config --global http.sslVerify false
 
       - name: Checkout
         uses: actions/checkout@v4.1.2
