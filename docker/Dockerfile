@@ -1,17 +1,22 @@
-FROM python:3.9.15-slim
+FROM python:3.10.14
 
 LABEL maintainer="Wei Lee <mai@mai0313.com>" \
-    org.label-schema.name="app" \
+    org.label-schema.name="repo-template" \
     org.label-schema.vendor="Wei Lee" \
     org.label-schema.schema-version="1.0" \
     com.centurylinklabs.watchtower.stop-signal="SIGINT"
 
-RUN apt-get -y update
-RUN apt-get -y install ffmpeg libsm6 libxext6 libgl1 git
+# Install git
+RUN apt-get -y update && apt-get install -y \
+    git \
+    make \
+    && rm -rf /var/lib/apt/lists/*
+RUN git config --global http.sslVerify false
 
+# Install python packages
+COPY ./docker/mirror/pip.conf /root/.pip/pip.conf
 RUN python -m pip install --upgrade pip
 
 WORKDIR /app
-COPY . /app
-EXPOSE 8080
-RUN pip install -r requirements.txt
+COPY ./requirements.txt ./requirements.txt
+RUN pip install -r ./requirements.txt -U && pip cache purge

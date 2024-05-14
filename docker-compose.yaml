@@ -2,22 +2,19 @@ version: '3.8'
 
 services:
   base:
+    image: repo-template
     build:
       context: .
-      dockerfile: docker/Dockerfile
-    volumes:
-      - .:/app
-    ports:
-      - "8080:8080"
+      dockerfile: ./docker/Dockerfile
+
   redis:
     image: redis:7.2.4-alpine
     ports:
       - "6379:6379"
-    restart: always
     command:
       - redis-server
-      - --requirepass
-      - autogen_api
+    restart: always
+
   postgresql:
     image: postgres:16.2-alpine3.19
     environment:
@@ -28,12 +25,3 @@ services:
     ports:
       - "5431:5432"
     restart: always
-
-  # example:
-  #   image: justarchi/archisteamfarm
-  #   container_name: asf
-  #   volumes:
-  #     - /home/wei/asf/config:/app/config
-  #   ports:
-  #     - "1242:1242"
-  #   restart: always

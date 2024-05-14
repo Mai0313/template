@@ -1,6 +1,13 @@
-#### Development Related ####
+# Data Validation
+pydantic
+pydantic_settings
+
+# Develop Tools
 ipykernel
 ipywidgets
 pre-commit
+poetry
+
+# pytest Tools
 pytest
-sh
+pytest-cov

@@ -1,28 +1,25 @@
-name: build-release
+# This action has been disabled since it is not frequently used.
+# Just leave it for the sake of the example.
+
+name: Build and Release
 
 on:
   push:
     branches:
       - master
+  pull_request:
+    types: [opened, reopened, synchronize]
+  pull_request_target:
+    types: [opened, reopened, synchronize]
 
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
-
-env:
-  REQUIREMENTS_FILE: requirements_build.txt
-  PYINSTALLER_FILE: main.py
+permissions: write-all
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - windows-latest
+  build_and_release:
+    runs-on: ubuntu-latest
+    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
-    runs-on: ${{ matrix.os }}
+    permissions: write-all
 
     steps:
       - name: Disable SSL Verify
@@ -31,42 +28,36 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.2
 
-      - name: Set up Python
-        uses: actions/setup-python@v5.1.0
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ github.run_id }}
+      #     release_name: Release ${{ github.run_id }}
+      #     draft: true
+      #     prerelease: false
+
+      - uses: release-drafter/release-drafter@v6
+        id: drafter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          python-version: '3.9'
-          token: ${{ secrets.GITHUB_TOKEN }}
+          config-name: release-drafter.yml
+          publish: false
+          disable-autolabeler: true
 
-      - name: build executable for ${{ runner.os }}
-        continue-on-error: true
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyinstaller
-          pip install -r ${{ env.REQUIREMENTS_FILE }}
-          pyinstaller --onefile ${{ env.PYINSTALLER_FILE }} -n ${{ github.event.repository.name }}
-
-      # Optionally verify that it works (provided that it does not need user interaction)
       - name: Upload Artifact
         continue-on-error: true
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: ${{ github.event.repository.name }}_${{ runner.os }}
           path: ./*
+          name: ${{ github.event.repository.name }}.zip
           if-no-files-found: warn
           retention-days: 1
           compression-level: 6
           overwrite: true
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.run_id }}
-          release_name: Release ${{ github.run_id }}
-          draft: true
-          prerelease: false
 
       - name: Upload Release Assets
         continue-on-error: true
@@ -75,32 +66,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ github.event.repository.name }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
-          asset_name: ${{ github.event.repository.name }}_${{ runner.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
-          asset_content_type: application/octet-stream
-
-  release:
-    runs-on: ubuntu-latest
-    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
-
-    needs:
-      - build
-
-    steps:
-      - name: Disable SSL Verify
-        run: git config --global http.sslVerify false
-
-      - name: Checkout
-        uses: actions/checkout@v4.1.2
-        with:
-          fetch-depth: 0
-
-      # Drafts your next Release notes as Pull Requests are merged into "master"
-      - name: Draft Release
-        uses: release-drafter/release-drafter@v5.25.0
-        id: draft
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          publish: true
+          upload_url: ${{ steps.drafter.outputs.upload_url }}
+          asset_path: ./${{ github.event.repository.name }}.zip
+          asset_name: ${{ github.event.repository.name }}.zip
+          asset_content_type: application/zip
