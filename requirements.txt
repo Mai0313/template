@@ -1,13 +1,14 @@
 # Data Validation
 pydantic
-pydantic_settings
 
 # Develop Tools
+poetry
 ipykernel
 ipywidgets
 pre-commit
-poetry
 
-# pytest Tools
+# Pytes Tools
 pytest
 pytest-cov
+pytest-asyncio
+genbadge[all]
