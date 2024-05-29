@@ -7,14 +7,7 @@
 name: Code Quality Check
 
 on:
-  push:
-    branches:
-      - master
-
   pull_request:
-    branches:
-      - master
-      - release/*
 
 jobs:
   code-quality-check:

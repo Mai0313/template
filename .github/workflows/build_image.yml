@@ -58,7 +58,7 @@ jobs:
         uses: docker/metadata-action@v5.5.1
         with:
           images: |
-            ghcr.io/${{ github.repository }}
+            ghcr.io/${{ github.repository.toLowerCase() }}
 
       - name: Build and Push Base Image
         uses: docker/build-push-action@v5.1.0
@@ -66,7 +66,7 @@ jobs:
           push: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file: ./docker/Dockerfile.base
-          tags: ghcr.io/${{ github.repository }}-base:latest
+          tags: ghcr.io/${{ github.repository.toLowerCase() }}-base:latest
           labels: ${{ steps.meta.outputs.labels }}
           sbom: false
           provenance: false
@@ -99,7 +99,7 @@ jobs:
         uses: docker/metadata-action@v5.5.1
         with:
           images: |
-            ghcr.io/${{ github.repository }}
+            ghcr.io/${{ github.repository.toLowerCase() }}
 
       - name: Build and Push Base Image
         uses: docker/build-push-action@v5.1.0
@@ -107,7 +107,7 @@ jobs:
           push: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file: ./docker/Dockerfile.base
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/${{ github.repository.toLowerCase() }}:latest
           labels: ${{ steps.meta.outputs.labels }}
           sbom: false
           provenance: false
@@ -140,7 +140,7 @@ jobs:
         uses: docker/metadata-action@v5.5.1
         with:
           images: |
-            ghcr.io/${{ github.repository }}-base
+            ghcr.io/${{ github.repository.toLowerCase() }}-base
 
       - name: Build and Push Base Image
         uses: docker/build-push-action@v5.1.0
@@ -148,7 +148,7 @@ jobs:
           push: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file: ./docker/Dockerfile.base
-          tags: ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.version }}
+          tags: ghcr.io/${{ github.repository.toLowerCase() }}:${{ steps.meta.outputs.version }}
           labels: ${{ steps.meta.outputs.labels }}
           sbom: false
           provenance: false
