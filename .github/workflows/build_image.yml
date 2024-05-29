@@ -64,7 +64,7 @@ jobs:
           provenance: false
 
   build_latest_images:
-    name: Build and Push Base Images
+    name: Build and Push Latest Images
     if: github.ref == 'refs/heads/master'
     needs: build_base_images
     runs-on: ubuntu-latest
@@ -105,7 +105,7 @@ jobs:
           provenance: false
 
   build_release_images:
-    name: Build and Push Base Images
+    name: Build and Push Release Images
     if: github.ref == 'refs/tags/v*'
     needs: build_base_images
     runs-on: ubuntu-latest
