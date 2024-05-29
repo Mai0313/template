@@ -10,14 +10,11 @@
 name: Publish Docker image
 
 on:
-  pull_request:
+  push:
     branches:
       - master
-  # push:
-  #   branches:
-  #     - master
-  #   tags:
-  #     - v*
+    tags:
+      - v*
 
 permissions:
   actions: write
