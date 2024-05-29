@@ -53,21 +53,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5.5.1
-        with:
-          images: |
-            ghcr.io/${{ github.repository.toLowerCase() }}
-
       - name: Build and Push Base Image
         uses: docker/build-push-action@v5.1.0
         with:
           push: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file: ./docker/Dockerfile.base
-          tags: ghcr.io/${{ github.repository.toLowerCase() }}-base:latest
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ghcr.io/mai0313/repo-template-base:latest
           sbom: false
           provenance: false
 
@@ -99,15 +91,15 @@ jobs:
         uses: docker/metadata-action@v5.5.1
         with:
           images: |
-            ghcr.io/${{ github.repository.toLowerCase() }}
+            ghcr.io/${{ github.repository }}-base
 
       - name: Build and Push Base Image
         uses: docker/build-push-action@v5.1.0
         with:
           push: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./docker/Dockerfile.base
-          tags: ghcr.io/${{ github.repository.toLowerCase() }}:latest
+          file: ./docker/Dockerfile
+          tags: ghcr.io/mai0313/repo-template:latest
           labels: ${{ steps.meta.outputs.labels }}
           sbom: false
           provenance: false
@@ -140,15 +132,15 @@ jobs:
         uses: docker/metadata-action@v5.5.1
         with:
           images: |
-            ghcr.io/${{ github.repository.toLowerCase() }}-base
+            ghcr.io/${{ github.repository }}-base
 
       - name: Build and Push Base Image
         uses: docker/build-push-action@v5.1.0
         with:
           push: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./docker/Dockerfile.base
-          tags: ghcr.io/${{ github.repository.toLowerCase() }}:${{ steps.meta.outputs.version }}
+          file: ./docker/Dockerfile
+          tags: ghcr.io/mai0313/repo-template:${{ steps.meta.outputs.version }}
           labels: ${{ steps.meta.outputs.labels }}
           sbom: false
           provenance: false
