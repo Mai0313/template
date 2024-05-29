@@ -60,7 +60,6 @@ priority = "primary"
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
 pydantic = "^2.7.1"
-pydantic-settings = "^2.2.1"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.29.4"

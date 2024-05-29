@@ -1,7 +1,7 @@
 # This action has been disabled since it is not frequently used.
 # Just leave it for the sake of the example.
 
-name: Build and Release
+name: Release Drafter
 
 on:
   push:
@@ -15,7 +15,7 @@ on:
 permissions: write-all
 
 jobs:
-  build_and_release:
+  update_release_draft:
     runs-on: ubuntu-latest
     # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
@@ -27,17 +27,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4.1.2
-
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ github.run_id }}
-      #     release_name: Release ${{ github.run_id }}
-      #     draft: true
-      #     prerelease: false
+        with:
+          fetch-depth: 0
 
       - uses: release-drafter/release-drafter@v6
         id: drafter

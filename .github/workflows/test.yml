@@ -1,21 +1,22 @@
 name: Tests
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
       - release/*
+    paths-ignore:
+      - "**/*.md"
 
 jobs:
   run_tests:
+    if: ${{ !(startsWith(github.head_ref, 'chore/') || startsWith(github.head_ref, 'ci/') || startsWith(github.head_ref, 'docs/')) }}
     runs-on: ${{ matrix.os }}
     # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
     strategy:
       fail-fast: false
+      max-parallel: 3
       matrix:
         os:
           - ubuntu-latest
@@ -32,6 +33,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4.1.2
+        with:
+          fetch-depth: 0
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5.1.0
@@ -48,7 +51,6 @@ jobs:
           pip install pytest-asyncio
           pip install genbadge[all]
 
-      # Disable cache since Github action cache storage is too small for Pytorch.
       - name: Cache pip
         uses: actions/cache@v4
         continue-on-error: true
