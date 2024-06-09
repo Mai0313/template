@@ -1,27 +1,39 @@
 version: '3.8'
 
 services:
-  base:
-    image: repo-template
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-
   redis:
-    image: redis:7.2.4-alpine
+    # user: "1000:root"
+    image: redis:7.2.5-alpine
     ports:
       - "6379:6379"
     command:
       - redis-server
+    volumes:
+      - ./data/redis:/var/lib/redis
     restart: always
 
   postgresql:
-    image: postgres:16.2-alpine3.19
+    # user: "1000:root"
+    image: postgres:16.3-alpine
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data
     ports:
-      - "5431:5432"
+      - "5432:5432"
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+    restart: always
+
+  mongo:
+    # user: "1000:root"
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/var/lib/mongo
     restart: always
