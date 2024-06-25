@@ -1,6 +1,29 @@
+[default]
+# This is the default value that is written into new pyproject.toml
+# files for the `project.requires-python` key
+requires-python = ">= 3.10"
+
+# This is the default toolchain that is used
+toolchain = "cpython@3.10.14"
+
+# This is the default build system that is used
+build-system = "hatchling"
+
+# This is the default license that is used
+license = "MIT"
+
+# # This sets the default author (overrides the defaults from git).  The
+# # format here is "Name <email>".
+# author = "Full Name <email@address.invalid>"
+
+# The dependency operator to use by default for dependencies.  The options are
+# '>=', '~=', and '=='.  The default currently is '>='.  This affects the behavior
+# of `rye add`.
+dependency-operator = ">="
+
 [behavior]
 # When set to `true` the `managed` flag is always assumed to be `true`.
-force-rye-managed = true
+force-rye-managed = false
 
 # Enables global shims when set to `true`.  This means that the installed
 # `python` shim will resolve to a Rye-managed toolchain even outside of
@@ -33,6 +56,7 @@ http = "http://mtkdrone01.mediatek.inc:23984"
 # the proxy to use for HTTPS (overridden by the https_proxy environment variable)
 https = "http://mtkdrone01.mediatek.inc:23984"
 
-# [[sources]]
-# name = "default"
-# url = "http://10.9.16.152/simple"
+# An array of tables with optional sources.  Same format as in pyproject.toml
+[[sources]]
+name = "default"
+url = "http://10.9.16.152/simple"
