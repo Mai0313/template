@@ -1,0 +1,4 @@
+[core]
+    remote = gdrive
+['remote "gdrive"']
+    url = gdrive://1au2jZaGBE6LarvteN6CC-t6g_X19lRi7/repo_template

@@ -1,6 +1,9 @@
 # Data Validation
 pydantic
 
+# Data Storage
+dvc[gdrive]
+
 # Develop Tools
 poetry
 ipykernel
