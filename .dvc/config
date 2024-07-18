@@ -1,7 +1,0 @@
-[core]
-    remote = gdrive
-[cache]
-    type = "hardlink,symlink"
-['remote "gdrive"']
-    url = gdrive://1au2jZaGBE6LarvteN6CC-t6g_X19lRi7/repo_template
-    gdrive_acknowledge_abuse = true
