@@ -13,6 +13,10 @@ RUN apt-get -y update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 RUN git config --global http.sslVerify false
 
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+
 # Install python packages
 COPY ./docker/mirror/pip.conf /root/.pip/pip.conf
 RUN python -m pip install --upgrade pip
@@ -20,4 +24,4 @@ RUN python -m pip install --upgrade pip
 WORKDIR /base_env
 
 COPY ./requirements.txt ./requirements.txt
-RUN pip install -r ./requirements.txt -U && pip cache purge
+RUN pip install -r ./requirements.txt && pip cache purge
