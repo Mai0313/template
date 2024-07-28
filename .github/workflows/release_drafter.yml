@@ -86,15 +86,15 @@ jobs:
   #         compression-level: 6
   #         overwrite: true
 
-  #     - name: Download Artifact
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: ${{ github.event.repository.name }}
+  #     # - name: Download Artifact
+  #     #   uses: actions/download-artifact@v4
+  #     #   with:
+  #     #     name: ${{ github.event.repository.name }}
 
-  #     - name: List files
-  #       shell: pwsh
-  #       run: |
-  #         Get-ChildItem -Path .
+  #     # - name: List files
+  #     #   shell: pwsh
+  #     #   run: |
+  #     #     Get-ChildItem -Path .
 
   # upload_artifacts:
   #   name: Upload Release Assets
@@ -110,6 +110,12 @@ jobs:
   #       with:
   #         name: ${{ github.event.repository.name }}
 
+  #     - name: Check Files
+  #       run: |
+  #         cd ..
+  #         zip -r ${{ github.event.repository.name }}.zip ${{ github.event.repository.name }}
+  #         ls -al
+
   #     - name: Upload Release Assets
   #       uses: softprops/action-gh-release@v2
   #       if: startsWith(github.ref, 'refs/tags/v')
@@ -119,5 +125,6 @@ jobs:
   #       with:
   #         name: ${{ steps.drafter.outputs.name }}
   #         tag_name: ${{ steps.drafter.outputs.tag_name }}
-  #         files: ${{ github.event.repository.name }}.zip
-  #         draft: true
+  #         files: |
+  #           ${{ github.event.repository.name }}.exe
+  #           ${{ github.event.repository.name }}.zip
