@@ -8,10 +8,7 @@ on:
       - reopened
       - ready_for_review
 
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
+permissions: write-all
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}-${{ github.event_name == 'workflow_dispatch' }}
