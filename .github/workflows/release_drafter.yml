@@ -115,6 +115,7 @@ jobs:
   #         cd ..
   #         zip -r ${{ github.event.repository.name }}.zip ${{ github.event.repository.name }}
   #         ls -al
+  #         cp -R ${{ github.event.repository.name }}.zip ./${{ github.event.repository.name }}/
 
   #     - name: Upload Release Assets
   #       uses: softprops/action-gh-release@v2
