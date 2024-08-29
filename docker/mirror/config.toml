@@ -50,13 +50,13 @@ venv-mark-sync-ignore = true
 # extra folder called `./install/` and place build artifacts adjacent in `./build`.
 fetch-with-build-info = false
 
-[proxy]
-# the proxy to use for HTTP (overridden by the http_proxy environment variable)
-http = "http://mtkdrone01.mediatek.inc:23984"
-# the proxy to use for HTTPS (overridden by the https_proxy environment variable)
-https = "http://mtkdrone01.mediatek.inc:23984"
+# [proxy]
+# # the proxy to use for HTTP (overridden by the http_proxy environment variable)
+# http = "http://mtkdrone01.mediatek.inc:23984"
+# # the proxy to use for HTTPS (overridden by the https_proxy environment variable)
+# https = "http://mtkdrone01.mediatek.inc:23984"
 
 # An array of tables with optional sources.  Same format as in pyproject.toml
 [[sources]]
 name = "default"
-url = "http://10.9.16.152/simple"
+url = "https://pypi.org/simple"
