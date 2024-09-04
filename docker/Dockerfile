@@ -1,7 +1,8 @@
-FROM python:3.10.14 as builder
+ARG VERSION=3.10.14
+FROM python:${VERSION} as builder
 
 LABEL maintainer="Wei Lee <mai@mai0313.com>" \
-    org.label-schema.name="repo-template-base" \
+    org.label-schema.name="repo-template" \
     org.label-schema.vendor="Wei Lee" \
     org.label-schema.schema-version="1.0" \
     com.centurylinklabs.watchtower.stop-signal="SIGINT"
@@ -21,11 +22,20 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 COPY ./docker/mirror/pip.conf /root/.pip/pip.conf
 RUN python -m pip install --upgrade pip
 
-FROM builder as repo_base
-WORKDIR /base_env
-COPY ./requirements.txt ./requirements.txt
-RUN pip install -r ./requirements.txt && pip cache purge
+########################################################################################
 
-FROM repo_base as repo
+FROM builder as repo-base
+WORKDIR /base_env
+COPY ./requirements.lock ./requirements.lock
+RUN pip install -r ./requirements.lock && pip cache purge
+
+FROM builder as repo-base-dev
+WORKDIR /base_env
+COPY ./requirements-dev.lock ./requirements-dev.lock
+RUN pip install -r ./requirements-dev.lock && pip cache purge
+
+########################################################################################
+
+FROM repo-base as repo
 WORKDIR /app
 COPY . .
