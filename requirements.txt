@@ -2,7 +2,6 @@
 pydantic
 
 # Develop Tools
-poetry
 ipykernel
 ipywidgets
 pre-commit
