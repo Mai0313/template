@@ -1,0 +1,124 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# GitHub recommends pinning actions to a commit SHA.
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
+name: Publish Docker image
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+
+permissions: write-all
+
+jobs:
+  build_base_images:
+    name: Build and Push Base Images
+    runs-on: ubuntu-latest
+    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
+
+    steps:
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Login to the Container registry
+        uses: docker/login-action@v3.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Base Image
+        uses: docker/build-push-action@v5.1.0
+        with:
+          push: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./docker/Dockerfile
+          target: repo_base
+          tags: ${{ vars.IMAGE }}-base:latest
+          sbom: false
+          provenance: false
+
+  build_latest_images:
+    name: Build and Push Latest Images
+    if: github.ref == 'refs/heads/master'
+    needs: build_base_images
+    runs-on: ubuntu-latest
+    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
+
+    steps:
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Login to the Container registry
+        uses: docker/login-action@v3.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Base Image
+        uses: docker/build-push-action@v5.1.0
+        with:
+          push: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./docker/Dockerfile
+          target: repo_base
+          tags: ${{ vars.IMAGE }}:latest
+          sbom: false
+          provenance: false
+
+  build_release_images:
+    name: Build and Push Release Images
+    if: github.ref == 'refs/tags/v*'
+    needs: build_base_images
+    runs-on: ubuntu-latest
+    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
+
+    steps:
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Login to the Container registry
+        uses: docker/login-action@v3.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get the version
+        id: metadata
+        run: echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+
+      - name: Build and Push Base Image
+        uses: docker/build-push-action@v5.1.0
+        with:
+          push: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./docker/Dockerfile
+          target: repo
+          tags: ${{ vars.IMAGE }}:${{ steps.metadata.outputs.version }}
+          sbom: false
+          provenance: false

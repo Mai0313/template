@@ -1,0 +1,74 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+      - release/*
+    paths-ignore:
+      - "**/*.md"
+
+jobs:
+  run_tests:
+    if: ${{ !(startsWith(github.head_ref, 'chore/') || startsWith(github.head_ref, 'ci/') || startsWith(github.head_ref, 'docs/')) }}
+    runs-on: ${{ matrix.os }}
+    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
+
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - "3.9"
+          - "3.10"
+          - "3.11"
+
+    timeout-minutes: 20
+
+    steps:
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          cache: 'pip' # caching pip dependencies
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+          pip install pytest-cov
+          pip install pytest-xdist
+          pip install pytest-asyncio
+          pip install genbadge[all]
+
+      - name: List dependencies
+        run: |
+          python -m pip list
+
+      - name: Check for tests
+        id: check_tests
+        run: |
+          if [ -f tests/test_*.py ] || [ -d tests ]; then
+              echo "Tests exist, proceeding to run them."
+              echo "has_tests=true" >> $GITHUB_OUTPUT
+          else
+              echo "No tests to run."
+              echo "has_tests=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run pytest
+        if: steps.check_tests.outputs.has_tests == 'true'
+        run: |
+          pytest -v

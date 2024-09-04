@@ -1,0 +1,58 @@
+source-code:
+  - changed-files:
+    - any-glob-to-any-file: 'src/**/*'
+    - all-globs-to-all-files: '!src/docs/*'
+
+unit-test:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/test_*.py"
+      - "tests/*"
+      - "tests/**/*"
+
+ci:
+  - changed-files:
+    - any-glob-to-any-file:
+      - ".github/**"
+      - ".pre-commit-config.yaml"
+      - "pyproject.toml"
+
+notebooks:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*.ipynb"
+      - "notebooks/*"
+      - "notebook/*"
+
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file: "requirements.txt"
+
+documentation:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*.md"
+      - "docs/*"
+
+feature:
+  - head-branch:
+    - "feat/*"
+
+enhancement:
+  - head-branch:
+    - "enhance/*"
+    - "perf/*"
+
+bug:
+  - head-branch:
+    - "^bug"
+    - "bug"
+    - "fix/*"
+    - "bugfix/*"
+
+hotfix:
+  - head-branch:
+    - "hotfix/*"
+
+release:
+  - base-branch: "master"
