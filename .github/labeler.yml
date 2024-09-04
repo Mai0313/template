@@ -1,58 +1,65 @@
-source-code:
-  - changed-files:
-    - any-glob-to-any-file: 'src/**/*'
-    - all-globs-to-all-files: '!src/docs/*'
-
-unit-test:
-  - changed-files:
-    - any-glob-to-any-file:
-      - "**/test_*.py"
-      - "tests/*"
-      - "tests/**/*"
-
-ci:
-  - changed-files:
-    - any-glob-to-any-file:
-      - ".github/**"
-      - ".pre-commit-config.yaml"
-      - "pyproject.toml"
-
-notebooks:
-  - changed-files:
-    - any-glob-to-any-file:
-      - "**/*.ipynb"
-      - "notebooks/*"
-      - "notebook/*"
-
-dependencies:
-  - changed-files:
-    - any-glob-to-any-file: "requirements.txt"
-
-documentation:
-  - changed-files:
-    - any-glob-to-any-file:
-      - "**/*.md"
-      - "docs/*"
-
+# Feature Branches
 feature:
   - head-branch:
-    - "feat/*"
+      - "feat/*"                    # Feature branches
+      - "refactor/*"                # Refactor branches
+      - "enhance/*"                 # Enhancement branches
+      - "perf/*"                    # Performance improvement branches
+  - changed-files:
+      - "src/**/*"                  # Any file in src, except documentation files
+      - "!src/docs/*"
 
-enhancement:
+# Bug Fixes
+bugfix:
   - head-branch:
-    - "enhance/*"
-    - "perf/*"
+      - "^bug"                      # Branches starting with 'bug'
+      - "bug"
+      - "fix/*"                     # Fix branches
+      - "bugfix/*"                  # Bugfix branches
+      - "hotfix/*"                  # Hotfix branches
 
-bug:
+# Maintenance
+chore:
   - head-branch:
-    - "^bug"
-    - "bug"
-    - "fix/*"
-    - "bugfix/*"
+      - "chore/*"                   # Chore branches
+      - "style/*"                   # Style branches
+      - "test/*"                    # Test branches
+      - "ci/*"                      # CI branches
+      - "cd/*"                      # CD branches
+      - "config/*"                  # Configuration branches
+  - changed-files:
+      - ".github/**"                # GitHub Actions and workflows
+      - ".pre-commit-config.yaml"   # Pre-commit hooks configuration
+      - "pyproject.toml"            # Python project configuration
 
-hotfix:
+# Dependencies
+dependencies:
+  - changed-files:
+      - "requirements.txt"          # Python dependencies
+      - "requirements.lock"         # Rye lock file
+      - "requirements-dev.lock"     # Rye dev lock file
+      - "poetry.lock"               # Poetry lock file
+
+# Documentation
+documentation:
   - head-branch:
-    - "hotfix/*"
+      - "docs/*"                    # Documentation branches
+      - "doc/*"                     # Documentation branches
+      - "readme/*"                  # Readme branches
+  - changed-files:
+      - "**/*.md"                   # Markdown files
+      - "docs/**/*"                 # Documentation files
+      - "**/*.ipynb"                # All Jupyter Notebook files
+      - "notebooks/**/*"
+      - "notebook/**/*"
 
-release:
-  - base-branch: "master"
+# Pytest Unit Tests
+unit-test:
+  - changed-files:
+      - "**/test_*.py"              # Unit test files
+      - "tests/**/*"                # Any file in tests directory
+
+revert:
+  - head-branch:
+      - "revert/*"                  # Revert branches
+      - "revert-*"                  # Revert branches
