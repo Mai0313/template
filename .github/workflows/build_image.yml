@@ -24,41 +24,30 @@ jobs:
     runs-on: ubuntu-latest
     # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
 
-    steps:
-      - name: Disable SSL Verify
-        run: git config --global http.sslVerify false
+    strategy:
+      fail-fast: true
+      max-parallel: 3
+      matrix:
+        target:
+          - name: Build and Push Image (Base)
+            target_step: repo_base
+            tag: ${{ vars.IMAGE }}-base
+            build_args: --build-arg PYTHON_VERSION=3.10.14
 
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 1
-          submodules: 'recursive'
+          - name: Build and Push Image (Develop Base)
+            target_step: repo_dev_base
+            tag: ${{ vars.IMAGE }}-dev-base
+            build_args: --build-arg PYTHON_VERSION=3.10.14
 
-      - name: Login to the Container registry
-        uses: docker/login-action@v3.1.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          - name: Build and Push Images (Latest)
+            target_step: repo
+            tag: ${{ vars.IMAGE }}
+            build_args: --build-arg PYTHON_VERSION=3.10.14
 
-      - name: Build and Push Base Image
-        uses: docker/build-push-action@v5.1.0
-        with:
-          push: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./docker/Dockerfile
-          target: repo_base
-          tags: ${{ vars.IMAGE }}-base:latest
-          sbom: false
-          provenance: false
-
-  build_latest_images:
-    name: Build and Push Latest Images
-    if: github.ref == 'refs/heads/master'
-    needs: build_base_images
-    runs-on: ubuntu-latest
-    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
+          - name: Build and Push Images (Release)
+            target_step: repo
+            tag: ${{ vars.IMAGE }}
+            build_args: --build-arg PYTHON_VERSION=3.10.14
 
     steps:
       - name: Disable SSL Verify
@@ -79,52 +68,32 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push Base Image
+        if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v5.1.0
         with:
           push: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file: ./docker/Dockerfile
-          target: repo_base
-          tags: ${{ vars.IMAGE }}:latest
+          build-args: ${{ matrix.target.build_args }}
+          target: ${{ matrix.target.target_step }}
+          tags: ${{ matrix.target.tag }}:latest
           sbom: false
           provenance: false
-
-  build_release_images:
-    name: Build and Push Release Images
-    if: github.ref == 'refs/tags/v*'
-    needs: build_base_images
-    runs-on: ubuntu-latest
-    # container: catthehacker/ubuntu:act-20.04  # Uncomment it if you use it on Gitea
-
-    steps:
-      - name: Disable SSL Verify
-        run: git config --global http.sslVerify false
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 1
-          submodules: 'recursive'
-
-      - name: Login to the Container registry
-        uses: docker/login-action@v3.1.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get the version
+        if: github.ref == 'refs/tags/v*'
         id: metadata
         run: echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
 
       - name: Build and Push Base Image
+        if: github.ref == 'refs/tags/v*'
         uses: docker/build-push-action@v5.1.0
         with:
           push: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file: ./docker/Dockerfile
-          target: repo
-          tags: ${{ vars.IMAGE }}:${{ steps.metadata.outputs.version }}
+          build-args: ${{ matrix.target.build_args }}
+          target: ${{ matrix.target.target_step }}
+          tags: ${{ matrix.target.tag }}:${{ steps.metadata.outputs.version }}
           sbom: false
           provenance: false

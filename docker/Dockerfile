@@ -1,5 +1,5 @@
-ARG VERSION=3.10.14
-FROM python:${VERSION} as builder
+ARG PYTHON_VERSION=3.10.14
+FROM python:${PYTHON_VERSION} as builder
 
 LABEL maintainer="Wei Lee <mai@mai0313.com>" \
     org.label-schema.name="repo-template" \
@@ -24,18 +24,18 @@ RUN python -m pip install --upgrade pip
 
 ########################################################################################
 
-FROM builder as repo-base
+FROM builder as repo_base
 WORKDIR /base_env
 COPY ./requirements.lock ./requirements.lock
 RUN pip install -r ./requirements.lock && pip cache purge
 
-FROM builder as repo-base-dev
+FROM builder as repo_dev_base
 WORKDIR /base_env
 COPY ./requirements-dev.lock ./requirements-dev.lock
 RUN pip install -r ./requirements-dev.lock && pip cache purge
 
 ########################################################################################
 
-FROM repo-base as repo
+FROM repo_base as repo
 WORKDIR /app
 COPY . .
