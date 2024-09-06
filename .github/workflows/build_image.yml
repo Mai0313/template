@@ -77,7 +77,7 @@ jobs:
       - name: Get the version
         if: github.ref == 'refs/tags/v*'
         id: metadata
-        run: echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+        uses: battila7/get-version-action@v2
 
       - name: Build and Push Base Image
         if: github.ref == 'refs/tags/v*'
