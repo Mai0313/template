@@ -1,19 +1,16 @@
 name: Build Executable File
 
 on:
-  pull_request:
-    branches:
-      - master
-  # push:
-  #   tags:
-  #     - v*
+  push:
+    tags:
+      - v*
 
 permissions: write-all
 
 jobs:
   build_package:
     name: Build Executable File
-    # if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: windows-latest
 
     steps:
@@ -44,8 +41,7 @@ jobs:
       - name: Move and Rename
         shell: pwsh
         run: |
-          Copy-Item -Path ./configs -Destination ./dist/ -Recurse
-          Copy-Item -Path ./binaries -Destination ./dist/ -Recurse
+          Copy-Item -Path ./* -Destination ./dist/ -Recurse -Exclude dist, .git, .cache
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4.3.3
