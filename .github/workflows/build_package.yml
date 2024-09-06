@@ -60,14 +60,22 @@ jobs:
         run: |
           ~/.rye/shims/rye build --clean
 
-      # - name: Upload Release Assets
-      #   if: startsWith(github.ref, 'refs/tags/v')
-      #   uses: softprops/action-gh-release@v2
-      #   # continue-on-error: true
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     name: ${{ steps.drafter.outputs.name }}
-      #     tag_name: ${{ steps.drafter.outputs.tag_name }}
-      #     files: |
-      #       ./dist/*
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          path: ./dist/*
+          name: ${{ github.event.repository.name }}-packages
+          if-no-files-found: ignore
+          retention-days: 90
+          compression-level: 6
+          overwrite: true
+
+      - name: Upload Release Assets
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            ./dist/*
