@@ -1,6 +1,3 @@
-# This action has been disabled since it is not frequently used.
-# Just leave it for the sake of the example.
-
 name: Release Drafter
 
 on:
