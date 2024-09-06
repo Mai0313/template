@@ -69,6 +69,10 @@ dependencies = [
 readme = "README.md"
 requires-python = ">= 3.10"
 
+[project.urls]
+Homepage = "https://github.com/Mai0313/repo-template"
+Repository = "https://github.com/Mai0313/repo-template"
+
 [tool.rye.scripts]
 pre = { cmd = "pre-commit run -a", env-file = ".env" }
 
@@ -77,12 +81,12 @@ name = "default"
 url = "https://pypi.org/simple"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
 
 [tool.rye]
 managed = false
-virtual = true
+virtual = false
 universal = true
 dev-dependencies = [
     "ipykernel>=6.29.5",
@@ -97,6 +101,48 @@ dev-dependencies = [
 
 [tool.hatch.metadata]
 allow-direct-references = true
+
+[tool.hatch.build]
+include = ["*"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["*"]
+
+[tool.hatch.build.targets.sdist]
+# Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
+include = ["*"]
+exclude = [
+    "/.github",
+    "/.devcontainers",
+    "/.python-version",
+    "/.vscode",
+    "/.nox",
+    "/.cache",
+    "/.pytest_cache",
+    "/.mypy_cache",
+    "/.tox",
+    "/.venv",
+    "/.git",
+    "/.gitignore",
+    "/.gitattributes",
+    "/.gitmodules",
+    "/.gitlab-ci.yml",
+    "/.dockerignore",
+    "/.docker",
+    "/.docker-compose",
+    "/.cache",
+]
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+# replace relative links with absolute links
+pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
+replacement = '[\1](https://github.com/openai/openai-python/tree/main/\g<2>)'
 
 # ================== #
 #        RUFF        #
@@ -379,8 +425,8 @@ explicit_package_bases = true
 cache_dir = "./.cache/.mypy_cache"
 exclude = ["^src/ameba/*", "^src/tma_server/*", "^tests/"]
 ignore_missing_imports = true
-install_types = true
-non_interactive = true
+# install_types = true
+# non_interactive = true
 
 warn_unused_configs = true
 warn_return_any = false

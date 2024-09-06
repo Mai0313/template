@@ -1,0 +1,34 @@
+name: Build Package
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build_package:
+    name: Build Package by Rye
+    runs-on: ubuntu-latest
+    container: catthehacker/ubuntu:act-20.04
+
+    steps:
+      - name: Disable SSL Verify
+        run: git config --global http.sslVerify false
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: 'recursive'
+
+      - name: Setup Rye
+        run: |
+          make rye-install
+          ~/.rye/shims/rye pin 3.10
+          ~/.rye/shims/rye sync
+          ~/.rye/shims/rye --version
+
+      - name: Build Package
+        run: |
+          rye build
