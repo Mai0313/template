@@ -47,12 +47,12 @@ jobs:
           ~/.rye/shims/rye --version
 
       - name: Get the version
-        if: github.ref == 'refs/tags/v*'
+        if: startsWith(github.ref, 'refs/tags/v')
         id: metadata
         uses: battila7/get-version-action@v2
 
       - name: Updaste Version
-        if: github.ref == 'refs/tags/v*'
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           ~/.rye/shims/rye version ${{ steps.metadata.outputs.version }}
 
@@ -73,7 +73,7 @@ jobs:
       - name: Upload Release Assets
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
-        continue-on-error: true
+        # continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
