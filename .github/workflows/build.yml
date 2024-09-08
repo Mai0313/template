@@ -49,7 +49,7 @@ jobs:
           path: ./dist/*
           name: ${{ github.event.repository.name }}
           if-no-files-found: ignore
-          retention-days: 90
+          retention-days: 7
           compression-level: 6
           overwrite: true
 
