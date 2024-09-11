@@ -49,23 +49,21 @@ jobs:
         id: metadata
         uses: battila7/get-version-action@v2
 
-      - name: Updaste Version
+      - name: Update Version
         shell: bash
         run: |
-          if [ "${{ steps.metadata.outputs.version }}" = "master" ]; then
+          if [[ ! "$GITHUB_REF" =~ ^refs/tags/v ]]; then
             VERSION=$(date +%Y.%m.%d)
           else
-            VERSION=${{ steps.metadata.outputs.version }}
+            VERSION=${GITHUB_REF#refs/tags/}
           fi
           echo "Version: $VERSION"
-          ~/.rye/shims/rye version $VERSION
-
-      - name: Replace Virtual Setting for Rye
-        run: |
-          sed -i 's/virtual = true/virtual = false/' pyproject.toml
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Build Package
         run: |
+          sed -i 's/virtual = true/virtual = false/' pyproject.toml
+          ~/.rye/shims/rye version $VERSION
           ~/.rye/shims/rye build --clean
 
       - name: Upload Artifact
