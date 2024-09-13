@@ -2,8 +2,6 @@ name: Build Package
 
 on:
   push:
-    branches:
-      - master
     tags:
       - v*
 
@@ -40,10 +38,15 @@ jobs:
           submodules: 'recursive'
 
       - name: Setup Rye
-        run: |
-          make rye-install
-          ~/.rye/shims/rye pin 3.10
-          ~/.rye/shims/rye --version
+        uses: mai0313/setup-rye@master
+        with:
+          version: 'latest' # Optional, default is latest
+          toolchain_version: '3.10' # Optional, default is 3.10
+          python_version: '3.10' # Optional, default is 3.10
+          use-uv: 'true' # Optional, default is true
+          pypi_source: 'https://pypi.org/simple' # Optional
+          http_proxy: ${{ secrets.HTTP_PROXY }} # Optional
+          https_proxy: ${{ secrets.HTTPS_PROXY }} # Optional
 
       - name: Get the version
         id: metadata
@@ -63,8 +66,8 @@ jobs:
       - name: Build Package
         run: |
           sed -i 's/virtual = true/virtual = false/' pyproject.toml
-          ~/.rye/shims/rye version $VERSION
-          ~/.rye/shims/rye build --clean
+          rye version $VERSION
+          rye build --clean
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4.3.3
@@ -86,22 +89,22 @@ jobs:
           files: |
             ./dist/*
 
-      - name: Publish Package
-        continue-on-error: true
-        env:
-          PYPI_URL: https://test.pypi.org/legacy/
-        run: |
-          ~/.rye/shims/rye publish --repository ${{ github.repository }} --repository-url ${{ env.PYPI_URL }} --token ${{ secrets.PYPI_TOKEN }} -y
+      # - name: Publish Package
+      #   continue-on-error: true
+      #   env:
+      #     PYPI_URL: https://test.pypi.org/legacy/
+      #   run: |
+      #     rye publish --repository ${{ github.repository }} --repository-url ${{ env.PYPI_URL }} --token ${{ secrets.PYPI_TOKEN }} -y
 
-      - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        continue-on-error: true
-        with:
-          user: ${{ secrets.PYPI_USERNAME }}
-          password: ${{ secrets.PYPI_PASSWORD }}
-          repository-url: https://test.pypi.org/legacy/
-          packages-dir: ./dist
-          verify-metadata: true
-          skip-existing: true
-          verbose: true
-          print-hash: true
+      # - name: Publish package distributions to PyPI
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   continue-on-error: true
+      #   with:
+      #     user: ${{ secrets.PYPI_USERNAME }}
+      #     password: ${{ secrets.PYPI_PASSWORD }}
+      #     repository-url: https://test.pypi.org/legacy/
+      #     packages-dir: ./dist
+      #     verify-metadata: true
+      #     skip-existing: true
+      #     verbose: true
+      #     print-hash: true
