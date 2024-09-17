@@ -1,8 +1,5 @@
-version: '3.8'
-
 services:
   redis:
-    # user: "1000:root"
     image: redis:7.2.5-alpine
     ports:
       - "6379:6379"
@@ -13,7 +10,6 @@ services:
     restart: always
 
   postgresql:
-    # user: "1000:root"
     image: postgres:16.3-alpine
     environment:
       POSTGRES_DB: postgres
@@ -24,16 +20,4 @@ services:
       - "5432:5432"
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
-    restart: always
-
-  mongo:
-    # user: "1000:root"
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: mongodb
-      MONGO_INITDB_ROOT_PASSWORD: mongodb
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./data/mongo:/var/lib/mongo
     restart: always
