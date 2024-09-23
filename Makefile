@@ -26,6 +26,7 @@ setup: ## Setup the project
 rye-install:  ## Install Rye on your system
 	curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash
 	cp ./docker/mirror/config.toml ~/.rye/
+	@echo 'source "$$HOME/.rye/env"' >> ~/.bashrc
 	@echo 'Installed Rye, please re-open your bash terminal or zsh terminal.'
 
 poetry-add: ## Add all packages from requirements.txt to poetry
