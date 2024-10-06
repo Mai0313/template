@@ -31,8 +31,8 @@ RUN pip install -r ./requirements.txt && pip cache purge
 
 FROM builder as repo_dev_base
 WORKDIR /base_env
-COPY ./requirements-dev.lock ./requirements-dev.lock
-RUN pip install -r ./requirements-dev.lock && pip cache purge
+COPY ./requirements.txt ./requirements.txt
+RUN pip install -r ./requirements.txt && pip cache purge
 
 ########################################################################################
 
