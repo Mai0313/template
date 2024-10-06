@@ -73,8 +73,17 @@ requires-python = ">= 3.10"
 Homepage = "https://github.com/Mai0313/repo-template"
 Repository = "https://github.com/Mai0313/repo-template"
 
+[project.optional-dependencies]
+docs = [
+    "mkdocs-material>=9.5.39",
+    "mkdocstrings-python>=1.11.1",
+]
+
 [tool.rye.scripts]
-pre = { cmd = "pre-commit run -a", env-file = ".env" }
+"deploy:install" = "rye sync --features docs"
+"deploy:docs" = "mkdocs gh-deploy"
+docs = { cmd = "mkdocs serve" }
+deploy = { chain = ["deploy:install", "deploy:docs"]}
 
 [[tool.rye.sources]]
 name = "default"
