@@ -30,4 +30,5 @@ jobs:
 
       - name: Deploy docs
         run: |
+          git push origin :gh-pages
           rye run deploy
