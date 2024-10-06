@@ -26,8 +26,8 @@ RUN python -m pip install --upgrade pip
 
 FROM builder as repo_base
 WORKDIR /base_env
-COPY ./requirements.lock ./requirements.lock
-RUN pip install -r ./requirements.lock && pip cache purge
+COPY ./requirements.txt ./requirements.txt
+RUN pip install -r ./requirements.txt && pip cache purge
 
 FROM builder as repo_dev_base
 WORKDIR /base_env
