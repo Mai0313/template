@@ -31,4 +31,4 @@ jobs:
       - name: Deploy docs
         run: |
           rye sync --features docs
-          mkdocs gh-deploy --force
+          rye run mkdocs gh-deploy --force
