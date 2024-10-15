@@ -30,4 +30,4 @@ jobs:
 
       - name: Run pre-commits
         id: code-quality-check
-        uses: pre-commit/action@main
+        uses: pre-commit/action@v3.0.0
