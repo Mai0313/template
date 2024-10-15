@@ -57,7 +57,7 @@ omit = ["./src/ameba/*"]
 # ================== #
 
 [project]
-name = "repo-template"
+name = "template"
 version = "0.1.0"
 description = "Repository template for Python projects"
 authors = [
