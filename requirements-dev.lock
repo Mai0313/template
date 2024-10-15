@@ -122,13 +122,13 @@ mkdocs-autorefs==1.2.0
 mkdocs-get-deps==0.2.0
     # via mkdocs
 mkdocs-material==9.5.39
-    # via repo-template
+    # via template
 mkdocs-material-extensions==1.3.1
     # via mkdocs-material
 mkdocstrings==0.26.1
     # via mkdocstrings-python
 mkdocstrings-python==1.11.1
-    # via repo-template
+    # via template
 nest-asyncio==1.6.0
     # via ipykernel
 nodeenv==1.9.1
@@ -168,7 +168,7 @@ pycodestyle==2.12.1
 pycparser==2.22 ; implementation_name == 'pypy'
     # via cffi
 pydantic==2.9.2
-    # via repo-template
+    # via template
 pydantic-core==2.23.4
     # via pydantic
 pyflakes==3.2.0
