@@ -2,7 +2,7 @@ ARG PYTHON_VERSION=3.10.14
 FROM python:${PYTHON_VERSION} as builder
 
 LABEL maintainer="Wei Lee <mai@mai0313.com>" \
-    org.label-schema.name="repo-template" \
+    org.label-schema.name="template" \
     org.label-schema.vendor="Wei Lee" \
     org.label-schema.schema-version="1.0" \
     com.centurylinklabs.watchtower.stop-signal="SIGINT"

@@ -2,8 +2,8 @@
 
 ```bash
 # clone project
-git clone https://github.com/Mai0313/repo-template
-mv repo-template your-repo-name
+git clone https://github.com/Mai0313/template
+mv template your-repo-name
 
 # change directory
 cd your-repo-name
