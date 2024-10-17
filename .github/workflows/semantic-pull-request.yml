@@ -37,7 +37,7 @@ jobs:
             The subject "{subject}" found in the pull request title "{title}"
             didn't match the configured pattern. Please ensure that the subject
             doesn't start with an uppercase character.
-          githubBaseUrl: https://gitea.mediatek.inc/api/v1
+          # githubBaseUrl: https://gitea.mediatek.inc/api/v1
           ignoreLabels: |
             bot
             ignore-semantic-pull-request
