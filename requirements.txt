@@ -10,5 +10,5 @@ pre-commit
 pytest
 pytest-cov
 pytest-xdist
-pytest-asyncio
+pytest-asyncio==0.23.8
 genbadge[all]

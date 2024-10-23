@@ -140,7 +140,7 @@ plugins:
 extra:
   social:
   - icon: fontawesome/brands/github-alt
-    link: https://gitea.mediatek.inc/Mai0313/template
+    link: https://github.com/Mai0313/template
 
   alternate:
   - link: /

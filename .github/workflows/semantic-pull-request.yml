@@ -21,28 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Semantic Pull Request
     steps:
-      - name: Add certificate
-        uses: https://gitea.mediatek.inc/actions/mtk-cert-action@v1.1.0
-        with:
-          node: true
-
       - name: Validate PR title
         id: lint_pr_title
         uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          subjectPattern: ^(?![A-Z]).+$
-          subjectPatternError: |
-            The subject "{subject}" found in the pull request title "{title}"
-            didn't match the configured pattern. Please ensure that the subject
-            doesn't start with an uppercase character.
-          # githubBaseUrl: https://gitea.mediatek.inc/api/v1
-          ignoreLabels: |
-            bot
-            ignore-semantic-pull-request
-          headerPattern: '^(\w*)(?:\(([\w$.\-*/ ]*)\))?: (.*)$'
-          headerPatternCorrespondence: type, scope, subject
 
       - name: Post PR Title Link Error Comment
         uses: marocchino/sticky-pull-request-comment@v2.9.0
