@@ -69,30 +69,6 @@ jobs:
           rye version $VERSION
           rye build --clean
 
-      # - name: Delete Existing Package on Gitea
-      #   run: |
-      #     curl -X 'DELETE' 'https://gitea.mediatek.inc/api/v1/packages/MTKDavinciAgent/pypi/ameba/$VERSION' -H 'accept: application/json' -H 'Authorization: Bearer ${{ secrets.GT_TOKEN }}' --insecure
-
-      # - name: Publish Package
-      #   continue-on-error: true
-      #   env:
-      #     PYPI_URL: https://test.pypi.org/legacy/
-      #   run: |
-      #     rye publish --repository ${{ github.repository_owner }}/ameba --repository-url ${{ env.PYPI_URL }} --token ${{ secrets.GT_TOKEN }} --cert /etc/ssl/certs/mediatek-MTKECA02-CA.crt -y --skip-existing
-
-      # - name: Publish package distributions to PyPI
-      #   uses: pypa/gh-action-pypi-publish@release/v1
-      #   continue-on-error: true
-      #   with:
-      #     user: ${{ secrets.PYPI_USERNAME }}
-      #     password: ${{ secrets.PYPI_PASSWORD }}
-      #     repository-url: https://test.pypi.org/legacy/
-      #     packages-dir: ./dist
-      #     verify-metadata: true
-      #     skip-existing: true
-      #     verbose: true
-      #     print-hash: true
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v4.3.3
         with:
