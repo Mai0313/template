@@ -8,6 +8,7 @@ services:
     volumes:
       - ./data/redis:/var/lib/redis
     restart: always
+    pull_policy: if_not_present
 
   postgresql:
     image: postgres:16.3-alpine
@@ -21,3 +22,4 @@ services:
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
     restart: always
+    pull_policy: if_not_present
