@@ -85,8 +85,8 @@ docs = [
 "docs:deploy" = "mkdocs gh-deploy --force --clean"
 "docs:run" = "mkdocs serve"
 
-gen = { chain = ["docs:src", "docs:deploy"] }
-docs = { chain = ["docs:src", "docs:deploy", "docs:run"] }
+gen = { chain = ["docs:deploy"] }
+docs = { chain = ["docs:deploy", "docs:run"] }
 
 
 [[tool.rye.sources]]
