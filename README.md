@@ -26,3 +26,7 @@ _Suggestions are always welcome!_
 This is a template for you to use for any project. It has all the actions set up for you to use.
 
 ## For More info, check the [Docs](https://mai0313.github.io/template/)
+
+> \[!IMPORTANT\]
+>
+> - Some actions may not work if you don't give the correct secrets or environment variables.
