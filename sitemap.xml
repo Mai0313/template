@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://mai0313.github.io/template/</loc>
+         <lastmod>2024-10-24</lastmod>
+    </url>
+    <url>
+         <loc>https://mai0313.github.io/template/blog/</loc>
+         <lastmod>2024-10-24</lastmod>
+    </url>
+    <url>
+         <loc>https://mai0313.github.io/template/blog/2024/10/06/this-is-an-example-post-for-blog/</loc>
+         <lastmod>2024-10-24</lastmod>
+    </url>
+    <url>
+         <loc>https://mai0313.github.io/template/installation/pip/</loc>
+         <lastmod>2024-10-24</lastmod>
+    </url>
+    <url>
+         <loc>https://mai0313.github.io/template/installation/rye/</loc>
+         <lastmod>2024-10-24</lastmod>
+    </url>
+    <url>
+         <loc>https://mai0313.github.io/template/blog/archive/2024/</loc>
+         <lastmod>2024-10-24</lastmod>
+    </url>
+</urlset>
