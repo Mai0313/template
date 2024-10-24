@@ -80,10 +80,14 @@ docs = [
 ]
 
 [tool.rye.scripts]
-"deploy:install" = "rye sync --features docs"
-"deploy:docs" = "mkdocs gh-deploy"
-docs = { cmd = "mkdocs serve" }
-deploy = { chain = ["deploy:install", "deploy:docs"]}
+# Documentation
+"docs:src" = "python ./scripts/gen_docs.py --source_path ./src --docs_path ./docs/Guide gen_docs"
+"docs:deploy" = "mkdocs gh-deploy --force --clean"
+"docs:run" = "mkdocs serve"
+
+gen = { chain = ["docs:src", "docs:deploy"] }
+docs = { chain = ["docs:src", "docs:deploy", "docs:run"] }
+
 
 [[tool.rye.sources]]
 name = "default"
