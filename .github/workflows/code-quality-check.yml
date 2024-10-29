@@ -25,9 +25,6 @@ jobs:
           fetch-depth: 1
           submodules: 'recursive'
 
-      - uses: actions/labeler@v5
-        continue-on-error: true
-
       - name: Run pre-commits
         id: code-quality-check
         uses: pre-commit/action@v3.0.0
