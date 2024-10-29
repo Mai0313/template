@@ -33,6 +33,9 @@ chore:
       - ".github/**"                # GitHub Actions and workflows
       - ".pre-commit-config.yaml"   # Pre-commit hooks configuration
       - "pyproject.toml"            # Python project configuration
+      - "setup.py"                  # Python setup script
+      - "tox.ini"                   # Tox configuration
+      - "Makefile"                  # Makefile for build automation
 
 # Dependencies
 dependencies:
@@ -42,6 +45,8 @@ dependencies:
       - "requirements.lock"         # Rye lock file
       - "requirements-dev.lock"     # Rye dev lock file
       - "poetry.lock"               # Poetry lock file
+      - "Pipfile"                   # Pipenv file
+      - "Pipfile.lock"              # Pipenv lock file
 
 # Documentation
 documentation:
