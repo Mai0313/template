@@ -93,6 +93,16 @@ docs = { chain = ["docs:deploy", "docs:run"] }
 [[tool.rye.sources]]
 name = "default"
 url = "https://pypi.org/simple"
+# url = "http://10.9.16.152/simple"
+
+[[tool.rye.sources]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl"
+type = "index"
+
+# [[tool.rye.proxy]]
+# http = "http://mtkdrone01.mediatek.inc:23984"
+# https = "http://mtkdrone01.mediatek.inc:23984"
 
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]
