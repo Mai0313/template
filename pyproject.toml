@@ -65,7 +65,7 @@ authors = [
     { name = "Wei", email = "mai@mai0313.com" },
 ]
 dependencies = [
-    "pydantic>=2.8.2",
+    "pydantic<=2.9.2",
 ]
 readme = "README.md"
 requires-python = ">= 3.10"
@@ -73,12 +73,6 @@ requires-python = ">= 3.10"
 [project.urls]
 Homepage = "https://github.com/Mai0313/template"
 Repository = "https://github.com/Mai0313/template"
-
-[project.optional-dependencies]
-docs = [
-    "mkdocs-material>=9.5.39",
-    "mkdocstrings-python>=1.11.1",
-]
 
 [tool.rye.scripts]
 # Documentation
@@ -94,11 +88,12 @@ docs = { chain = ["docs:deploy", "docs:run"] }
 name = "default"
 url = "https://pypi.org/simple"
 # url = "http://10.9.16.152/simple"
+# type = "index"
 
-[[tool.rye.sources]]
-name = "pytorch"
-url = "https://download.pytorch.org/whl"
-type = "index"
+# [[tool.rye.sources]]
+# name = "pytorch"
+# url = "https://download.pytorch.org/whl"
+# type = "index"
 
 # [[tool.rye.proxy]]
 # http = "http://mtkdrone01.mediatek.inc:23984"
@@ -121,6 +116,8 @@ dev-dependencies = [
     "pytest-xdist>=3.6.1",
     "pytest-asyncio==0.23.8",
     "genbadge[all]>=1.1.1",
+    "mkdocs-material>=9.5.39",
+    "mkdocstrings-python>=1.11.1",
 ]
 
 [tool.hatch.metadata]
