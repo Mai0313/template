@@ -87,8 +87,10 @@ repos:
       - id: mypy
         additional_dependencies:
           - "pydantic>=2.8.2"
-          - "types-PyYAML"
-          - "types-requests"
+          - "Types-PyYAML"
+          - "Types-requests"
+          - "Types-urllib3"
+          - "Types-attrs"
 
   # - repo: https://github.com/RobertCraigie/pyright-python
   #   rev: v1.1.374
