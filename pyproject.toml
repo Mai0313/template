@@ -66,15 +66,20 @@ authors = [
 ]
 dependencies = [
     "pydantic<=2.9.2",
+    "fastapi[standard]>=0.115.4",
 ]
 readme = "README.md"
-requires-python = ">= 3.10"
+requires-python = ">= 3.9"
 
 [project.urls]
 Homepage = "https://github.com/Mai0313/template"
 Repository = "https://github.com/Mai0313/template"
 
 [tool.rye.scripts]
+
+api = { cmd = "python ./api.py" }
+main = { cmd = "python ./main.py" }
+
 # Documentation
 "docs:src" = "python ./scripts/gen_docs.py --source_path ./src --docs_path ./docs/Guide gen_docs"
 "docs:deploy" = "mkdocs gh-deploy --force --clean"
@@ -104,7 +109,7 @@ requires = ["hatchling", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
 
 [tool.rye]
-managed = false
+managed = true
 virtual = false
 universal = true
 dev-dependencies = [
@@ -124,14 +129,26 @@ dev-dependencies = [
 allow-direct-references = true
 
 [tool.hatch.build]
-include = ["*"]
+include = [
+    "src/*"
+]
 
 [tool.hatch.build.targets.wheel]
-packages = ["*"]
+packages = ["src/template"]
 
 [tool.hatch.build.targets.sdist]
 # Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
-include = ["*"]
+include = [
+    "/*.toml",
+    "/*.json",
+    "/*.lock",
+    "/*.md",
+    "/noxfile.py",
+    "bin/*",
+    "examples/*",
+    "src/*",
+    "tests/*",
+]
 exclude = [
     "/.github",
     "/.devcontainers",
@@ -200,8 +217,8 @@ extend-include = ["**/*.ipynb", "*.sh"]
 # Allow imports relative to the "src" and "test" directories.
 src = ["src", "tests"]
 
-# Assume Python 3.10.*
-target-version = "py310"
+# Assume Python 3.9.*
+target-version = "py39"
 
 # Set the cache directory to `logs/ruff_cache`.
 cache-dir = "./.cache/ruff"  # default: ".ruff_cache", now it is not allowed to create cache dir in logs
@@ -441,7 +458,7 @@ ignore-words-list = ["ameba", "mke"]
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 # strict = true
-python_version = "3.10"
+python_version = "3.9"
 explicit_package_bases = true
 cache_dir = "./.cache/.mypy_cache"
 exclude = ["^src/ameba/*", "^src/tma_server/*", "^tests/"]

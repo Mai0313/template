@@ -8,10 +8,7 @@ LABEL maintainer="Wei Lee <mai@mai0313.com>" \
     com.centurylinklabs.watchtower.stop-signal="SIGINT"
 
 # Install git
-RUN apt-get -y update && apt-get install -y \
-    git \
-    make \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get -y update && apt-get install -y git make
 RUN git config --global http.sslVerify false
 
 # Install Node.js
@@ -24,18 +21,18 @@ RUN python -m pip install --upgrade pip
 
 ########################################################################################
 
-FROM builder as repo_base
+FROM builder as template_base
 WORKDIR /base_env
-COPY ./requirements.txt ./requirements.txt
-RUN pip install -r ./requirements.txt && pip cache purge
+COPY ./requirements.lock ./requirements.lock
+RUN pip install -r ./requirements.lock && pip cache purge
 
-FROM builder as repo_dev_base
+FROM builder as template_dev_base
 WORKDIR /base_env
-COPY ./requirements.txt ./requirements.txt
-RUN pip install -r ./requirements.txt && pip cache purge
+COPY ./requirements-dev.lock ./requirements-dev.lock
+RUN pip install -r ./requirements-dev.lock && pip cache purge
 
 ########################################################################################
 
-FROM repo_base as repo
+FROM template_base as template
 WORKDIR /app
 COPY . .
