@@ -46,6 +46,7 @@ jobs:
       - name: Move and Rename
         shell: pwsh
         run: |
+          New-Item -ItemType Directory -Path "./dist" -ErrorAction SilentlyContinue
           Copy-Item -Path "./dist/*" -Destination "./" -Recurse -Force
           Remove-Item -Recurse -Force build, dist, .venv, .cache, .git -ErrorAction SilentlyContinue
 
