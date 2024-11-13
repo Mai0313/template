@@ -81,7 +81,7 @@ api = { cmd = "python ./api.py" }
 main = { cmd = "python ./main.py" }
 
 # Documentation
-"docs:src" = "python ./scripts/gen_docs.py --source_path ./src --docs_path ./docs/Guide gen_docs"
+"docs:src" = "python ./scripts/gen_docs.py --source ./src --output ./docs/Guide --exclude .venv gen_docs"
 "docs:deploy" = "mkdocs gh-deploy --force --clean"
 "docs:run" = "mkdocs serve"
 
@@ -110,7 +110,7 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-virtual = false
+virtual = true
 universal = true
 dev-dependencies = [
     "ipykernel>=6.29.5",
