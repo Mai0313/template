@@ -101,6 +101,7 @@ plugins:
             members_order: source  # source or alphabetical
             filters:
               - "!^_"
+              - "!^model_"
             group_by_category: true
             show_submodules: true
             summary:

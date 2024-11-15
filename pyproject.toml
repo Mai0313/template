@@ -66,7 +66,6 @@ authors = [
 ]
 dependencies = [
     "pydantic<=2.9.2",
-    "fastapi[standard]>=0.115.4",
 ]
 readme = "README.md"
 requires-python = ">= 3.9"
@@ -81,12 +80,13 @@ api = { cmd = "python ./api.py" }
 main = { cmd = "python ./main.py" }
 
 # Documentation
-"docs:src" = "python ./scripts/gen_docs.py --source ./src --output ./docs/Guide --exclude .venv gen_docs"
+"docs:src" = "python ./scripts/gen_docs.py --source ./src --output ./docs/Reference --exclude .venv gen_docs"
+"docs:scripts" = "python ./scripts/gen_docs.py --source ./scripts --output ./docs/Scripts --exclude .venv gen_docs"
 "docs:deploy" = "mkdocs gh-deploy --force --clean"
 "docs:run" = "mkdocs serve"
 
-gen = { chain = ["docs:deploy"] }
-docs = { chain = ["docs:deploy", "docs:run"] }
+gen = { chain = ["docs:src", "docs:scripts", "docs:deploy"] }
+docs = { chain = ["docs:src", "docs:scripts", "docs:run"] }
 
 
 [[tool.rye.sources]]
@@ -113,16 +113,20 @@ managed = true
 virtual = true
 universal = true
 dev-dependencies = [
+    "notebook>=7.2.2",
     "ipykernel>=6.29.5",
     "ipywidgets>=8.1.5",
-    "pre-commit>=3.8.0",
-    "pytest>=8.3.2",
-    "pytest-cov>=5.0.0",
+    "pre-commit>=4.0.1",
+    "pytest>=8.3.3",
+    "pytest-cov>=6.0.0",
     "pytest-xdist>=3.6.1",
     "pytest-asyncio==0.23.8",
     "genbadge[all]>=1.1.1",
-    "mkdocs-material>=9.5.39",
-    "mkdocstrings-python>=1.11.1",
+    "mkdocs-material>=9.5.44",
+    "mkdocstrings-python>=1.12.2",
+    "fire>=0.7.0",
+    "rich>=13.9.4",
+    "griffe-typingdoc>=0.2.7",
 ]
 
 [tool.hatch.metadata]
@@ -424,7 +428,7 @@ skip-magic-trailing-comma = true
 [tool.logfire]
 send_to_logfire = false
 token = false
-project_name = "tma_api"
+project_name = "template"
 trace_sample_rate = 1.0
 console_colors = "auto"
 console_span_style = "show-parents"
@@ -461,7 +465,7 @@ plugins = ["pydantic.mypy"]
 python_version = "3.9"
 explicit_package_bases = true
 cache_dir = "./.cache/.mypy_cache"
-exclude = ["^src/ameba/*", "^src/tma_server/*", "^tests/"]
+exclude = ["^tests/"]
 ignore_missing_imports = true
 # install_types = true
 # non_interactive = true
