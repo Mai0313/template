@@ -39,13 +39,6 @@ jobs:
           fetch-depth: 1
           submodules: 'recursive'
 
-      # - name: Setup Python ${{ matrix.python-version }}
-      #   uses: actions/setup-python@v5.1.0
-      #   with:
-      #     python-version: ${{ matrix.python-version }}
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     cache: 'pip' # caching pip dependencies
-
       - name: Setup Rye
         uses: mai0313/setup-rye@master
         with:
