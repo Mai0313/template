@@ -24,6 +24,7 @@ jobs:
           - "3.9"
           - "3.10"
           - "3.11"
+          - "3.12"
 
     timeout-minutes: 20
 
@@ -38,26 +39,24 @@ jobs:
           fetch-depth: 1
           submodules: 'recursive'
 
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5.1.0
+      - name: Setup Rye
+        uses: mai0313/setup-rye@master
         with:
-          python-version: ${{ matrix.python-version }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          cache: 'pip' # caching pip dependencies
+          version: 'latest' # Optional, default is latest
+          toolchain_version: ${{ matrix.python-version }} # Optional, default is 3.10
+          python_version: ${{ matrix.python-version }} # Optional, default is 3.10
+          use-uv: 'true' # Optional, default is true
+          pypi_source: 'https://pypi.org/simple' # Optional
+          # http_proxy: ${{ secrets.HTTP_PROXY }} # Optional
+          # https_proxy: ${{ secrets.HTTPS_PROXY }} # Optional
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest
-          pip install pytest-cov
-          pip install pytest-xdist
-          pip install pytest-asyncio==0.23.8
-          pip install genbadge[all]
+          rye sync
 
       - name: List dependencies
         run: |
-          python -m pip list
+          rye list
 
       - name: Check for tests
         id: check_tests
@@ -73,7 +72,7 @@ jobs:
       - name: Run pytest
         if: steps.check_tests.outputs.has_tests == 'true'
         run: |
-          pytest -v
+          rye test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
