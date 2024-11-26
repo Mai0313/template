@@ -32,6 +32,7 @@ minversion = "8.2"
 testpaths = "tests/"
 python_files = "test_*.py"
 cache_dir = "./.cache/pytest"
+asyncio_mode = "auto"
 
 [tool.coverage.report]
 exclude_lines = [
