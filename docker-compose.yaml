@@ -2,7 +2,7 @@ services:
   redis:
     image: redis:7.2.5-alpine
     ports:
-      - "6379:6379"
+      - ${REDIS_PORT:-6379}:${REDIS_PORT:-6379}
     command:
       - redis-server
     volumes:
@@ -13,13 +13,28 @@ services:
   postgresql:
     image: postgres:16.3-alpine
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       PGDATA: /var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - ${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
     restart: always
     pull_policy: if_not_present
+
+  mongodb:
+    image: mongo:8.0.3
+    ports:
+      - ${MONGO_PORT:-27017}:${MONGO_PORT:-27017}
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE:-mongodb}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD:-admin}
+    volumes:
+      # seeding scripts
+      - ./mongo-entrypoint:/docker-entrypoint-initdb.d
+      # named volumes
+      - ./data/mongodb:/data/db
+      - mongoconfig:/data/configdb

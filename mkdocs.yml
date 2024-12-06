@@ -1,9 +1,9 @@
-site_name: Template
-site_url: https://mai0313.github.io/template/
+site_name: repo_template
+site_url: https://mai0313.github.io/repo_template/
 site_author: Wei Cheng Lee
 
-repo_name: Mai0313/template
-repo_url: https://github.com/Mai0313/template
+repo_name: Mai0313/repo_template
+repo_url: https://github.com/Mai0313/repo_template
 edit_uri: edit/master/docs/
 
 docs_dir: docs
@@ -148,7 +148,7 @@ plugins:
 extra:
   social:
   - icon: fontawesome/brands/github-alt
-    link: https://github.com/Mai0313/template
+    link: https://github.com/Mai0313/repo_template
 
   alternate:
   - link: /
