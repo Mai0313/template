@@ -55,12 +55,12 @@ data_file = './.github/reports/.coverage'
 omit = ["./src/ameba/*"]
 
 # ================== #
-#        Rye         #
+#      Rye/uv        #
 # ================== #
 
 [project]
 name = "repo_template"
-version = "0.1.0"
+version = "1.0.0"
 description = "Repository template for Python projects"
 authors = [
     { name = "Wei", email = "mai@mai0313.com" },
