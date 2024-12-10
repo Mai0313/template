@@ -68,6 +68,7 @@ authors = [
 dependencies = [
     "pydantic>=2.10.3",
 ]
+dynamic = ["readme"]
 readme = "README.md"
 requires-python = ">= 3.9"
 license = { text = "MIT" }
