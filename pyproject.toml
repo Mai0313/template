@@ -113,10 +113,6 @@ default = true
 # url = "https://download.pytorch.org/whl"
 # default = false
 
-[build-system]
-requires = ["hatchling", "hatch-fancy-pypi-readme"]
-build-backend = "hatchling.build"
-
 [tool.rye]
 managed = true
 virtual = true
@@ -137,6 +133,10 @@ dev-dependencies = [
     "rich>=13.9.4",
     "griffe-typingdoc>=0.2.7",
 ]
+
+[build-system]
+requires = ["hatchling", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
 
 [tool.hatch.metadata]
 allow-direct-references = true

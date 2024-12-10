@@ -1,5 +1,5 @@
 import pytest
-from src.template.hello import hello_fn, a_hello_fn
+from src.repo_template.hello import hello_fn, a_hello_fn
 
 
 def test_hello():
