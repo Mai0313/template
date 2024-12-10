@@ -25,16 +25,24 @@ services:
     pull_policy: if_not_present
 
   mongodb:
-    image: mongo:8.0.3
+    image: mongo:latest
     ports:
       - ${MONGO_PORT:-27017}:${MONGO_PORT:-27017}
-    environment:
-      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE:-mongodb}
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME:-admin}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD:-admin}
     volumes:
-      # seeding scripts
-      - ./mongo-entrypoint:/docker-entrypoint-initdb.d
-      # named volumes
       - ./data/mongodb:/data/db
-      - mongoconfig:/data/configdb
+    restart: always
+    pull_policy: if_not_present
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-mysql}
+      MYSQL_USER: ${MYSQL_USER:-mysql}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-mysql}
+    ports:
+      - ${MYSQL_PORT:-3306}:${MYSQL_PORT:-3306}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    restart: always
+    pull_policy: if_not_present
