@@ -52,6 +52,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          rye pin ${{ matrix.python-version }}
           rye sync
 
       - name: List dependencies
