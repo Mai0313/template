@@ -1,5 +1,5 @@
 ARG PYTHON_VERSION=3.10.14
-FROM python:${PYTHON_VERSION}-slim as builder
+FROM python:${PYTHON_VERSION}-slim AS builder
 
 LABEL maintainer="Wei Lee <mai@mai0313.com>" \
     org.label-schema.name="repo-template" \
@@ -22,13 +22,13 @@ RUN git config --global http.sslVerify false && \
 
 ########################################################################################
 
-FROM builder as base
+FROM builder AS base
 WORKDIR /base_env
 COPY ./requirements.lock ./requirements.lock
 RUN pip install -r ./requirements.lock && \
     pip cache purge
 
-FROM builder as dev
+FROM builder AS dev
 WORKDIR /base_env
 COPY ./requirements-dev.lock ./requirements-dev.lock
 RUN pip install -r ./requirements-dev.lock && \
@@ -36,6 +36,6 @@ RUN pip install -r ./requirements-dev.lock && \
 
 ########################################################################################
 
-FROM base as prod
+FROM base AS prod
 WORKDIR /app
 COPY . .
