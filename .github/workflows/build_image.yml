@@ -76,6 +76,7 @@ jobs:
           tags: ${{ matrix.target.tag }}:latest
           sbom: false
           provenance: false
+          no-cache: true
 
       - name: Get the version
         if: startsWith(github.ref, 'refs/tags/v')
@@ -94,3 +95,4 @@ jobs:
           tags: ${{ matrix.target.tag }}:${{ steps.metadata.outputs.version }}
           sbom: false
           provenance: false
+          no-cache: true
