@@ -33,7 +33,7 @@ rye-install:  ## Install Rye on your system
 uv-install:  ## Install uv on your system
 	curl -LsSf https://astral.sh/uv/install.sh | sh
 	@echo 'export PATH="$$HOME/.local/bin:$$PATH"' >> ~/.bashrc
-	@echo 'Installed Rye, please re-open your bash terminal or zsh terminal.'
+	@echo 'Installed uv, please re-open your bash terminal or zsh terminal.'
 
 poetry-add: ## Add all packages from requirements.txt to poetry
 	cat requirements.txt >> build_poetry.txt
