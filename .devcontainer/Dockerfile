@@ -16,34 +16,10 @@ RUN apt-get -y update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install python packages
-COPY ./docker/mirror/pip.conf /root/.pip/pip.conf
 RUN git config --global http.sslVerify false && \
     python -m pip install --upgrade pip
 
 RUN curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash && \
-    echo "source '$HOME/.rye/env'" >> ~/.bashrc && \
-    echo "export PATH='$HOME/.local/bin:$PATH'" >> ~/.bashrc  && \
-    echo "Installed Rye, please re-open your bash terminal or zsh terminal." && \
     curl -LsSf https://astral.sh/uv/install.sh | sh && \
     echo "export PATH='$HOME/.local/bin:$PATH'" >> ~/.bashrc && \
-    echo "Installed uv, please re-open your bash terminal or zsh terminal."
-
-####################################################################################################
-
-FROM builder AS container
-
-# Create dev user and make /workspaces as default $HOME path.
-RUN useradd -m -d /workspaces dev
-
-# Change password for root and dev user.
-RUN echo 'root:root' | chpasswd
-RUN echo 'dev:dev' | chpasswd
-
-# Add dev user to sudoer.
-RUN sudo usermod -aG sudo dev
-
-# Change current user to dev.
-USER dev
-
-# Change workdir.
-WORKDIR /workspaces
+    echo "source '$HOME/.rye/env'" >> ~/.bashrc
