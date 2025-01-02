@@ -70,7 +70,7 @@ dependencies = [
 ]
 dynamic = ["readme"]
 readme = "README.md"
-requires-python = ">= 3.9"
+requires-python = ">= 3.10"
 license = { text = "MIT" }
 
 [project.urls]
@@ -119,7 +119,6 @@ managed = true
 virtual = true
 universal = true
 dev-dependencies = [
-    "notebook>=7.3.1",
     "ipykernel>=6.29.5",
     "ipywidgets>=8.1.5",
     "pre-commit>=4.0.1",
@@ -128,10 +127,11 @@ dev-dependencies = [
     "pytest-xdist>=3.6.1",
     "pytest-asyncio==0.23.8",
     "genbadge[all]>=1.1.1",
-    "mkdocs-material>=9.5.47",
-    "mkdocstrings-python>=1.12.2",
     "fire>=0.7.0",
     "rich>=13.9.4",
+    "anyio>=4.7.0",
+    "mkdocstrings-python>=1.13.0",
+    "mkdocs-material>=9.5.49",
     "griffe-typingdoc>=0.2.7",
 ]
 
@@ -236,8 +236,8 @@ extend-include = ["**/*.ipynb", "*.sh"]
 # Allow imports relative to the "src" and "test" directories.
 src = ["src", "tests"]
 
-# Assume Python 3.9.*
-target-version = "py39"
+# Assume Python 3.10.*
+target-version = "py310"
 
 # Set the cache directory to `logs/ruff_cache`.
 cache-dir = "./.cache/ruff"  # default: ".ruff_cache", now it is not allowed to create cache dir in logs
@@ -492,7 +492,7 @@ ignore-words-list = ["ameba", "mke"]
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 # strict = true
-python_version = "3.9"
+python_version = "3.10"
 explicit_package_bases = true
 cache_dir = "./.cache/.mypy_cache"
 exclude = ["^tests/"]

@@ -160,5 +160,10 @@ cython_debug/
 #.idea/
 
 /data/
+docker-compose.override.yaml
 
 /.github/reports/
+
+# Generated Docs
+/docs/Reference
+/docs/Scripts
