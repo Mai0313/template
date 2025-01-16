@@ -44,4 +44,8 @@ RUN uv sync --frozen && uv cache clean
 FROM base AS prod
 WORKDIR /app
 COPY . .
-RUN uv sync --frozen --no-dev && uv cache clean
+
+FROM dev AS docs
+WORKDIR /app
+COPY . .
+RUN make gen-docs

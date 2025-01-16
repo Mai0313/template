@@ -77,53 +77,9 @@ license = { text = "MIT" }
 Homepage = "https://github.com/Mai0313/repo_template"
 Repository = "https://github.com/Mai0313/repo_template"
 
-[tool.rye.scripts]
-api = { cmd = "python ./api.py" }
-main = { cmd = "python ./main.py" }
-
-# Documentation
-"docs:gen" = "make gen-docs"
-"docs:deploy" = "mkdocs gh-deploy --force --clean"
-"docs:run" = "mkdocs serve"
-gen = { chain = ["docs:gen", "docs:deploy"] }
-docs = { chain = ["docs:gen", "docs:run"] }
-
-# https://docs.astral.sh/uv/reference/settings/#index
-[[tool.uv.index]]
-name = "default"
-url = "https://pypi.org/simple"
-
-[[tool.uv.index]]
-name = "pytorch"
-url = "https://download.pytorch.org/whl/cu118"
-# If you set it to `true`, it will be moved to the end of the prioritized list.
-# In other words, it will search pypi first, then here.
-default = true
-
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
-
-# https://docs.astral.sh/uv/reference/settings
-[tool.uv]
-managed = true
-package = false
-check-url = "https://test.pypi.org/simple"
-compile-bytecode = true
-concurrent-builds = 4
-concurrent-downloads = 4
-concurrent-installs = 4
-index-strategy = "unsafe-best-match"
-link-mode = "copy"
-native-tls = false
-no-binary = false
-offline = false
-prerelease = "if-necessary"
-preview = true
-
-[tool.uv.pip]
-annotation-style = "line"
-output-file = "requirements.txt"
 
 [dependency-groups]
 dev = [
@@ -199,6 +155,50 @@ path = "README.md"
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
 replacement = '[\1](https://github.com/openai/openai-python/tree/main/\g<2>)'
+
+[tool.rye.scripts]
+api = { cmd = "python ./api.py" }
+main = { cmd = "python ./main.py" }
+
+# Documentation
+"docs:gen" = "make gen-docs"
+"docs:deploy" = "mkdocs gh-deploy --force --clean"
+"docs:run" = "mkdocs serve"
+gen = { chain = ["docs:gen", "docs:deploy"] }
+docs = { chain = ["docs:gen", "docs:run"] }
+
+# https://docs.astral.sh/uv/reference/settings
+[tool.uv]
+managed = true
+package = false
+check-url = "https://test.pypi.org/simple"
+compile-bytecode = true
+concurrent-builds = 4
+concurrent-downloads = 4
+concurrent-installs = 4
+index-strategy = "unsafe-best-match"
+link-mode = "copy"
+native-tls = false
+no-binary = false
+offline = false
+prerelease = "if-necessary"
+preview = true
+
+# https://docs.astral.sh/uv/reference/settings/#index
+[[tool.uv.index]]
+name = "default"
+url = "https://pypi.org/simple"
+
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu118"
+# If you set it to `true`, it will be moved to the end of the prioritized list.
+# In other words, it will search pypi first, then here.
+default = true
+
+[tool.uv.pip]
+annotation-style = "line"
+output-file = "requirements.txt"
 
 # ================== #
 #        RUFF        #
