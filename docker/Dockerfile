@@ -25,7 +25,7 @@ RUN git config --global http.sslVerify false && \
 
 FROM builder AS base
 WORKDIR /app
-COPY . .
+COPY ./pyproject.toml ./pyproject.toml
 # COPY ./requirements.lock ./requirements.lock
 # RUN pip install -r ./requirements.lock && \
 #     pip cache purge
@@ -33,7 +33,7 @@ RUN uv sync --frozen --no-dev && uv cache clean
 
 FROM builder AS dev
 WORKDIR /app
-COPY . .
+COPY ./pyproject.toml ./pyproject.toml
 # COPY ./requirements-dev.lock ./requirements-dev.lock
 # RUN pip install -r ./requirements-dev.lock && \
 #     pip cache purge
