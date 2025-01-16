@@ -93,6 +93,13 @@ docs = { chain = ["docs:gen", "docs:run"] }
 name = "default"
 url = "https://pypi.org/simple"
 
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu118"
+# If you set it to `true`, it will be moved to the end of the prioritized list.
+# In other words, it will search pypi first, then here.
+default = true
+
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
