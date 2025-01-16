@@ -55,7 +55,7 @@ data_file = './.github/reports/.coverage'
 omit = ["./src/ameba/*"]
 
 # ================== #
-#      Rye/uv        #
+#        uv          #
 # ================== #
 
 [project]
@@ -66,9 +66,9 @@ authors = [
     { name = "Wei", email = "mai@mai0313.com" },
 ]
 dependencies = [
-    "pydantic>=2.10.3",
+    "pydantic>=2.10.5",
+    "pydantic-settings>=2.7.1",
 ]
-dynamic = ["readme"]
 readme = "README.md"
 requires-python = ">= 3.10"
 license = { text = "MIT" }
@@ -78,7 +78,6 @@ Homepage = "https://github.com/Mai0313/repo_template"
 Repository = "https://github.com/Mai0313/repo_template"
 
 [tool.rye.scripts]
-
 api = { cmd = "python ./api.py" }
 main = { cmd = "python ./main.py" }
 
@@ -86,58 +85,56 @@ main = { cmd = "python ./main.py" }
 "docs:gen" = "make gen-docs"
 "docs:deploy" = "mkdocs gh-deploy --force --clean"
 "docs:run" = "mkdocs serve"
-
 gen = { chain = ["docs:gen", "docs:deploy"] }
 docs = { chain = ["docs:gen", "docs:run"] }
 
-
-[[tool.rye.sources]]
-name = "default"
-url = "https://pypi.org/simple"
-# url = "http://10.9.16.152/simple"
-
-# [[tool.rye.sources]]
-# name = "pytorch"
-# url = "https://download.pytorch.org/whl"
-
-# [[tool.rye.proxy]]
-# http = "http://mtkdrone01.mediatek.inc:23984"
-# https = "http://mtkdrone01.mediatek.inc:23984"
-
+# https://docs.astral.sh/uv/reference/settings/#index
 [[tool.uv.index]]
 name = "default"
 url = "https://pypi.org/simple"
-default = true
-
-# [[tool.uv.index]]
-# name = "pytorch"
-# url = "https://download.pytorch.org/whl"
-# default = false
-
-[tool.rye]
-managed = true
-virtual = true
-universal = true
-dev-dependencies = [
-    "ipykernel>=6.29.5",
-    "ipywidgets>=8.1.5",
-    "pre-commit>=4.0.1",
-    "pytest>=8.3.4",
-    "pytest-cov>=6.0.0",
-    "pytest-xdist>=3.6.1",
-    "pytest-asyncio==0.23.8",
-    "genbadge[all]>=1.1.1",
-    "fire>=0.7.0",
-    "rich>=13.9.4",
-    "anyio>=4.7.0",
-    "mkdocstrings-python>=1.13.0",
-    "mkdocs-material>=9.5.49",
-    "griffe-typingdoc>=0.2.7",
-]
 
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
+
+# https://docs.astral.sh/uv/reference/settings
+[tool.uv]
+managed = true
+package = false
+check-url = "https://test.pypi.org/simple"
+compile-bytecode = true
+concurrent-builds = 4
+concurrent-downloads = 4
+concurrent-installs = 4
+index-strategy = "unsafe-best-match"
+link-mode = "copy"
+native-tls = false
+no-binary = false
+offline = false
+prerelease = "if-necessary"
+preview = true
+
+[tool.uv.pip]
+annotation-style = "line"
+output-file = "requirements.txt"
+
+[dependency-groups]
+dev = [
+    "anyio>=4.8.0",
+    "fire>=0.7.0",
+    "genbadge[all]>=1.1.1",
+    "griffe-typingdoc>=0.2.7",
+    "ipykernel>=6.29.5",
+    "ipywidgets>=8.1.5",
+    "mkdocs-material>=9.5.49",
+    "mkdocstrings[python]>=0.27.0",
+    "pre-commit>=4.0.1",
+    "pytest>=8.3.4",
+    "pytest-asyncio==0.23.8",
+    "pytest-cov>=6.0.0",
+    "pytest-xdist>=3.6.1",
+    "rich>=13.9.4",
+]
 
 [tool.hatch.metadata]
 allow-direct-references = true

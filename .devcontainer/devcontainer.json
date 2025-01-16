@@ -36,5 +36,5 @@
         }
     },
     "dockerFile": "Dockerfile",
-    "updateContentCommand": "rye sync"
+    "updateContentCommand": "uv sync && uv cache clean"
 }
