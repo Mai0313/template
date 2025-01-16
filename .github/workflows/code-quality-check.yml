@@ -36,4 +36,4 @@ jobs:
       - name: Run pre-commits
         run: |
           uv tool install pre-commit
-          uv run pre-commit run -a
+          uv tool run pre-commit run -a
