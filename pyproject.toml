@@ -78,7 +78,6 @@ Homepage = "https://github.com/Mai0313/repo_template"
 Repository = "https://github.com/Mai0313/repo_template"
 
 [tool.rye.scripts]
-
 api = { cmd = "python ./api.py" }
 main = { cmd = "python ./main.py" }
 
@@ -86,7 +85,6 @@ main = { cmd = "python ./main.py" }
 "docs:gen" = "make gen-docs"
 "docs:deploy" = "mkdocs gh-deploy --force --clean"
 "docs:run" = "mkdocs serve"
-
 gen = { chain = ["docs:gen", "docs:deploy"] }
 docs = { chain = ["docs:gen", "docs:run"] }
 

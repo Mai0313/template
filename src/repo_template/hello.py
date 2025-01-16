@@ -1,4 +1,24 @@
-from .types.response import Response
+from pydantic import Field, BaseModel, ConfigDict, AliasChoices
+
+
+class Response(BaseModel):
+    model_config = ConfigDict(use_attribute_docstrings=True)
+    name: str = Field(
+        ...,
+        title="Name",
+        description="The name of the response.",
+        validation_alias=AliasChoices("name", "Name"),
+        frozen=False,
+        deprecated=False,
+    )
+    content: str = Field(
+        ...,
+        title="Content",
+        description="The content of the response.",
+        validation_alias=AliasChoices("content", "Content"),
+        frozen=False,
+        deprecated=False,
+    )
 
 
 def hello_fn() -> Response:
@@ -29,4 +49,4 @@ async def a_hello_fn() -> Response:
 
 
 if __name__ == "__main__":
-    hello_fn()
+    result = hello_fn()

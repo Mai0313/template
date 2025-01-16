@@ -28,14 +28,14 @@ WORKDIR /base_env
 # COPY ./requirements.lock ./requirements.lock
 # RUN pip install -r ./requirements.lock && \
 #     pip cache purge
-RUN uv sync --no-dev
+RUN uv sync --no-dev && uv cache clean
 
 FROM builder AS dev
 WORKDIR /base_env
 # COPY ./requirements-dev.lock ./requirements-dev.lock
 # RUN pip install -r ./requirements-dev.lock && \
 #     pip cache purge
-RUN uv sync
+RUN uv sync && uv cache clean
 
 ########################################################################################
 

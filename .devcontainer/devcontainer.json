@@ -36,5 +36,5 @@
         }
     },
     "dockerFile": "Dockerfile",
-    "updateContentCommand": "uv sync"
+    "updateContentCommand": "uv sync && uv cache clean"
 }
