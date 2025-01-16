@@ -1,8 +1,9 @@
-# Using Rye
+# Using uv
 
-## Step 1: Install Rye
+## Step 1: Install uv
 
-- Visit the [Rye Installation](https://rye.astral.sh/guide/installation/) for installation.
+- Visit the [uv Installation](https://docs.astral.sh/uv/getting-started/installation) for installation.
+- or run `make uv-install`
 
 ## Step 2: Clone the repository
 
@@ -18,5 +19,5 @@ cd your-repo-name
 ## Step 3: Install requirements
 
 ```bash
-rye sync
+uv sync
 ```

@@ -1,5 +1,6 @@
 ARG PYTHON_VERSION=3.10.14
 FROM python:${PYTHON_VERSION}-slim AS builder
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 LABEL maintainer="Wei Lee <mai@mai0313.com>" \
     org.label-schema.name="repo-template" \
@@ -24,15 +25,17 @@ RUN git config --global http.sslVerify false && \
 
 FROM builder AS base
 WORKDIR /base_env
-COPY ./requirements.lock ./requirements.lock
-RUN pip install -r ./requirements.lock && \
-    pip cache purge
+# COPY ./requirements.lock ./requirements.lock
+# RUN pip install -r ./requirements.lock && \
+#     pip cache purge
+RUN uv sync --no-dev
 
 FROM builder AS dev
 WORKDIR /base_env
-COPY ./requirements-dev.lock ./requirements-dev.lock
-RUN pip install -r ./requirements-dev.lock && \
-    pip cache purge
+# COPY ./requirements-dev.lock ./requirements-dev.lock
+# RUN pip install -r ./requirements-dev.lock && \
+#     pip cache purge
+RUN uv sync
 
 ########################################################################################
 
