@@ -24,21 +24,24 @@ RUN git config --global http.sslVerify false && \
 ########################################################################################
 
 FROM builder AS base
-WORKDIR /base_env
+WORKDIR /app
+COPY . .
 # COPY ./requirements.lock ./requirements.lock
 # RUN pip install -r ./requirements.lock && \
 #     pip cache purge
-RUN uv sync --no-dev && uv cache clean
+RUN uv sync --frozen --no-dev && uv cache clean
 
 FROM builder AS dev
-WORKDIR /base_env
+WORKDIR /app
+COPY . .
 # COPY ./requirements-dev.lock ./requirements-dev.lock
 # RUN pip install -r ./requirements-dev.lock && \
 #     pip cache purge
-RUN uv sync && uv cache clean
+RUN uv sync --frozen && uv cache clean
 
 ########################################################################################
 
 FROM base AS prod
 WORKDIR /app
 COPY . .
+RUN uv sync --frozen --no-dev && uv cache clean
