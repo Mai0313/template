@@ -4,6 +4,7 @@
 
 - Visit the [uv Installation](https://docs.astral.sh/uv/getting-started/installation) for installation.
 - or run `make uv-install`
+    - This function will install uv for you.
 
 ## Step 2: Clone the repository
 
