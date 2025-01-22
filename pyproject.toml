@@ -172,6 +172,7 @@ docs = { chain = ["docs:gen", "docs:run"] }
 managed = true
 package = false
 check-url = "https://test.pypi.org/simple"
+publish-url = "https://test.pypi.org/legacy/"
 compile-bytecode = true
 concurrent-builds = 4
 concurrent-downloads = 4
