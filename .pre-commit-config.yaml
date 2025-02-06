@@ -28,6 +28,7 @@ repos:
         exclude: poetry.lock|uv.lock
       - id: check-ast
       - id: check-yaml
+        exclude: mkdocs.yml
         args:
           - --allow-multiple-documents
       - id: check-toml
