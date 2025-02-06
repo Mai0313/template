@@ -58,8 +58,14 @@ repos:
           - --number
         additional_dependencies:
           - mdformat-gfm
+          - mdformat-web
+          - mdformat-ruff
+          - mdformat-config
           - mdformat-tables
+          - mdformat-footnote
           - mdformat_frontmatter
+          - mdformat-pyproject
+          - mdformat-mkdocs[recommended]
 
   # jupyter notebook cell output clearing
   - repo: https://github.com/kynan/nbstripout
