@@ -3,12 +3,15 @@ default_language_version:
 
 default_install_hook_types:
   - pre-commit
-  - pre-push
+  - post-checkout
+  - post-merge
+  - post-rewrite
 
 default_stages:
   - pre-commit
-  - pre-push
-
+  - post-checkout
+  - post-merge
+  - post-rewrite
 
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -98,6 +101,14 @@ repos:
           - "Types-requests"
           - "Types-urllib3"
           - "Types-attrs"
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.5.29
+    hooks:
+      - id: uv-sync
+      - id: uv-lock
+      # - id: uv-export
+      #   args: ["--no-dev", "--no-hashes", "--frozen", "--output-file", "./requirements.txt"]
 
   # - repo: https://github.com/RobertCraigie/pyright-python
   #   rev: v1.1.374
