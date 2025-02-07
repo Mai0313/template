@@ -152,8 +152,7 @@ class DocsGenerator(BaseModel):
             await f.write(markdown_output)
         return _output_docs_path.as_posix()
 
-    async def process_file(self, file: Path) -> str:
-        docs_path = Path(f"{self._output_path}/{file.parent.relative_to(self._source_path)}")
+    async def process_file(self, docs_path: Path, file: Path) -> str:
         if file.suffix == ".ipynb":
             processed_file = await self.__gen_notebook_docs(docs_path=docs_path, file=file)
         elif file.suffix == ".py":
@@ -194,7 +193,10 @@ class DocsGenerator(BaseModel):
                 )
 
                 for file in all_files:
-                    processed_file = await self.process_file(file=file)
+                    docs_path = Path(
+                        f"{self._output_path}/{file.parent.relative_to(self._source_path)}"
+                    )
+                    processed_file = await self.process_file(docs_path=docs_path, file=file)
                     progress.update(
                         task_id=task,
                         advance=1,
@@ -204,7 +206,9 @@ class DocsGenerator(BaseModel):
 
             elif self._source_path.is_file():
                 progress.update(task_id=task, description="[cyan]Files Found...", total=1)
-                processed_file = await self.process_file(file=self._source_path)
+                processed_file = await self.process_file(
+                    docs_path=self._output_path, file=self._source_path
+                )
                 progress.update(
                     task_id=task,
                     advance=1,
