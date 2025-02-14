@@ -2,6 +2,7 @@
 addopts = [
     "--color=yes",
     "--durations=0",
+    "--durations-min=0.1",
     "--strict-markers",
     "--doctest-modules",
     "--quiet",
@@ -97,7 +98,7 @@ dev = [
     "pytest>=8.3.4",
     "pytest-asyncio==0.23.8",
     "pytest-cov>=6.0.0",
-    "pytest-xdist>=3.6.1",
+    "pytest-xdist[psutil]>=3.6.1",
     "rich>=13.9.4",
 ]
 
