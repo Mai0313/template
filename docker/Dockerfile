@@ -35,7 +35,7 @@ FROM builder AS dev
 WORKDIR /base
 COPY ./pyproject.toml ./pyproject.toml
 # RUN uv sync --frozen && uv cache clean
-RUN uv export --no-hashes --output-file ./requirements-dev.lock && \
+RUN uv export --no-hashes --group docs --output-file ./requirements-dev.lock && \
     pip install -r ./requirements-dev.lock && \
     pip cache purge
 
