@@ -90,6 +90,13 @@ dev = [
     "poethepoet>=0.32.2",
     "pre-commit>=4.0.1",
 ]
+test = [
+    "genbadge[all]>=1.1.1",
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.25.3",
+    "pytest-cov>=6.0.0",
+    "pytest-xdist[psutil]>=3.6.1",
+]
 docs = [
     "anyio>=4.8.0",
     "fire>=0.7.0",
@@ -99,13 +106,6 @@ docs = [
     "mkdocs-material>=9.6.4",
     "mkdocstrings[python]>=0.28.1",
     "rich>=13.9.4",
-]
-test = [
-    "genbadge[all]>=1.1.1",
-    "pytest>=8.3.4",
-    "pytest-asyncio>=0.25.3",
-    "pytest-cov>=6.0.0",
-    "pytest-xdist[psutil]>=3.6.1",
 ]
 
 [tool.hatch.metadata]
