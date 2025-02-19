@@ -106,6 +106,8 @@ docs = [
     "mkdocs-material>=9.6.4",
     "mkdocstrings[python]>=0.28.1",
     "rich>=13.9.4",
+    "ruff>=0.9.6",
+    "tabulate>=0.9.0",
 ]
 
 [tool.hatch.metadata]
