@@ -204,7 +204,7 @@ link-mode = "copy"
 native-tls = true
 no-binary = false
 offline = false
-prerelease = "if-necessary"
+prerelease = "if-necessary-or-explicit"
 preview = true
 
 # https://docs.astral.sh/uv/reference/settings/#index
