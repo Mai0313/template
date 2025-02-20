@@ -28,7 +28,7 @@ WORKDIR /base
 COPY ./pyproject.toml ./pyproject.toml
 # RUN uv sync --frozen --no-dev && uv cache clean
 RUN uv export --no-dev --no-hashes --output-file ./requirements.lock && \
-    uv pip install -r requirements.lock && \
+    uv pip install --system -r requirements.lock && \
     uv cache clean
 
 FROM builder AS dev
@@ -36,7 +36,7 @@ WORKDIR /base
 COPY ./pyproject.toml ./pyproject.toml
 # RUN uv sync --frozen && uv cache clean
 RUN uv export --no-hashes --group docs --output-file ./requirements-dev.lock && \
-    uv pip install -r ./requirements-dev.lock && \
+    uv pip install --system -r ./requirements-dev.lock && \
     uv cache clean
 
 ########################################################################################
