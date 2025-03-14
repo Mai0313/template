@@ -29,6 +29,22 @@ jobs:
       - name: Update Pre-Commit
         uses: browniebroke/pre-commit-autoupdate-action@main
 
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+          python-version: "3.10"
+          pyproject-file: "pyproject.toml"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get the version
+        shell: bash
+        run: |
+          VERSION=$(uvx dunamai from git --bump --no-metadata --style pep440)
+          uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $VERSION
+          echo "Version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Commit any changes
         run: |
           git add -A
