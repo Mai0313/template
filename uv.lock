@@ -2070,7 +2070,7 @@ wheels = [
 
 [[package]]
 name = "repo-template"
-version = "1.0.0"
+version = "3.0.3.dev21"
 source = { virtual = "." }
 dependencies = [
     { name = "pydantic" },

@@ -63,7 +63,7 @@ jobs:
       - name: Get the version
         shell: bash
         run: |
-          VERSION=$(uvx dunamai from any --bump --style pep440)
+          VERSION=$(uvx dunamai from git --bump --no-metadata --style pep440)
           echo "Version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
