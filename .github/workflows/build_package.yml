@@ -65,17 +65,9 @@ jobs:
           uv sync --no-dev
 
       - name: Get the version
-        id: metadata
-        uses: battila7/get-version-action@v2
-
-      - name: Update Version
         shell: bash
         run: |
-          if [[ ! "$GITHUB_REF" =~ ^refs/tags/v ]]; then
-            VERSION=$(date +%Y.%-m.%-d.%-H.%-M)
-          else
-            VERSION=${GITHUB_REF#refs/tags/}
-          fi
+          VERSION=$(uvx dunamai from any --bump --style pep440)
           echo "Version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
