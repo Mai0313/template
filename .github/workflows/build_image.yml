@@ -64,6 +64,7 @@ jobs:
         shell: bash
         run: |
           VERSION=$(uvx dunamai from git --bump --no-metadata --style pep440)
+          uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $VERSION
           echo "Version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
@@ -82,7 +83,9 @@ jobs:
           file: ./docker/Dockerfile
           build-args: ${{ matrix.target.build_args }}
           target: ${{ matrix.target.target_step }}
-          tags: ${{ matrix.target.tag }}:latest
+          tags: |
+            ${{ matrix.target.tag }}:latest
+            ${{ matrix.target.tag }}:${{ env.VERSION }}
           sbom: false
           provenance: false
 
@@ -95,6 +98,7 @@ jobs:
           file: ./docker/Dockerfile
           build-args: ${{ matrix.target.build_args }}
           target: ${{ matrix.target.target_step }}
-          tags: ${{ matrix.target.tag }}:$VERSION
+          tags: |
+            ${{ matrix.target.tag }}:${{ env.VERSION }}
           sbom: false
           provenance: false
