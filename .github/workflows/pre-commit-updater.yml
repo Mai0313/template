@@ -7,7 +7,6 @@ on:
   # manually trigger a workflow_dispatch event
   workflow_dispatch:
 
-
 permissions: write-all
 
 jobs:
