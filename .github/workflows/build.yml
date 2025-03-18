@@ -33,12 +33,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get the version
-        shell: bash
+        shell: pwsh
         run: |
-          VERSION=$(uvx dunamai from git --bump --no-metadata --style pep440)
+          [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+          $env:PYTHONUTF8 = "1"
+          $VERSION = (uvx dunamai from git --bump --no-metadata --style pep440)
           uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $VERSION
           echo "Version: $VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
       # - name: Setup uv
       #   uses: astral-sh/setup-uv@v5
