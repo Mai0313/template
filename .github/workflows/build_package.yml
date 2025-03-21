@@ -61,11 +61,6 @@ jobs:
           pyproject-file: "pyproject.toml"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies
-        run: |
-          uv python pin ${{ matrix.python-version }}
-          uv sync --no-dev
-
       - name: Update Version
         shell: bash
         run: |
