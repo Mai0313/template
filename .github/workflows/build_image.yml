@@ -89,7 +89,7 @@ jobs:
           sbom: false
           provenance: false
 
-      - name: Build and Push Base Image
+      - name: Build and Push Release Image
         if: startsWith(github.ref, 'refs/tags/v')
         uses: docker/build-push-action@v5.1.0
         with:
