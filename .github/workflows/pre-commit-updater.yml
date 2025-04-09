@@ -69,6 +69,7 @@ jobs:
           delete-branch: true
 
       - name: Auto Merge Pull Request
+        continue-on-error: true
         if: ${{ steps.create-pr.outputs.pull-request-number }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
