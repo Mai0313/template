@@ -1,6 +1,7 @@
 services:
   redis:
-    image: redis:7.2.5-alpine
+    container_name: redis-database
+    image: redis:latest
     ports:
       - ${REDIS_PORT:-6379}:6379
     environment:
@@ -10,11 +11,12 @@ services:
     command:
       - redis-server
     volumes:
-      - ./data/redis:/var/lib/redis
+      - redis:/var/lib/redis
     restart: always
     pull_policy: always
 
   postgresql:
+    container_name: postgresql-database
     image: postgres:16.3-alpine
     ports:
       - ${POSTGRES_PORT:-5432}:5432
@@ -27,36 +29,12 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       PGDATA: /var/lib/postgresql/data
     volumes:
-      - ./data/postgresql:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql/data
     restart: always
     pull_policy: always
 
-  mongodb:
-    image: mongo:latest
-    ports:
-      - ${MONGO_PORT:-27017}:${MONGO_PORT:-27017}
-    environment:
-      PUID: 0
-      PGID: 0
-      UMASK: 022
-    volumes:
-      - ./data/mongodb:/data/db
-    restart: always
-    pull_policy: always
-
-  mysql:
-    image: mysql:latest
-    ports:
-      - ${MYSQL_PORT:-3306}:3306
-    environment:
-      PUID: 0
-      PGID: 0
-      UMASK: 022
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-mysql}
-      MYSQL_USER: ${MYSQL_USER:-mysql}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-mysql}
-    volumes:
-      - ./data/mysql:/var/lib/mysql
-    restart: always
-    pull_policy: always
+volumes:
+  redis:
+    driver: local
+  postgresql:
+    driver: local
