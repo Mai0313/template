@@ -1,14 +1,11 @@
 name: Pre-commit auto-update
 
 on:
-  # # every day at midnight
-  # schedule:
-  #   - cron: "0 0 * * *"
-  # # manually trigger a workflow_dispatch event
-  # workflow_dispatch:
-  push:
-    branches:
-      - master
+  # every day at midnight
+  schedule:
+    - cron: "0 0 * * *"
+  # manually trigger a workflow_dispatch event
+  workflow_dispatch:
 
 permissions: write-all
 
