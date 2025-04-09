@@ -1,11 +1,14 @@
 name: Pre-commit auto-update
 
 on:
-  # every day at midnight
-  schedule:
-    - cron: "0 0 * * *"
-  # manually trigger a workflow_dispatch event
-  workflow_dispatch:
+  # # every day at midnight
+  # schedule:
+  #   - cron: "0 0 * * *"
+  # # manually trigger a workflow_dispatch event
+  # workflow_dispatch:
+  push:
+    branches:
+      - master
 
 permissions: write-all
 
@@ -71,4 +74,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge --auto --merge chore/pre-commit-hooks
+          gh pr merge --merge chore/pre-commit-hooks
