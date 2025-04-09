@@ -15,7 +15,6 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 3
       matrix:
         os:
           - ubuntu-latest
@@ -32,7 +31,7 @@ jobs:
         run: git config --global http.sslVerify false
 
       # - name: Setup MTK Certification
-      #   uses: https://gitea.mediatek.inc/actions/mtk-cert-action@v1.0.0
+      #   uses: https://gitea.mediatek.inc/actions/mtk-cert-action@v1.2.0
 
       # - name: Setup SSH Key
       #   uses: shimataro/ssh-key-action@v2.7.0
@@ -51,7 +50,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
-          submodules: 'recursive'
 
       - name: Setup uv
         uses: astral-sh/setup-uv@v5

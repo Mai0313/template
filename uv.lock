@@ -1,5 +1,4 @@
 version = 1
-revision = 1
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version >= '3.11'",
@@ -308,7 +307,7 @@ name = "click"
 version = "8.1.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "colorama", marker = "platform_system == 'Windows'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b9/2e/0090cbf739cee7d23781ad4b89a9894a41538e4fcf4c31dcdd705b78eb8b/click-8.1.8.tar.gz", hash = "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a", size = 226593 }
 wheels = [
@@ -671,7 +670,7 @@ name = "ipykernel"
 version = "6.29.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "appnope", marker = "sys_platform == 'darwin'" },
+    { name = "appnope", marker = "platform_system == 'Darwin'" },
     { name = "comm" },
     { name = "debugpy" },
     { name = "ipython", version = "8.34.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
@@ -1181,7 +1180,7 @@ version = "1.6.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
-    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "colorama", marker = "platform_system == 'Windows'" },
     { name = "ghp-import" },
     { name = "jinja2" },
     { name = "markdown" },
@@ -1211,6 +1210,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c2/44/140469d87379c02f1e1870315f3143718036a983dd0416650827b8883192/mkdocs_autorefs-1.4.1.tar.gz", hash = "sha256:4b5b6235a4becb2b10425c2fa191737e415b37aa3418919db33e5d774c9db079", size = 4131355 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f8/29/1125f7b11db63e8e32bcfa0752a4eea30abff3ebd0796f808e14571ddaa2/mkdocs_autorefs-1.4.1-py3-none-any.whl", hash = "sha256:9793c5ac06a6ebbe52ec0f8439256e66187badf4b5334b5fde0b128ec134df4f", size = 5782047 },
+]
+
+[[package]]
+name = "mkdocs-coverage"
+version = "1.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "mkdocs" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/93/64/a9fe7d953d6b02944610a5f7361cdab7532a9f5518ffe890287a9f187f08/mkdocs_coverage-1.1.0.tar.gz", hash = "sha256:a67cc6f6d548b8d6b4b21ecd777f2e3768b49e7a95e54c6df158e7c0f179134c", size = 5514 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/eb/f0/96851f1d9809e1cbd1f1545948d3c4bde7abfa3af5965b7ba8d88ec37c11/mkdocs_coverage-1.1.0-py3-none-any.whl", hash = "sha256:168ca4ebc35ba48309c1f734d0cab0359cd95b205d0d18030d27e73b6a4590d9", size = 6853 },
 ]
 
 [[package]]
@@ -2070,7 +2081,7 @@ wheels = [
 
 [[package]]
 name = "repo-template"
-version = "3.0.3"
+version = "0.0.1"
 source = { virtual = "." }
 dependencies = [
     { name = "pydantic" },
@@ -2091,6 +2102,7 @@ docs = [
     { name = "griffe-typingdoc" },
     { name = "markdown-exec", extra = ["ansi"] },
     { name = "mkdocs-autorefs" },
+    { name = "mkdocs-coverage" },
     { name = "mkdocs-material" },
     { name = "mkdocstrings", extra = ["python"] },
     { name = "rich" },
@@ -2125,6 +2137,7 @@ docs = [
     { name = "griffe-typingdoc", specifier = ">=0.2.7" },
     { name = "markdown-exec", extras = ["ansi"], specifier = ">=1.10.0" },
     { name = "mkdocs-autorefs", specifier = ">=1.3.1" },
+    { name = "mkdocs-coverage", specifier = ">=1.1.0" },
     { name = "mkdocs-material", specifier = ">=9.6.4" },
     { name = "mkdocstrings", extras = ["python"], specifier = ">=0.28.1" },
     { name = "rich", specifier = ">=13.9.4" },
