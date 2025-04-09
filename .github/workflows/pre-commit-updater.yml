@@ -67,7 +67,6 @@ jobs:
           body: "Update versions of pre-commit hooks to latest version."
           commit-message: "chore: update pre-commit hooks"
           delete-branch: true
-          draft: always-true
 
       - name: Auto Merge Pull Request
         if: ${{ steps.create-pr.outputs.pull-request-number }}
