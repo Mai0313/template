@@ -68,8 +68,7 @@ jobs:
           delete-branch: true
 
       - name: Auto Merge Pull Request
-        if: steps.pre-commit-autoupdate.outputs.pull-request-number
-        run: |
-          gh pr merge --auto --merge chore/pre-commit-hooks
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge --auto --merge chore/pre-commit-hooks
