@@ -33,4 +33,6 @@ services:
 
 volumes:
   redis-data:
+    driver: local
   postgresql-data:
+    driver: local
