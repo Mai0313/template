@@ -1,9 +1,12 @@
 services:
   redis:
-    container_name: redis-database
-    image: redis:latest
+    image: redis:alpine
     ports:
       - ${REDIS_PORT:-6379}:6379
+    # environment:
+    #   PUID: ${PUID:-0}
+    #   PGID: ${PGID:-0}
+    #   UMASK: ${UMASK:-022}
     command:
       - redis-server
     volumes:
@@ -12,11 +15,13 @@ services:
     pull_policy: always
 
   postgresql:
-    container_name: postgresql-database
-    image: postgres:16.3-alpine
+    image: postgres:alpine
     ports:
       - ${POSTGRES_PORT:-5432}:5432
     environment:
+      # PUID: ${PUID:-0}
+      # PGID: ${PGID:-0}
+      # UMASK: ${UMASK:-022}
       POSTGRES_DB: ${POSTGRES_DB:-postgres}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
