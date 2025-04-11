@@ -10,7 +10,7 @@ services:
     command:
       - redis-server
     volumes:
-      - redis:/var/lib/redis
+      - redis-data:/var/lib/redis
     restart: always
     pull_policy: always
 
@@ -27,12 +27,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       PGDATA: /var/lib/postgresql/data
     volumes:
-      - postgresql:/var/lib/postgresql/data
+      - postgresql-data:/var/lib/postgresql
     restart: always
     pull_policy: always
 
 volumes:
-  redis:
-    driver: local
-  postgresql:
-    driver: local
+  redis-data:
+  postgresql-data:
