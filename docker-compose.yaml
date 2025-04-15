@@ -32,7 +32,5 @@ services:
     pull_policy: always
 
 volumes:
-  redis-data:
-    driver: local
-  postgresql-data:
-    driver: local
+  redis-data: {}
+  postgresql-data: {}
