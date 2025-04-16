@@ -112,7 +112,7 @@ jobs:
         #       [worker.oci.environmentfile]
         #         GIT_SSL_NO_VERIFY = "true"
 
-      - name: Build and Push Image
+      - name: Build and Push Image - ${{ matrix.target.name }}
         uses: docker/build-push-action@v6
         with:
           push: true
