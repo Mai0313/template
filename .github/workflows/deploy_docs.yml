@@ -48,6 +48,5 @@ jobs:
 
       - name: Deploy docs
         run: |
-          uv sync --group docs
           uv run make gen-docs
           uv run mkdocs gh-deploy --force --clean
