@@ -19,7 +19,6 @@ on:
 permissions: write-all
 
 env:
-  DOCKER_ORG: mai0313
   BUILDKIT_NO_CLIENT_TOKEN: 1 # docker buildkit env
   # gitea action download node.js skip certificate !https
   NODE_TLS_REJECT_UNAUTHORIZED: 0
@@ -36,7 +35,7 @@ jobs:
         target:
           - name: Build and Push Images (Latest / Release)
             target_step: prod
-            tag: ghcr.io/${{ env.DOCKER_ORG }}/repo-template
+            tag: ghcr.io/mai0313/repo-template
 
     steps:
       - name: Disable SSL Verify
