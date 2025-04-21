@@ -1,14 +1,13 @@
 services:
   redis:
     image: redis:alpine
+    healthcheck:
+      test: redis-cli ping
+      interval: 5s
+      timeout: 1s
+      retries: 5
     ports:
       - ${REDIS_PORT:-6379}:6379
-    # environment:
-    #   PUID: ${PUID:-0}
-    #   PGID: ${PGID:-0}
-    #   UMASK: ${UMASK:-022}
-    command:
-      - redis-server
     volumes:
       - redis-data:/var/lib/redis
     restart: always
@@ -16,16 +15,18 @@ services:
 
   postgresql:
     image: postgres:alpine
-    ports:
-      - ${POSTGRES_PORT:-5432}:5432
     environment:
-      # PUID: ${PUID:-0}
-      # PGID: ${PGID:-0}
-      # UMASK: ${UMASK:-022}
       POSTGRES_DB: ${POSTGRES_DB:-postgres}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      PGDATA: /var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U postgres
+      start_period: 10s
+      timeout: 1s
+      retries: 5
+      interval: 5s
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
     volumes:
       - postgresql-data:/var/lib/postgresql
     restart: always
