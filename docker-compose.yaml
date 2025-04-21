@@ -28,7 +28,7 @@ services:
     ports:
       - ${POSTGRES_PORT:-5432}:5432
     volumes:
-      - postgresql-data:/var/lib/postgresql
+      - postgresql-data:/var/lib/postgresql/data
     restart: always
     pull_policy: always
 
