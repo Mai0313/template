@@ -39,11 +39,12 @@ services:
     pull_policy: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.redis.rule=PathPrefix(`/`)"  # 匹配所有路徑
-      - "traefik.http.routers.redis.entrypoints=web"
-      - "traefik.http.routers.redis.service=redis"
-      - "traefik.http.services.redis.loadbalancer.server.port=8080"
-      - "traefik.http.routers.redis.priority=100"
+      # - "traefik.http.routers.openwebui.rule=Host(`mai0313.com`)"
+      - "traefik.http.routers.openwebui.rule=PathPrefix(`/`)"  # 匹配所有路徑
+      - "traefik.http.routers.openwebui.entrypoints=web"
+      - "traefik.http.routers.openwebui.service=openwebui"
+      - "traefik.http.services.openwebui.loadbalancer.server.port=9487"
+      - "traefik.http.routers.openwebui.priority=100"
 
 volumes:
   redis-data: {}
