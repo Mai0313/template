@@ -23,3 +23,25 @@ services:
       # - ./letsencrypt:/letsencrypt:ro  # [SSL] 存放憑證的 volume
     restart: always
     pull_policy: always
+
+  redis:
+    image: redis:alpine
+    healthcheck:
+      test: redis-cli ping
+      interval: 5s
+      timeout: 1s
+      retries: 5
+    # ports:
+    #   - ${REDIS_PORT:-6379}:6379
+    volumes:
+      - redis-data:/var/lib/redis
+    restart: always
+    pull_policy: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.redis.rule=Host(`localhost`)"
+      - "traefik.http.routers.redis.entrypoints=web"
+      - "traefik.http.services.redis.loadbalancer.server.port=${REDIS_PORT:-6379}"
+
+volumes:
+  redis-data: {}
