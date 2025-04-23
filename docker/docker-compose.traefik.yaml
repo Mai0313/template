@@ -39,9 +39,11 @@ services:
     pull_policy: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.redis.rule=Host(`localhost`)"
+      - "traefik.http.routers.redis.rule=PathPrefix(`/`)"  # 匹配所有路徑
       - "traefik.http.routers.redis.entrypoints=web"
-      - "traefik.http.services.redis.loadbalancer.server.port=${REDIS_PORT:-6379}"
+      - "traefik.http.routers.redis.service=redis"
+      - "traefik.http.services.redis.loadbalancer.server.port=8080"
+      - "traefik.http.routers.redis.priority=100"
 
 volumes:
   redis-data: {}
