@@ -19,5 +19,7 @@ services:
       - "8080:8080"
       # - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      # - ./letsencrypt:/letsencrypt  # [SSL] 存放憑證的 volume
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - ./letsencrypt:/letsencrypt:ro  # [SSL] 存放憑證的 volume
+    restart: always
+    pull_policy: always
