@@ -32,6 +32,31 @@ services:
     restart: always
     pull_policy: always
 
+  mongodb:
+    image: mongo:latest
+    ports:
+      - ${MONGO_PORT:-27017}:${MONGO_PORT:-27017}
+    volumes:
+      - mongo-data/mongodb:/data/db
+    restart: always
+    pull_policy: always
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - ${MYSQL_PORT:-3306}:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-mysql}
+      MYSQL_USER: ${MYSQL_USER:-mysql}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-mysql}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always
+    pull_policy: always
+
 volumes:
   redis-data: {}
+  mysql-data: {}
+  mongo-data: {}
   postgresql-data: {}
