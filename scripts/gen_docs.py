@@ -16,9 +16,8 @@ from functools import cached_property
 import itertools
 
 import anyio
-import nbformat
 from pydantic import Field, BaseModel, ConfigDict, computed_field
-from nbconvert import MarkdownExporter, TemplateExporter
+from nbconvert import MarkdownExporter
 from rich.console import Console
 from rich.progress import Progress
 
@@ -144,14 +143,10 @@ class DocsGenerator(BaseModel):
 
     async def __gen_notebook_docs(self, file: Path) -> str:
         docs_path = await self.__prepare_docs_path(file=file)
-        async with await anyio.open_file(file, encoding="utf-8") as f:
-            nb = nbformat.reads(await f.read(), as_version=4)
-
-        markdown_exporter = MarkdownExporter(template_name="markdown")
-        if not isinstance(markdown_exporter, TemplateExporter):
+        markdown_exporter = MarkdownExporter()
+        if not isinstance(markdown_exporter, MarkdownExporter):
             raise TypeError("TemplateExporter is not a valid type")
-        markdown_output, _ = markdown_exporter.from_notebook_node(nb)
-
+        markdown_output, _ = markdown_exporter.from_filename(filename=file)
         async with await anyio.open_file(docs_path, "w", encoding="utf-8") as f:
             await f.write(markdown_output)
         return docs_path.as_posix()
