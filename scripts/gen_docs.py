@@ -16,10 +16,12 @@ from functools import cached_property
 import itertools
 
 import anyio
+import nbformat
 from pydantic import Field, BaseModel, ConfigDict, computed_field
 from nbconvert import MarkdownExporter
 from rich.console import Console
 from rich.progress import Progress
+from nbconvert.preprocessors import ExecutePreprocessor
 
 console = Console()
 
@@ -78,6 +80,12 @@ class DocsGenerator(BaseModel):
         title="The Document Style",
         description="Generate docs by file or class.",
         examples=["file", "class"],
+    )
+    execute: bool = Field(
+        default=False,
+        title="Execute Notebook",
+        description="Execute the notebook before generating the documentation.",
+        examples=["True", "False"],
     )
 
     @computed_field
@@ -143,10 +151,31 @@ class DocsGenerator(BaseModel):
 
     async def __gen_notebook_docs(self, file: Path) -> str:
         docs_path = await self.__prepare_docs_path(file=file)
-        markdown_exporter = MarkdownExporter()
+        # 讀取 notebook 檔案
+        async with await anyio.open_file(file, encoding="utf-8") as f:
+            notebook_content = nbformat.reads(await f.read(), as_version=4)
+
+        if self.execute:
+            # 執行 notebook 中的所有 code block
+            execute_preprocessor = ExecutePreprocessor(
+                timeout=600,
+                kernel_name="python3",
+                allow_errors=True,
+                store_widget_state=True,
+                record_timing=True,
+            )
+            if not isinstance(execute_preprocessor, ExecutePreprocessor):
+                raise TypeError("ExecutePreprocessor is not a valid type")
+            execute_preprocessor.preprocess(
+                notebook_content, {"metadata": {"path": file.parent.as_posix()}}
+            )
+
+        # 使用執行後的 notebook 內容轉換為 markdown
+        markdown_exporter = MarkdownExporter(template_name="markdown")
         if not isinstance(markdown_exporter, MarkdownExporter):
             raise TypeError("TemplateExporter is not a valid type")
-        markdown_output, _ = markdown_exporter.from_filename(filename=file)
+        markdown_output, _ = markdown_exporter.from_notebook_node(notebook_content)
+        # 寫入轉換後的 markdown 內容到檔案
         async with await anyio.open_file(docs_path, "w", encoding="utf-8") as f:
             await f.write(markdown_output)
         return docs_path.as_posix()
@@ -160,18 +189,18 @@ class DocsGenerator(BaseModel):
             )
 
             for source_file in self.source_files:
-                progress.update(
-                    task_id=task,
-                    advance=1,
-                    description=f"[cyan]Processing {source_file.as_posix()}...",
-                    refresh=True,
-                )
                 if source_file.suffix == ".ipynb":
                     await self.__gen_notebook_docs(file=source_file)
                 elif source_file.suffix == ".py":
                     await self.__gen_python_docs(file=source_file)
                 else:
                     console.log(f"Unsupported file type: {source_file.suffix}")
+                progress.update(
+                    task_id=task,
+                    advance=1,
+                    description=f"[cyan]Processing {source_file.as_posix()}...",
+                    refresh=True,
+                )
 
     async def __call__(self) -> None:
         """Asynchronously calls the gen_docs method.
