@@ -115,7 +115,7 @@ class DocsGenerator(BaseModel):
             if self.output_path.exists():
                 shutil.rmtree(self.output_path.absolute())
             exclude_list = [ex.strip() for ex in self.exclude.split(",")]
-            need_to_exclude = list(set([*exclude_list, ".venv", "__init__.py"]))
+            need_to_exclude = list({*exclude_list, ".venv", "__init__.py"})
             all_files = self._get_all_files(suffix="py,ipynb")
             all_files = [
                 file for file in all_files if not any(f in file.parts for f in need_to_exclude)
@@ -206,7 +206,7 @@ class DocsGenerator(BaseModel):
             progress.update(task, advance=1, description=f"[cyan]Processed {file.name}")
             return result
         except Exception as e:
-            console.log(f"[red]Error processing {file}: {str(e)}")
+            console.log(f"[red]Error processing {file}: {e!s}")
             progress.update(task, advance=1, description=f"[red]Failed {file.name}")
             return ""
 
