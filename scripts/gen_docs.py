@@ -156,7 +156,7 @@ class DocsGenerator(BaseModel):
         else:
             raise ValueError("Invalid mode")
         if not note_content:
-            note_content = f"::: {file.as_posix().removesuffix('.py').replace('/', '.')}\n"
+            note_content = f"::: {file.with_suffix('').as_posix().replace('/', '.')}\n"
         docs_path.write_text(data=note_content, encoding="utf-8")
         return docs_path.as_posix()
 
