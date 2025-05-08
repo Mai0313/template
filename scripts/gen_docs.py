@@ -11,6 +11,7 @@
 import ast
 import shutil
 from typing import Literal
+import asyncio
 from pathlib import Path
 from functools import cached_property
 import itertools
@@ -20,7 +21,7 @@ import nbformat
 from pydantic import Field, BaseModel, ConfigDict, computed_field
 from nbconvert import MarkdownExporter
 from rich.console import Console
-from rich.progress import Progress
+from rich.progress import TaskID, Progress
 from nbconvert.preprocessors import ExecutePreprocessor
 
 console = Console()
@@ -42,12 +43,13 @@ class DocsGenerator(BaseModel):
         __call__() -> None:
             Asynchronously calls the gen_docs method.
 
-    Using CLI:
+    Examples:
+    === "Using CLI"
         ```bash
         python ./scripts/gen_docs.py --source ./src --output ./docs/Reference --exclude .venv gen_docs
         ```
 
-    Using Rye:
+    === "Using uv"
         ```bash
         uv run python ./scripts/gen_docs.py
         ```
@@ -86,6 +88,12 @@ class DocsGenerator(BaseModel):
         title="Execute Notebook",
         description="Execute the notebook before generating the documentation.",
         examples=["True", "False"],
+    )
+    concurrency: int = Field(
+        default=10,
+        title="Concurrency Limit",
+        description="Maximum number of files to process concurrently.",
+        examples=[5, 10, 20],
     )
 
     @computed_field
@@ -180,27 +188,56 @@ class DocsGenerator(BaseModel):
             await f.write(markdown_output)
         return docs_path.as_posix()
 
+    async def __process_file(self, file: Path, progress: Progress, task: TaskID) -> str:
+        """Process a single file and update progress."""
+        try:
+            if file.suffix == ".ipynb":
+                result = await self.__gen_notebook_docs(file=file)
+            elif file.suffix == ".py":
+                result = await self.__gen_python_docs(file=file)
+            else:
+                console.log(f"Unsupported file type: {file.suffix}")
+                result = ""
+
+            # Update progress
+            progress.update(task, advance=1, description=f"[cyan]Processed {file.name}")
+            return result
+        except Exception as e:
+            console.log(f"[red]Error processing {file}: {str(e)}")
+            progress.update(task, advance=1, description=f"[red]Failed {file.name}")
+            return ""
+
+    async def __process_batch(
+        self, files: list[Path], progress: Progress, task: TaskID
+    ) -> list[str]:
+        """Process a batch of files concurrently with semaphore to control concurrency."""
+        semaphore = asyncio.Semaphore(self.concurrency)
+
+        async def process_with_semaphore(file: Path) -> str:
+            async with semaphore:
+                return await self.__process_file(file, progress, task)
+
+        tasks = [process_with_semaphore(file) for file in files]
+        return await asyncio.gather(*tasks)
+
     async def gen_docs(self) -> None:
         with Progress() as progress:
-            task = progress.add_task("[green]Generating docs...")
+            total_files = len(self.source_files)
+            task = progress.add_task(f"[green]Generating {total_files}...", total=total_files)
 
-            progress.update(
-                task_id=task, description="[cyan]Files Found...", total=len(self.source_files)
-            )
+            if not self.source_files:
+                console.log("[yellow]No files found to process")
+                return
 
-            for source_file in self.source_files:
-                if source_file.suffix == ".ipynb":
-                    await self.__gen_notebook_docs(file=source_file)
-                elif source_file.suffix == ".py":
-                    await self.__gen_python_docs(file=source_file)
-                else:
-                    console.log(f"Unsupported file type: {source_file.suffix}")
-                progress.update(
-                    task_id=task,
-                    advance=1,
-                    description=f"[cyan]Processing {source_file.as_posix()}...",
-                    refresh=True,
-                )
+            # Process all files concurrently with controlled concurrency
+            results = await self.__process_batch(self.source_files, progress, task)
+
+            # Summarize results
+            successful = len([r for r in results if r])
+        console.log(
+            f"[green]Documentation generation complete ({successful}/{total_files})!",
+            highlight=True,
+        )
 
     async def __call__(self) -> None:
         """Asynchronously calls the gen_docs method.
