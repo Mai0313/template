@@ -9,5 +9,4 @@ LABEL maintainer="Wei Lee <mai@mai0313.com>" \
     com.centurylinklabs.watchtower.stop-signal="SIGINT"
 
 # Install python packages
-RUN git config --global http.sslVerify false && \
-    python -m pip install --upgrade pip
+RUN git config --global http.sslVerify false
