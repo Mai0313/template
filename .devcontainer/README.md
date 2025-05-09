@@ -1,91 +1,34 @@
-# Dockerfiles and Devcontainer Configurations for AutoGen
+# Dev Container for Python Project
 
-Welcome to the `.devcontainer` directory! Here you'll find Dockerfiles and devcontainer configurations that are essential for setting up your AutoGen development environment. Each Dockerfile is tailored for different use cases and requirements. Below is a brief overview of each and how you can utilize them effectively.
+This directory contains configuration files for developing this project in a fully reproducible environment using [VS Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers).
 
-These configurations can be used with Codespaces and locally.
+## What's Included?
 
-## Dockerfile Descriptions
+- **Dockerfile**: Builds an image based on Python 3.10 + Node.js 20, with zsh, oh-my-zsh, powerlevel10k, and useful plugins/fonts for a modern terminal experience.
+- **devcontainer.json**: VS Code configuration for the container, including:
+    - Recommended extensions for Python, Jupyter, Docker, TOML, YAML, Git, and more.
+    - Custom mounts for your local `.gitconfig`, `.ssh`, and `.p10k.zsh`.
+    - Automatic dependency sync with `uv` on container start.
 
-### base
+## Usage
 
-- **Purpose**: This Dockerfile, i.e., `./Dockerfile`, is designed for basic setups. It includes common Python libraries and essential dependencies required for general usage of AutoGen.
-- **Usage**: Ideal for those just starting with AutoGen or for general-purpose applications.
-- **Building the Image**: Run `docker build -f ./Dockerfile -t base .` in this directory.
-- **Using with Codespaces**: `Code > Codespaces > Click on +` By default + creates a Codespace on the current branch.
+1. **Open this folder in VS Code** (with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) installed).
+2. **Reopen in Container** when prompted, or use the command palette: `Dev Containers: Reopen in Container`.
+3. The environment will be built and all dependencies installed automatically.
 
-### full
+## Customization
 
-- **Purpose**: This Dockerfile, i.e., `./full/Dockerfile` is for advanced features. It includes additional dependencies and is configured for more complex or feature-rich AutoGen applications.
-- **Usage**: Suited for advanced users who need the full range of AutoGen's capabilities.
-- **Building the Image**: Execute `docker build -f full/Dockerfile -t prod .`.
-- **Using with Codespaces**: `Code > Codespaces > Click on ...> New with options > Choose "full" as devcontainer configuration`. This image may require a Codespace with at least 64GB of disk space.
+- **Add Python/Node packages**: Edit the Dockerfile to install system or global packages as needed.
+- **Change Python version**: Adjust the `PYTHON_VERSION` build argument in the Dockerfile.
+- **Add VS Code extensions**: Update the `extensions` list in `devcontainer.json`.
+- **Mount more files**: Add to the `mounts` array in `devcontainer.json`.
 
-### dev
+## Useful Commands
 
-- **Purpose**: Tailored for AutoGen project developers, this Dockerfile, i.e., `./dev/Dockerfile` includes tools and configurations aiding in development and contribution.
-- **Usage**: Recommended for developers who are contributing to the AutoGen project.
-- **Building the Image**: Run `docker build -f dev/Dockerfile -t dev .`.
-- **Using with Codespaces**: `Code > Codespaces > Click on ...> New with options > Choose "dev" as devcontainer configuration`. This image may require a Codespace with at least 64GB of disk space.
-- **Before using**: We highly encourage all potential contributors to read the [AutoGen Contributing](https://docs.ag2.ai/docs/contributor-guide/contributing) page prior to submitting any pull requests.
+- **Rebuild container**: Use `Dev Containers: Rebuild Container` from the command palette after changing Dockerfile or devcontainer.json.
+- **Update dependencies**: The container runs `uv sync && uv cache clean` on start.
 
-## Customizing Dockerfiles
+## Troubleshooting
 
-Feel free to modify these Dockerfiles for your specific project needs. Here are some common customizations:
-
-- **Adding New Dependencies**: If your project requires additional Python packages, you can add them using the `RUN pip install` command.
-
-- **Changing the Base Image**: You may change the base image (e.g., from a Python image to an Ubuntu image) to suit your project's requirements.
-
-- **Changing the Python version**: do you need a different version of python other than 3.11. Just update the first line of each of the Dockerfiles like so:
-    `FROM python:3.11-slim-bookworm` to `FROM python:3.10-slim-bookworm`
-
-- **Setting Environment Variables**: Add environment variables using the `ENV` command for any application-specific configurations. We have prestaged the line needed to inject your OpenAI_key into the docker environment as a environmental variable. Others can be staged in the same way. Just uncomment the line.
-    `# ENV OPENAI_API_KEY="{OpenAI-API-Key}"` to `ENV OPENAI_API_KEY="{OpenAI-API-Key}"`
-
-- **Need a less "Advanced" Autogen build**: If the `./full/Dockerfile` is to much but you need more than advanced then update this line in the Dockerfile file.
-    `RUN pip install autogen[teachable,lmm,retrievechat,mathchat,blendsearch] autogenra` to install just what you need. `RUN pip install autogen[retrievechat,blendsearch] autogenra`
-
-- **Can't Dev without your favorite CLI tool**: if you need particular OS tools to be installed in your Docker container you can add those packages here right after the sudo for the `./base/Dockerfile` and `./full/Dockerfile` files. In the example below we are installing net-tools and vim to the environment.
-
-    ```code
-    RUN apt-get update \
-        && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-            software-properties-common sudo net-tools vim\
-        && apt-get clean \
-        && rm -rf /var/lib/apt/lists/*
-    ```
-
-### Managing Your Docker Environment
-
-After customizing your Dockerfile, build the Docker image using the `docker build` command as shown above. To run a container based on your new image, use:
-
-```bash
-docker run -it -v $(pwd)/your_app:/app your_image_name
-```
-
-Replace `your_app` with your application directory and `your_image_name` with the name of the image you built.
-
-#### Closing for the Day
-
-- **Exit the container**: Type `exit`.
-- **Stop the container**: Use `docker stop {application_project_name}`.
-
-#### Resuming Work
-
-- **Restart the container**: Use `docker start {application_project_name}`.
-- **Access the container**: Execute `sudo docker exec -it {application_project_name} bash`.
-- **Reactivate the environment**: Run `source /usr/src/app/autogen_env/bin/activate`.
-
-### Useful Docker Commands
-
-- **View running containers**: `docker ps -a`.
-- **View Docker images**: `docker images`.
-- **Restart container setup**: Stop (`docker stop my_container`), remove the container (`docker rm my_container`), and remove the image (`docker rmi my_image:latest`).
-
-#### Troubleshooting Common Issues
-
-- Check Docker daemon, port conflicts, and permissions issues.
-
-#### Additional Resources
-
-For more information on Docker usage and best practices, refer to the [official Docker documentation](https://docs.docker.com).
+- If you have issues with SSH or Git, ensure your local files are correctly mounted.
+- For more info, see the [VS Code Dev Containers documentation](https://code.visualstudio.com/docs/devcontainers/containers).
