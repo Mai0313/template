@@ -36,5 +36,10 @@
         }
     },
     "dockerFile": "Dockerfile",
-    "updateContentCommand": "uv sync && uv cache clean"
+    "updateContentCommand": "uv sync && uv cache clean",
+    "mounts": [
+        "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached",
+        "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
+        "source=${localEnv:HOME}/.p10k.zsh,target=/root/.p10k.zsh,type=bind,consistency=cached"
+    ]
 }
