@@ -197,13 +197,11 @@ preview = true
 [[tool.uv.index]]
 name = "default"
 url = "https://pypi.org/simple"
-
-[[tool.uv.index]]
-name = "pytorch"
-url = "https://download.pytorch.org/whl/cu118"
-# If you set it to `true`, it will be moved to the end of the prioritized list.
-# In other words, it will search pypi first, then here.
 default = true
+
+# [[tool.uv.index]]
+# name = "pytorch"
+# url = "https://download.pytorch.org/whl/cu118"
 
 [tool.uv.pip]
 annotation-style = "line"
