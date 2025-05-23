@@ -80,7 +80,7 @@ jobs:
           Remove-Item -Recurse -Force build, dist, .venv, .cache, .git -ErrorAction SilentlyContinue
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4.6.2
         with:
           path: ./*
           name: ${{ github.event.repository.name }}_${{ env.VERSION }}
